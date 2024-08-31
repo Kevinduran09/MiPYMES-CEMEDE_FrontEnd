@@ -1,0 +1,129 @@
+.container-form-login {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    position: relative; 
+}
+
+.background{
+    width: 50%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.background img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all .4s;
+    filter: blur(5px);
+    transform: scale(1.1);
+}
+
+.background img:hover{
+    transform: scale(1.5);
+    filter: blur(0px)
+}
+
+.form-login,
+.form-register {
+    padding: 4rem;
+    background: #fff;
+    display: flex;
+    width: 50%;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    margin: 0 auto;
+    align-items: center;
+    transition: filter 0.3s ease;
+    border-radius: 2rem 0rem 0rem 2rem;
+    left: -2rem;
+    z-index: 9;
+}
+
+.form-button {
+    width: 60%;
+}
+
+.form-button p {
+    font-size: 1rem;
+}
+
+.form-login h2,
+.form-login p{
+    padding: 0;
+} 
+
+.container-logout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: 4rem 0;
+}
+
+.container-logout button {
+    background-color: red;
+}
+
+.input-login {
+    width: 80%;
+    padding-bottom: 2rem!important;
+    border-radius: 2rem!important;
+}
+
+.dont-register,
+.register{
+    padding: 1rem 0;
+}
+.dont-register a{
+    color: #1976d2!important;
+}
+
+.dont-register span{
+    color: #000;
+}
+
+@media only screen and (max-width: 768px) {
+
+    .container-form-login {
+        flex-direction: column;
+    }
+
+    .form-login,
+    .form-register {
+        width: 100%;
+        height: 80vh;
+        border-radius: 4rem 4rem 0rem 0;
+        left: 0;
+        top: -4rem;
+    }
+
+    .background{
+        width: 100%;
+        height: 20vh;
+    }
+
+    .container-logout {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+        padding: 4rem 0;
+    }
+
+    .container-logout button {
+        background-color: red;
+    }
+
+    .input-login {
+        width: 100%;
+        font-size: 5rem !important;
+    }
+
+}

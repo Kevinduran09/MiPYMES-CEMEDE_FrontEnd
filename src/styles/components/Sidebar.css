@@ -1,0 +1,480 @@
+@import url("https://fonts.googleapis.com/css2?family=Akshar:wght@300;400;500;600;700&family=Poppins:ital,wght@0,200;0,400;0,500;0,600;0,700;1,500&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700&display=swap");
+
+:root {
+  --bg-clr: #ffffff;
+  --primary-clr: #00489a;
+  --text-clr: #484848;
+  --white: #fff;
+  --hover-clr: #e7f0ff;
+}
+
+.register {
+  color: #1f1f1f;
+}
+
+.register:hover {
+  color: #015dfc;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+  text-decoration: none;
+  font-family: "Roboto", sans-serif;
+}
+
+html,
+body {
+  color: #000000;
+  background-color: #ffffff;
+  padding: 0 !important;
+  margin: 0 !important;
+  font-size: 1vw;
+  overflow-x: hidden;
+}
+
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/*Cambiar scrollbar luego*/
+::-webkit-scrollbar-track {
+  background-color: #f5f5f5 !important;
+  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar {
+  width: 10px !important;
+  background-color: #f5f5f5 !important;
+  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(128, 128, 128);
+  /*background: linear-gradient(114deg, rgba(180,43,61,1) 0%, rgba(113,15,28,1) 100%);*/
+  -webkit-box-shadow: inset 3px 0 15px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 3px 0 15px rgba(0, 0, 0, 0.3);
+}
+
+/*-------------------------------------------------------*/
+
+a {
+  color: var(--text-clr);
+}
+
+.pro_info img {
+  display: block;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+img {
+  display: block;
+  width: 100%;
+}
+
+.header_img {
+  display: block;
+  width: 25%;
+  margin-top: 1rem;
+}
+
+.container-sidebar {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  box-shadow: 0.2rem 0 0.3rem rgba(0, 0, 0, 0.1);
+}
+
+.button-open {
+  background: var(--bg-clr);
+  border-radius: 0.3rem;
+  padding: 1.5rem;
+  width: 2rem;
+  height: 2rem;
+  font-size: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s ease;
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 2rem;
+}
+
+.button-open:hover {
+  background: var(--primary-clr);
+  color: var(--white);
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+  height: 100%;
+  background: #10095a;
+  padding: 2rem;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.container-sidebar.active .sidebar .profile {
+  display: flex;
+}
+
+.container-sidebar .sidebar .pro_info img {
+  width: 60%;
+}
+.container-sidebar.active .pro_info img {
+  width: 100%;
+}
+item .sidebar .profile {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  height: 3rem;
+}
+
+.sidebar .profile .pro_img {
+  height: 2.5rem;
+  width: 2.5rem;
+  background: #cbc6c6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+}
+.pro_info {
+  display: flex;
+  justify-content: center;
+}
+.sidebar .profile .pro_info {
+  white-space: nowrap;
+  display: block;
+  min-width: 16%;
+  width: auto;
+  opacity: 1;
+  transition: all 0.3s 0.3s ease;
+  color: #ffffff;
+  margin-left: 3.8rem;
+  font-weight: 300;
+}
+
+section.active .sidebar ul li a .item,
+section.active .sidebar .profile .pro_info {
+  display: none;
+  opacity: 0;
+  transition: all 0.2s ease;
+}
+
+/* Tooltip Styles */
+.tooltip {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: white;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 111;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* Show the tooltip text when you hover over the container-sidebar.active */
+section.active .sidebar ul li a:hover > .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+.leaflet-left {
+  left: 0;
+  display: none;
+}
+
+.st-emotion-cache-13k62yr {
+  position: absolute;
+  background: rgb(31 31 31);
+  color: rgb(250, 250, 250);
+  inset: 0px;
+  color-scheme: dark;
+  overflow: hidden;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.form-update {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar ul li a {
+  display: flex;
+  width: auto;
+  padding: 1rem;
+  font-size: 0.9rem;
+  position: relative;
+  transition: all 0.3s ease;
+  border-radius: 0.6rem;
+  text-decoration: none;
+  align-items: center;
+  color: #fff;
+}
+
+.sidebar ul li a:hover {
+  color: #fff;
+}
+
+.sidebar ul li a .icon {
+  font-size: 18px;
+  width: 40px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.icon {
+  font-size: 18px;
+  width: 40px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.sidebar ul li a .item {
+  width: 170px;
+  display: inline-block;
+  vertical-align: text-bottom;
+  transition: all 0.5s 0.3s ease;
+  font-size: 15px;
+}
+
+.sidebar ul li a .count {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: var(--primary-clr);
+  color: var(--white);
+  padding: 3px 15px;
+  border-radius: 15px;
+  font-size: 8px;
+  transition: all 0.5s ease;
+}
+
+section.active .sidebar {
+  width: 100%;
+  padding: 2rem;
+  transition: all 0.2s 0.3s ease;
+}
+
+.container-sidebar.active {
+  width: 7%;
+  transition: all 0.5s;
+}
+
+section.active .sidebar .profile .pro_info {
+  margin-right: 0px;
+}
+
+.navigation ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+section.active .sidebar ul li a {
+  display: flex;
+  width: 3rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+}
+
+.navigation .active {
+  color: #ffffff;
+  background: #84a1a4;
+}
+
+section.active .sidebar ul li a .icon {
+  text-align: center;
+}
+
+section.active .sidebar ul li a .item {
+  width: 0;
+}
+
+section.active .sidebar ul li a .count {
+  top: 2px;
+  right: 2px;
+  padding: 0px 5px;
+  font-size: 8px;
+}
+
+ul {
+  padding-left: 0px;
+}
+
+.main-app {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.column-sidebar {
+  width: 7%;
+}
+
+.container-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 16%;
+  overflow-y: auto;
+  transition: width 0.5s ease;
+}
+
+.main-content {
+  width: 93%;
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: width 0.5s ease-in-out;
+}
+
+.main-content-login {
+  width: 100%;
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: width 0.5s ease-in-out;
+}
+
+.with-sidebar {
+  width: 84%;
+  margin-right: 0;
+  align-content: flex-end;
+  transition: width 0.5s ease;
+}
+
+@media only screen and (max-width: 768px) {
+  .main-app {
+    height: auto;
+    flex-direction: column;
+  }
+
+  .column-sidebar {
+    width: 100%;
+  }
+
+  .container-sidebar {
+    position: relative;
+    height: 100%;
+    width: 100%;
+  }
+
+  .container-sidebar.active {
+    width: 100%;
+  }
+
+  .button-open {
+    bottom: auto;
+    right: 2rem;
+    top: 3.5rem;
+  }
+
+  .navigation {
+    display: block;
+  }
+
+  .active .navigation {
+    display: none;
+  }
+
+  section.active .sidebar ul li a .item,
+  section.active .sidebar .profile .pro_info {
+    display: flex;
+    opacity: 1;
+    transition: all 0.2s ease;
+    flex-direction: column;
+  }
+
+  .sidebar .profile .pro_img {
+    height: 2.5rem;
+    width: 2.5rem;
+    background: #cbc6c6;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .container-sidebar .sidebar .pro_info img {
+    width: 16%;
+  }
+
+  .sidebar .profile .pro_info {
+    white-space: nowrap;
+    display: block;
+    min-width: 16%;
+    width: auto;
+    opacity: 1;
+    transition: all 0.3s 0.3s ease;
+    color: #ffffff;
+    margin-left: 3.8rem;
+    font-weight: 300;
+    position: absolute;
+  }
+  .pro_info {
+    display: block;
+  }
+  .main-content {
+    width: 100%;
+    height: 90vh;
+    background-color: rgb(255, 255, 255);
+    align-items: center;
+  }
+
+  .main-content-login {
+    width: 100%;
+    height: auto;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: width 0.5s ease-in-out;
+  }
+
+  .with-sidebar {
+    width: 100%;
+  }
+
+  .pro_info img {
+    width: 16%;
+  }
+}

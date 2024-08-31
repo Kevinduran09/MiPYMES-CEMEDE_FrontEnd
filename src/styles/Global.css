@@ -1,0 +1,253 @@
+html,
+body {
+  color: #fff;
+  background-color: #ffffff;
+  padding: 0 !important;
+  margin: 0 !important;
+  font-size: 1vw;
+  scroll-behavior: smooth;
+}
+
+.leaflet-left {
+  left: 0;
+  display: none;
+}
+
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/*Cambiar scrollbar luego*/
+::-webkit-scrollbar-track {
+  background-color: #f5f5f5 !important;
+  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+}
+::-webkit-scrollbar {
+  width: 10px !important;
+  background-color: #f5f5f5 !important;
+  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(128, 128, 128);
+  /*background: linear-gradient(114deg, rgba(180,43,61,1) 0%, rgba(113,15,28,1) 100%);*/
+  -webkit-box-shadow: inset 3px 0 15px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 3px 0 15px rgba(0, 0, 0, 0.3);
+}
+
+@media only screen and (max-width: 768px) {
+  html,
+  body {
+    font-size: 3vw !important;
+  }
+}
+
+/*-------------------------------------------------------*/
+
+header {
+  position: fixed;
+  background-color: #fff;
+  width: 100%;
+  top: 0;
+  z-index: 999;
+}
+
+.landing-page {
+  height: 100%;
+  width: 100%;
+}
+
+.gradient {
+  background: linear-gradient(90deg, #0064b7 50%, rgba(38, 125, 255, 0) 97.68%);
+  display: flex;
+  align-items: center;
+  color: #fff;
+  min-height: 4rem;
+  padding: 0.5rem 1rem;
+}
+
+.nav {
+  justify-content: flex-end;
+  align-items: center;
+  height: 100%;
+}
+
+.nav .btn-cta a {
+  background-color: #015dfc;
+}
+.nav .btn-cta a:hover {
+  background-color: #fff !important;
+  color: #000;
+}
+
+section.hero-section {
+  position: relative;
+}
+
+section.hero-section::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  background: linear-gradient(90deg, #101010c9 15.63%, rgba(2, 2, 2, 0) 100%);
+  z-index: 9;
+}
+
+.container-banner::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  right: 0;
+  background-image: url("/public/assets/img/Hero-banner.webp");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom;
+}
+.container-banner {
+  height: calc(100vh);
+}
+
+.container-banner .wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  height: calc(100vh);
+  justify-content: center;
+  position: relative;
+  z-index: 99;
+}
+
+.container-banner .title h1,
+.container-banner .description {
+  color: #fff !important;
+}
+
+.btn-cta a {
+  width: fit-content;
+  color: #fff;
+  text-decoration: none;
+  display: block;
+  transition: 0.4s all;
+  background-color: #2e4de6;
+  border: none;
+}
+
+.btn-cta a:hover {
+  color: #fff;
+  transition: 0.4s all;
+  background-color: #2a42b7;
+}
+
+.bg-primary-una {
+  background-color: #000 !important;
+}
+
+.centered-image {
+  max-width: 50%;
+  width: 100%;
+  display: block;
+  margin: 0 auto;
+}
+
+.banner-container {
+  height: calc(100vh - 6rem);
+  display: flex !important;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  position: relative;
+  width: 100%;
+}
+
+/* heading */
+
+.title h1,
+.title h1,
+.title h3 {
+  color: #000;
+}
+
+/* Slider */
+
+.slick-track {
+  display: flex !important;
+  gap: 3rem;
+}
+.slick-track img {
+  object-fit: cover;
+  object-position: top;
+}
+
+ul.slick-dots {
+  display: flex;
+  justify-content: center;
+  z-index: 99;
+  bottom: -3rem;
+}
+
+ul.slick-dots li {
+  background: rgb(122, 122, 122);
+  width: 0.8rem;
+  height: 0.8rem;
+}
+
+ul.slick-dots li button {
+  opacity: 0;
+}
+
+ul.slick-dots .slick-active {
+  background: #2e4de6;
+  width: 3rem;
+}
+
+.slick-dots {
+  display: flex !important;
+  align-items: center;
+  bottom: 2rem;
+  width: auto;
+  height: 2rem;
+  border-radius: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0 0.3rem;
+}
+
+.slick-dots li {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 1rem;
+  background: #e5eaf2;
+  transition: all 0.3s;
+}
+
+.slick-dots .slick-active {
+  transition: all 0.3s;
+}
+
+@media only screen and (max-width: 786px) {
+  .container-banner {
+    height: calc(80vh);
+  }
+  section.hero-section::before {
+    height: 90%;
+    background: linear-gradient(0deg, #101010c9 15.63%, rgba(2, 2, 2, 0) 100%);
+    bottom: 0;
+  }
+  .container-banner::before {
+    width: 100%;
+  }
+  .container-banner .wrapper {
+    height: calc(75vh);
+    justify-content: flex-end;
+    width: 100%;
+  }
+
+  .pt-s-2 {
+    padding-top: 2rem;
+  }
+}
