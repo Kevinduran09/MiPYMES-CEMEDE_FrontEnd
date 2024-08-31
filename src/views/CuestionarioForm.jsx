@@ -89,12 +89,8 @@ export const CuestionarioForm = ({ id, existingQuestionnaire }) => {
       await updateCuestionario(id, questionnaire);
     } else {
       console.log(questionnaire);
-<<<<<<< HEAD
       // await createCuestionario(questionnaire);
       sessionStorage.setItem("form", JSON.stringify(questionnaire));
-=======
-      await createCuestionario(questionnaire);
->>>>>>> d6d56fe1939f6c4e07e66eed45b1529e098901e3
     }
   };
 

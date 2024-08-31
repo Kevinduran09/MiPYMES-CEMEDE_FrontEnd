@@ -1,23 +1,23 @@
 import axios from "axios";
 import { API_BASE_URL, TOKEN } from "./Global";
 
-const userRequest = axios.create({
+const empRequest = axios.create({
   baseURL: `${API_BASE_URL}/empresarios`,
 });
 
 export const getEmpresarios = async () => {
-  const res = await userRequest.get("");
+  const res = await empRequest.get("");
   const data = res.data;
   return data;
 };
 
-export const createEmpresario = (emp) => userRequest.post("/", emp);
+export const createEmpresario = (emp) => empRequest.post("/", emp);
 
-export const updateEmpresario = (emp) => userRequest.patch(`/${emp.id}`, emp);
+export const updateEmpresario = (emp) => empRequest.patch(`/${emp.id}`, emp);
 
-export const deleteEmpresario = (id) => userRequest.delete(`/${id}`);
+export const deleteEmpresario = (id) => empRequest.delete(`/${id}`);
 
 export const getEmpresario = async (id) => {
-  const res = await userRequest.get(`/${id}`);
+  const res = await empRequest.get(`/${id}`);
   return res.data;
 };
