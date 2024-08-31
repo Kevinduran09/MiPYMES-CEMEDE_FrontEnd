@@ -34,9 +34,3 @@ export const Cuestionario = () => {
     </>
   );
 };
-<<<<<<< HEAD
-/* 
-
-*/
-=======
->>>>>>> d6d56fe1939f6c4e07e66eed45b1529e098901e3
