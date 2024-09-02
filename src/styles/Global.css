@@ -70,11 +70,7 @@ header {
   padding: 0.5rem 1rem;
 }
 
-.nav {
-  justify-content: flex-end;
-  align-items: center;
-  height: 100%;
-}
+
 
 .nav .btn-cta a {
   background-color: #015dfc;

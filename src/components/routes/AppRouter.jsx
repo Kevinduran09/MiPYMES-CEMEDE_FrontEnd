@@ -4,12 +4,14 @@ import { useState } from "react";
 import { useAuthStore } from "../../hooks/useAuthState";
 import { currentActive } from "../../services/AuthService";
 import { Dashboard } from "../../views/Dashboard";
-import { Cuestionario } from "../../views/Cuestionario";
 import { CuestionarioForm } from "../../views/CuestionarioForm";
 import { CuestionarioAplicar } from "../../views/CuestionarioAplicar";
 import { useQuery } from "react-query";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { Empresario } from "../../views/Empresario";
+import { Rubrica } from "../rubrica/Rubrica";
+import { Item } from "../item/Item";
+import { TabMenuCuestionario } from "../cuestionario_tab/TabMenuCuestionario";
 export const AppRouter = () => {
   const [isSidebarActive, setSidebarActive] = useState(false);
   const { isAuth, token, currentUser } = useAuthStore();
@@ -55,8 +57,7 @@ export const AppRouter = () => {
                   element={<CuestionarioAplicar />}
                 />
                 <Route path="/empresarios" element={<Empresario />} />
-                <Route path="/formularios" element={<CuestionarioForm />} />
-
+                <Route path="/cuestionarios" element={<TabMenuCuestionario />} />
                 <Route path="*" element={<Navigate to="/" />} />
               </Route>
             </Routes>

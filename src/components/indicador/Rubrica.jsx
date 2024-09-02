@@ -5,7 +5,7 @@ import { RubricaModal, CreateRubricaModal } from './components/Modals';
 import { createRubrica, getRubricas } from '../../services/RubricaService';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { Loading } from '../../util/loading';
-import { NoFiles } from './../../util/NoFiles';
+import { NoFiles } from '../../util/NoFiles';
 
 export const Rubrica = () => {
   const queryClient = useQueryClient();

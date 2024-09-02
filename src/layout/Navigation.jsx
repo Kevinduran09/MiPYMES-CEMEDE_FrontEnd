@@ -53,35 +53,7 @@ export const Navigation = ({ onToggle, isActive }) => {
             </li>
           ))}
 
-          {isActive ? (
-            <Collapse in={open} timeout="auto" unmountOnExit>
-              <li key={22} style={{ marginLeft: "20px" }}>
-                <NavLink
-                  title="Formularios"
-                  to="*"
-                  onClick={isActive == true ? onToggle : null}
-                >
-                  <span className="icon">{navigationLinks[0].iconClass}</span>
-                  <span className="item">Formularios</span>
-                </NavLink>
-              </li>
-              <li key={23} style={{ marginLeft: "20px" }}>
-                <NavLink
-                  title="Lineas bases"
-                  to="*"
-                  onClick={isActive == true ? onToggle : null}
-                  activeClassName="active"
-                >
-                  <span className="icon">{navigationLinks[0].iconClass}</span>
-                  <span style={{ whiteSpace: "nowrap" }} className="item">
-                    Lineas bases
-                  </span>
-                </NavLink>
-              </li>
-            </Collapse>
-          ) : (
-            ""
-          )}
+        
 
           <li>
             <a
