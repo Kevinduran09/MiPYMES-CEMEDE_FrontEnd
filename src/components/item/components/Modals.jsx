@@ -65,7 +65,7 @@ export const ItemModal = ({ show, onHide, item }) => {
     );
 };
 
-export const CreateItemModal = ({ show, onHide, item, onSave, handleChange }) => {
+export const CreateItemModal = ({ show, onHide, item, onSave, handleChange, title }) => {
 
     const { isLoading: rubricasLoading, data: rubricasData } = useQuery({
         queryKey: ["rubricas"],
@@ -80,7 +80,7 @@ export const CreateItemModal = ({ show, onHide, item, onSave, handleChange }) =>
     return (
         <Modal show={show} onHide={onHide} centered>
             <Modal.Header closeButton>
-                <Modal.Title>Crear Nuevo Item</Modal.Title>
+                <Modal.Title>Crear nuevo item</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form.Group as={Row} className="mb-3">
@@ -151,6 +151,105 @@ export const CreateItemModal = ({ show, onHide, item, onSave, handleChange }) =>
                                 ))
                             )}
 
+                        </Form.Control>
+                    </Col>
+                </Form.Group>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={onHide}>
+                    Cancelar
+                </Button>
+                <Button variant="success" onClick={onSave}>
+                    Guardar Item
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    );
+};
+
+
+export const EditItemModal = ({ show, onHide, item, onSave, handleChange }) => {
+    const { isLoading: rubricasLoading, data: rubricasData } = useQuery({
+        queryKey: ["rubricas"],
+        queryFn: getRubricas,
+    });
+
+    const { isLoading: indicadoresLoading, data: indicadoresData } = useQuery({
+        queryKey: ["indicadores"],
+        queryFn: getIndicadores,
+    });
+
+    return (
+        <Modal show={show} onHide={onHide} centered>
+            <Modal.Header closeButton>
+                <Modal.Title>Editar item</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <Form.Group as={Row} className="mb-3">
+                    <Form.Label column sm="3">Nombre:</Form.Label>
+                    <Col sm="9">
+                        <Form.Control
+                            type="text"
+                            placeholder="Nombre del Item"
+                            value={item.nombre}
+                            name="nombre"
+                            onChange={handleChange}
+                        />
+                    </Col>
+                </Form.Group>
+                <Form.Group as={Row} className="mb-3">
+                    <Form.Label column sm="3">Peso:</Form.Label>
+                    <Col sm="9">
+                        <Form.Control
+                            type="number"
+                            placeholder="Peso del Item"
+                            value={item.peso}
+                            name="peso"
+                            onChange={handleChange}
+                        />
+                    </Col>
+                </Form.Group>
+                <Form.Group as={Row} className="mb-3">
+                    <Form.Label column sm="3">Rúbrica:</Form.Label>
+                    <Col sm="9">
+                        <Form.Control
+                            as="select"
+                            name="rubricaId"
+                            value={item.rubricaId || ''}
+                            onChange={handleChange}
+                        >
+                            <option value="">Seleccionar una rúbrica</option>
+                            {rubricasLoading ? (
+                                <option value="">Cargando...</option>
+                            ) : (
+                                rubricasData.map((rubrica) => (
+                                    <option key={rubrica.id} value={rubrica.id}>
+                                        {rubrica.nombre}
+                                    </option>
+                                ))
+                            )}
+                        </Form.Control>
+                    </Col>
+                </Form.Group>
+                <Form.Group as={Row} className="mb-3">
+                    <Form.Label column sm="3">Indicador:</Form.Label>
+                    <Col sm="9">
+                        <Form.Control
+                            as="select"
+                            name="indicadorId"
+                            value={item.indicadorId || ''}
+                            onChange={handleChange}
+                        >
+                            <option value="">Seleccionar un indicador</option>
+                            {indicadoresLoading ? (
+                                <option value="">Cargando...</option>
+                            ) : (
+                                indicadoresData.map((indicador) => (
+                                    <option key={indicador.id} value={indicador.id}>
+                                        {indicador.nombre}
+                                    </option>
+                                ))
+                            )}
                         </Form.Control>
                     </Col>
                 </Form.Group>

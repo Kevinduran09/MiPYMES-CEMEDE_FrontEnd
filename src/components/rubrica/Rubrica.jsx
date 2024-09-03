@@ -1,120 +1,60 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Container, Button } from 'react-bootstrap';
 import { RubricasTable } from './components/RubricasTable';
-import { RubricaModal, CreateRubricaModal } from './components/Modals';
-import { createRubrica, getRubricas } from '../../services/RubricaService';
-import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { RubricaModal, CreateRubricaModal, EditRubricaModal } from './components/Modals';
+import { getRubricas } from '../../services/RubricaService';
+import { useQuery } from 'react-query';
 import { Loading } from '../../util/loading';
 import { NoFiles } from './../../util/NoFiles';
+import { useRubricaStore } from '../../hooks/useRubricaStore';
+import { useRubricaActions } from './handlers/useRubricaActions'; // Importa el hook de acciones
 
 export const Rubrica = () => {
-  const queryClient = useQueryClient();
+
+
   const { isLoading, data: dataRows, isError } = useQuery({
     queryKey: ["rubricas"],
     queryFn: getRubricas,
   });
 
-  const [rubricas, setRubricas] = useState(() => {
-    const savedRubricas = JSON.parse(localStorage.getItem('rubricas')) || [];
-    return savedRubricas;
-  });
-  const [currentRubrica, setCurrentRubrica] = useState({
-    id: Date.now(),
-    nombre: '',
-    tipo: 'radio',
-    opciones: [],
-  });
+  const [showModal, setShowModal] = React.useState(false);
+  const [showCreateModal, setShowCreateModal] = React.useState(false);
+  const [showEditModal, setShowEditModal] = React.useState(false);
+  const {
+    selectedRubrica,
+    currentRubrica
+  } = useRubricaStore();
+  const {
+    addOpcion,
+    updateOpcion,
+    createRub,
+    editRubricaFunc,
+    handleChange,
+    handleChangeCurrent,
+    handleEditClick,
+    handleDeleteClick,
+    handleRowClick,
+    handleCloseModal
+  } = useRubricaActions(setShowCreateModal, setShowEditModal, setShowModal);
 
-  const [showModal, setShowModal] = useState(false);
-  const [showCreateModal, setShowCreateModal] = useState(false);
-  const [selectedRubrica, setSelectedRubrica] = useState(null);
-
-  const addOpcion = () => {
-    const nuevaOpcion = {
-      id: Date.now(),
-      nombre: '',
-      valor_alfa: 0.0,
-    };
-    setCurrentRubrica({
-      ...currentRubrica,
-      opciones: [...currentRubrica.opciones, nuevaOpcion],
-    });
-  };
-
-  const updateOpcion = (id, newData) => {
-    const updatedOpciones = currentRubrica.opciones.map((opcion) =>
-      opcion.id === id ? { ...opcion, ...newData } : opcion
-    );
-    setCurrentRubrica({ ...currentRubrica, opciones: updatedOpciones });
-  };
-
-  const createMutation = useMutation({
-    mutationFn: createRubrica,
-    onSuccess: () => {
-      queryClient.invalidateQueries("rubricas")
-      setShowCreateModal(false);
-    },
-    onError: (error) => {
-    }
-  })
-
-  const createRub = () => {
-    // Crear una copia de currentRubrica sin el id y sin el id de cada opción
-    const rubricaSinIds = {
-      ...currentRubrica,
-      opciones: currentRubrica.opciones.map(({ id, ...resto }) => resto),
-    };
-
-    // Eliminar el id de la currentRubrica
-    delete rubricaSinIds["id"];
-
-    // Llamar a la mutación con la rúbrica sin los ids
-    createMutation.mutate(rubricaSinIds);
-  };
-
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setCurrentRubrica((rubrica) => ({
-      ...rubrica,
-      [name]: value
-    }));
-  };
-
-  const handleRowClick = (rubrica) => {
-    setSelectedRubrica(rubrica);
-    setShowModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setSelectedRubrica(null);
-  };
-
-  if (isLoading)
-    return (
-      <div>
-        <Loading />
-      </div>
-    );
-  if (isError)
-    return (
-      <div>
-        <NoFiles />
-      </div>
-    );
-
+  if (isLoading) return <Loading />;
+  if (isError) return <NoFiles />;
 
   return (
     <Container>
       <h2 className="mb-5 mt-5">Rúbricas</h2>
-      <div className='d-flex justify-content-end'>
+      <div className="d-flex justify-content-end gap-1">
         <Button onClick={() => setShowCreateModal(true)} variant="primary" className="mb-3">
           Crear Nueva Rúbrica
         </Button>
       </div>
 
-      <RubricasTable rubricas={dataRows} onRowClick={handleRowClick} />
+      <RubricasTable
+        rubricas={dataRows}
+        onRowClick={handleRowClick}
+        onEditClick={handleEditClick}
+        onDeleteClick={handleDeleteClick}
+      />
 
       <RubricaModal
         show={showModal}
@@ -124,14 +64,25 @@ export const Rubrica = () => {
 
       <CreateRubricaModal
         show={showCreateModal}
-        onHide={() => setShowCreateModal(false)}
+        onHide={() => {
+          setShowCreateModal(false);
+        }}
         rubrica={currentRubrica}
         onSave={createRub}
-        handleChange={handleChange}
+        handleChange={handleChangeCurrent}
         onAddOpcion={addOpcion}
         onUpdateOpcion={updateOpcion}
       />
+
+      {(selectedRubrica && showEditModal) && (
+        <EditRubricaModal
+          show={showEditModal}
+          onHide={() => setShowEditModal(false)}
+          rubrica={selectedRubrica}
+          onSave={editRubricaFunc}
+          handleChange={handleChange}
+        />
+      )}
     </Container>
   );
 };
-

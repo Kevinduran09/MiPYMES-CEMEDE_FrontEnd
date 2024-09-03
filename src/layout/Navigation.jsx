@@ -44,7 +44,6 @@ export const Navigation = ({ onToggle, isActive }) => {
               <NavLink
                 title={link.text}
                 to={link.href}
-                onClick={isActive == true ? onToggle : null}
                 activeClassName="active"
               >
                 <span className="icon">{link.iconClass}</span>

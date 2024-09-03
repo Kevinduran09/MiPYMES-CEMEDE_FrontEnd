@@ -1,21 +1,21 @@
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import { Container } from 'react-bootstrap';
 import { useState } from 'react';
 import { Rubrica } from '../rubrica/Rubrica';
 import { Item } from '../item/Item';
+import { Indicador } from '../indicador/Indicador';
 
 export const TabMenuCuestionario = () => {
     const [key, setKey] = useState('cuestionarios');
 
     return (
-        <Container>
+        <div className='container-fluid'>
             <Tabs
                 id="controlled-tab-example"
                 activeKey={key}
                 onSelect={(k) => setKey(k)}
                 className="mt-3 mb-3"
-                style={{fontSize: "18px", color: "black"}}
+                style={{fontSize: "18px"}}
             >
                 <Tab eventKey="cuestionarios" title="Cuestionario" className=''>
                     Tab para cuestionarios
@@ -27,9 +27,9 @@ export const TabMenuCuestionario = () => {
                     <Rubrica />
                 </Tab>
                 <Tab eventKey="indicadores" title="Indicadores">
-                    Tab para los indicadores
+                    <Indicador/>
                 </Tab>
             </Tabs>
-        </Container>
+        </div>
     );
 }

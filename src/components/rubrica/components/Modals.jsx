@@ -105,3 +105,58 @@ export const CreateRubricaModal = ({ show, onHide, rubrica, onSave, handleChange
         </Modal>
     );
 };
+
+export const EditRubricaModal = ({ show, onHide, rubrica, onSave, handleChange, onAddOpcion, onUpdateOpcion }) => {
+    return (
+        <Modal show={show} onHide={onHide} centered>
+            <Modal.Header closeButton>
+                <Modal.Title>Editar Rúbrica</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <Form.Group as={Row} className="mb-3">
+                    <Col sm="8">
+                        <Form.Control
+                            type="text"
+                            placeholder="Nombre de la Rúbrica"
+                            value={rubrica.nombre}
+                            name="nombre"
+                            onChange={(e)=>handleChange(e)}
+                        />
+                    </Col>
+                    <Col sm="4">
+                        <Form.Control
+                            as="select"
+                            value={rubrica.tipo}
+                            name='tipo'
+                            onChange={(e)=>handleChange(e)}
+                        >
+                            <option value="radio">Radio Button</option>
+                            <option value="checkbox">Checkbox</option>
+                            <option value="text">Texto</option>
+                        </Form.Control>
+                    </Col>
+                </Form.Group>
+
+                <h5>Opciones</h5>
+                {rubrica.opciones.map((opcion) => (
+                    <Opcion
+                        key={opcion.id}
+                        id={opcion.id}
+                        nombre={opcion.nombre}
+                        valor_alfa={opcion.valor_alfa}
+                        onUpdate={onUpdateOpcion}
+                        disabled={true}
+                    />
+                ))}
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={onHide}>
+                    Cancelar
+                </Button>
+                <Button variant="success" onClick={onSave}>
+                    Guardar Rúbrica
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    );
+};

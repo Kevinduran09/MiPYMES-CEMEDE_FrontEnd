@@ -1,19 +1,19 @@
-import { Table } from 'react-bootstrap';
+import { Table, Button } from 'react-bootstrap';
 
-export const RubricasTable = ({ rubricas, onRowClick }) => {
+export const RubricasTable = ({ rubricas, onRowClick, onEditClick, onDeleteClick }) => {
+
   return (
     <Table striped bordered hover>
       <thead>
         <tr>
-          <th>#</th>
           <th>Nombre de la Rúbrica</th>
           <th>Opciones</th>
+          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
-      {rubricas.map((rubrica, index) => (
+        {rubricas.map((rubrica) => (
           <tr key={rubrica.id} onClick={() => onRowClick(rubrica)}>
-            <td>{index + 1}</td>
             <td>{rubrica.nombre}</td>
             <td>
               <ul>
@@ -23,6 +23,29 @@ export const RubricasTable = ({ rubricas, onRowClick }) => {
                   </li>
                 ))}
               </ul>
+            </td>
+            <td>
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onEditClick(rubrica);
+                }}
+              >
+                Editar
+              </Button>
+              {' '}
+              <Button
+                variant="danger"
+                size="sm"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onDeleteClick(rubrica.id)
+                }}
+              >
+                Eliminar
+              </Button>
             </td>
           </tr>
         ))}

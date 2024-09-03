@@ -1,10 +1,11 @@
 import { Form, Row, Col } from 'react-bootstrap';
 
-export const Opcion = ({ id, nombre, valor_alfa, onUpdate }) => {
+export const Opcion = ({ id, nombre, valor_alfa, onUpdate, disabled }) => {
     return (
         <Row className="mb-2">
             <Col>
                 <Form.Control
+                    disabled={disabled}    
                     type="text"
                     placeholder="Nombre de la opción"
                     value={nombre}
@@ -13,6 +14,7 @@ export const Opcion = ({ id, nombre, valor_alfa, onUpdate }) => {
             </Col>
             <Col>
                 <Form.Control
+                    disabled={disabled}  
                     type="number"
                     step="0.1"
                     placeholder="Valor Alfa"

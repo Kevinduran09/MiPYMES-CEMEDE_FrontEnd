@@ -43,11 +43,11 @@ export const AppRouter = () => {
         {/* {isAuth && !!token ? ( */}
         <div className="main-app">
           <div className="column-sidebar">
-            <Sidebar onToggle={toggleSidebar} isActive={isSidebarActive} />
+            <Sidebar onToggle={true} isActive={true} />
           </div>
 
           <div
-            className={`main-content ${isSidebarActive ? "with-sidebar" : ""}`}
+            className={`main-content with-sidebar`}
           >
             <Routes>
               <Route element={<ProtectedRoute isAuth={true} />}>
