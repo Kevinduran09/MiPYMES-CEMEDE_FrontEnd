@@ -1,5 +1,5 @@
-import { ShowEmpresarios } from "../components/users/ShowEmpresarios";
-import { columns } from "../components/users/TableEmpresariosColums";
+import { ShowEmpresarios } from "../components/empresario/ShowEmpresarios";
+import { columns } from "../components/empresario/TableEmpresariosColums";
 export const Empresario = () => {
   return (
     <>

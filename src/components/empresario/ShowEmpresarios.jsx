@@ -4,7 +4,15 @@ import { Loading } from "../../util/loading";
 import { NoFiles } from "../../util/NoFiles";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { getEmpresarios } from "../../services/EmpresarioService";
-
+import { useState } from "react";
+import { ModalEmpresario } from "./ModalEmpresario";
+import {
+  GridToolbarContainer,
+  GridToolbarExport,
+  GridToolbarFilterButton,
+} from "@mui/x-data-grid";
+import AddIcon from "@mui/icons-material/Add";
+import { Button } from "@mui/material";
 const theme = createTheme(
   esES // x-data-grid translations
 );
@@ -18,7 +26,23 @@ export const ShowEmpresarios = (props) => {
     queryKey: ["empresarios"],
     queryFn: getEmpresarios,
   });
-
+  const [open, setOpen] = useState(false);
+  const customToolBar = () => {
+    return (
+      <GridToolbarContainer>
+        <Button
+          startIcon={<AddIcon />}
+          color="primary"
+          variant="text"
+          onClick={() => setOpen(true)}
+        >
+          Agregar nuevo
+        </Button>
+        <GridToolbarFilterButton />
+        <GridToolbarExport />
+      </GridToolbarContainer>
+    );
+  };
   const handleSearch = (event) => {
     event.preventDefault();
   };
@@ -43,7 +67,6 @@ export const ShowEmpresarios = (props) => {
       <div style={{ marginTop: "3rem", marginBottom: "3rem" }}>
         <h2>Empresarios</h2>
       </div>
-
       <div style={{ height: 500, width: "96%" }}>
         <ThemeProvider theme={theme}>
           <DataGrid
@@ -61,7 +84,7 @@ export const ShowEmpresarios = (props) => {
             slots={{
               noRowsOverlay: NoFiles,
               loadingOverlay: Loading,
-              toolbar: GridToolbar,
+              toolbar: customToolBar,
             }}
             slotProps={{
               toolbar: {
@@ -71,6 +94,7 @@ export const ShowEmpresarios = (props) => {
           />
         </ThemeProvider>
       </div>
+      <ModalEmpresario open={open} setOpen={setOpen} />
     </>
   );
 };

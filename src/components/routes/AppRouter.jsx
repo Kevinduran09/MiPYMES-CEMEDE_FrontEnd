@@ -6,7 +6,7 @@ import { currentActive } from "../../services/AuthService";
 import { Dashboard } from "../../views/Dashboard";
 import { Cuestionario } from "../../views/Cuestionario";
 import { CuestionarioForm } from "../../views/CuestionarioForm";
-import { CuestionarioAplicar } from "../../views/CuestionarioAplicar";
+import { Organizacion } from "../../views/Organizacion";
 import { useQuery } from "react-query";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { Empresario } from "../../views/Empresario";
@@ -50,10 +50,7 @@ export const AppRouter = () => {
             <Routes>
               <Route element={<ProtectedRoute isAuth={true} />}>
                 <Route path="/" element={<Dashboard />} />
-                <Route
-                  path="/organizaciones"
-                  element={<CuestionarioAplicar />}
-                />
+                <Route path="/organizaciones" element={<Organizacion />} />
                 <Route path="/empresarios" element={<Empresario />} />
                 <Route path="/formularios" element={<CuestionarioForm />} />
 
