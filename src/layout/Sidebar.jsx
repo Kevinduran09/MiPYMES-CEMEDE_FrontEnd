@@ -1,5 +1,5 @@
 import { Navigation } from "./Navigation";
-export const Sidebar = ({ onToggle, isActive }) => {
+export const Sidebar = ({ onToggle, isActive = true }) => {
   return (
     <>
       <section className={`container-sidebar ${isActive ? "" : "active"}`}>
@@ -9,13 +9,7 @@ export const Sidebar = ({ onToggle, isActive }) => {
           </div>
 
           <Navigation onToggle={onToggle} isActive={isActive} />
-          <div className="button-open" onClick={onToggle}>
-            {isActive ? (
-              <i className="fa-solid fa-times" />
-            ) : (
-              <i className="fa-solid fa-bars" />
-            )}
-          </div>
+          
         </div>
       </section>
     </>

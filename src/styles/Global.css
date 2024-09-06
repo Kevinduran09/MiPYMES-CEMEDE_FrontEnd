@@ -70,11 +70,7 @@ header {
   padding: 0.5rem 1rem;
 }
 
-.nav {
-  justify-content: flex-end;
-  align-items: center;
-  height: 100%;
-}
+
 
 .nav .btn-cta a {
   background-color: #015dfc;
@@ -227,6 +223,14 @@ ul.slick-dots .slick-active {
 
 .slick-dots .slick-active {
   transition: all 0.3s;
+}
+
+.nav-link{
+  color: #000;
+}
+
+.nav-link:active{
+  color: #0d6efd;
 }
 
 @media only screen and (max-width: 786px) {
