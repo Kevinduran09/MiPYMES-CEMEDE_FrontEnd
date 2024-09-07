@@ -16,7 +16,7 @@ export const ShowOrganizaciones = (props) => {
       <TableComponent
         title={"Organizaciones"}
         columns={props.columns}
-        data={organizaciones}
+        rowsSet={organizaciones}
         isError={isError}
         isLoading={isLoading}
         setOpen={props.setOpen}

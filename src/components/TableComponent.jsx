@@ -7,7 +7,7 @@ import { CustomToolbar } from "../util/CustomToolbar";
 export const TableComponent = ({
   title,
   columns,
-  data,
+  rowsSet,
   setOpen,
   isLoading,
   isError,
@@ -25,7 +25,7 @@ export const TableComponent = ({
         <NoFiles />
       </div>
     );
-  const rows = data ? data.map((cls) => ({ ...cls, id: cls.id })) : [];
+  const rows = rowsSet ? rowsSet.map((cls) => ({ ...cls, id: cls.id })) : [];
   return (
     <>
       <div style={{ marginTop: "3rem", marginBottom: "3rem" }}>
