@@ -4,12 +4,14 @@ import { useState } from "react";
 import { useAuthStore } from "../../hooks/useAuthState";
 import { currentActive } from "../../services/AuthService";
 import { Dashboard } from "../../views/Dashboard";
-import { Cuestionario } from "../../views/Cuestionario";
 import { CuestionarioForm } from "../../views/CuestionarioForm";
-import { CuestionarioAplicar } from "../../views/CuestionarioAplicar";
+import { Organizacion } from "../../views/Organizacion";
 import { useQuery } from "react-query";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { Empresario } from "../../views/Empresario";
+import { Rubrica } from "../rubrica/Rubrica";
+import { Item } from "../item/Item";
+import { TabMenuCuestionario } from "../cuestionario_tab/TabMenuCuestionario";
 export const AppRouter = () => {
   const [isSidebarActive, setSidebarActive] = useState(false);
   const { isAuth, token, currentUser } = useAuthStore();
@@ -41,22 +43,18 @@ export const AppRouter = () => {
         {/* {isAuth && !!token ? ( */}
         <div className="main-app">
           <div className="column-sidebar">
-            <Sidebar onToggle={toggleSidebar} isActive={isSidebarActive} />
+            <Sidebar onToggle={true} isActive={true} />
           </div>
 
           <div
-            className={`main-content ${isSidebarActive ? "with-sidebar" : ""}`}
+            className={`main-content with-sidebar`}
           >
             <Routes>
               <Route element={<ProtectedRoute isAuth={true} />}>
                 <Route path="/" element={<Dashboard />} />
-                <Route
-                  path="/organizaciones"
-                  element={<CuestionarioAplicar />}
-                />
+                <Route path="/organizaciones" element={<Organizacion />} />
                 <Route path="/empresarios" element={<Empresario />} />
-                <Route path="/formularios" element={<CuestionarioForm />} />
-
+                <Route path="/cuestionarios" element={<TabMenuCuestionario />} />
                 <Route path="*" element={<Navigate to="/" />} />
               </Route>
             </Routes>

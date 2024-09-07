@@ -1,76 +1,74 @@
 import React, { useState } from 'react';
 import { Container, Button } from 'react-bootstrap';
-import { ItemsTable } from './components/ItemsTable';
-import { ItemModal, CreateItemModal, EditItemModal } from './components/Modals';
-import { getItems } from '../../services/ItemService';
+import { IndicadoresTable } from './components/IndicadoresTable';
+import { IndicadorModal, CreateIndicadorModal, EditIndicadorModal } from './components/Modals';
+import { getIndicadores } from '../../services/IndicadorService';
 import { useQuery } from 'react-query';
-import { useItemActions } from './handlers/useItemActions'; // Importa el hook de acciones
-import { useItemStore } from '../../hooks/useItemStore';
-export const Item = () => {
+import { useIndicadorActions } from './handlers/useIndicadorActions';
+import { useIndicadorStore } from '../../hooks/useIndicadorStore';
 
-
+export const Indicador = () => {
     const [showModal, setShowModal] = useState(false);
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
 
-
-    const { selectedItem, currentItem } = useItemStore();
+    const { selectedIndicador, currentIndicador } = useIndicadorStore();
     const {
-        createItemFunc,
-        editItemFunc,
+        createIndicadorFunc,
+        editIndicadorFunc,
         handleDeleteClick,
         handleChangeCurrent,
         handleChange,
         handleRowClick,
         handleCloseModal,
         handleEditClick
-    } = useItemActions(setShowCreateModal, setShowEditModal, setShowModal);
+    } = useIndicadorActions(setShowCreateModal, setShowEditModal, setShowModal);
 
     const { data: dataRows } = useQuery({
-        queryKey: ["items"],
-        queryFn: getItems,
+        queryKey: ["indicadores"],
+        queryFn: getIndicadores,
     });
 
     return (
         <Container>
-            <h2 className="mb-5 mt-5">Items</h2>
+            <h2 className="mb-5 mt-5">Indicadores</h2>
             <div className='d-flex justify-content-end gap-1'>
                 <Button onClick={() => setShowCreateModal(true)} variant="primary" className="mb-3">
-                    Crear Nuevo Item
+                    Crear Nuevo Indicador
                 </Button>
             </div>
 
             {dataRows && dataRows.length > 0 ? (
-                <ItemsTable
-                    items={dataRows}
+                <IndicadoresTable
+                    indicadores={dataRows}
                     onRowClick={handleRowClick}
                     onEditClick={handleEditClick}
                     onDeleteClick={handleDeleteClick}
                 />
             ) : (
-                <p>No hay items disponibles.</p>
+                <p>No hay indicadores disponibles.</p>
             )}
 
-            <ItemModal
+            <IndicadorModal
                 show={showModal}
                 onHide={handleCloseModal}
-                item={selectedItem}
+                indicador={selectedIndicador}
             />
 
-            <CreateItemModal
+            <CreateIndicadorModal
                 show={showCreateModal}
                 onHide={() => setShowCreateModal(false)}
-                item={currentItem}
-                onSave={createItemFunc}
+                indicador={currentIndicador}
+                onSave={createIndicadorFunc}
                 handleChange={handleChangeCurrent}
             />
 
-            {(selectedItem && showEditModal) && (
-                <EditItemModal
+            {(selectedIndicador && showEditModal) && (
+                <EditIndicadorModal
                     show={showEditModal}
                     onHide={() => setShowEditModal(false)}
-                    item={selectedItem}
-                    onSave={editItemFunc}
+                    indicador={selectedIndicador}
+                    onSave={editIndicadorFunc}
                     handleChange={handleChange}
                 />
             )}
