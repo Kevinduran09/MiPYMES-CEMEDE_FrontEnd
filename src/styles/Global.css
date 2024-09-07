@@ -70,8 +70,6 @@ header {
   padding: 0.5rem 1rem;
 }
 
-
-
 .nav .btn-cta a {
   background-color: #015dfc;
 }
@@ -225,11 +223,11 @@ ul.slick-dots .slick-active {
   transition: all 0.3s;
 }
 
-.nav-link{
+.nav-link {
   color: #000;
 }
 
-.nav-link:active{
+.nav-link:active {
   color: #0d6efd;
 }
 
@@ -254,4 +252,12 @@ ul.slick-dots .slick-active {
   .pt-s-2 {
     padding-top: 2rem;
   }
+}
+
+.swal-custom-zindex {
+  z-index: 9999 !important;
+}
+
+.css-168ndj9-MuiModal-root-MuiDialog-root {
+  z-index: 0 !important;
 }

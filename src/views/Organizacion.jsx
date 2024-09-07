@@ -1,10 +1,14 @@
-import React from "react";
+import { useState } from "react";
 import { ShowOrganizaciones } from "../components/organizacion/ShowOrganizaciones";
-import { organizationColumns } from "../components/organizacion/TableOrganizacionesColumns";
+import { OrganizationColumns } from "../components/organizacion/TableOrganizacionesColumns";
+import { ModalOrganizacion } from "../components/organizacion/ModalOrganizacion";
 export const Organizacion = () => {
+  const [open, setOpen] = useState(false);
+  const { columns } = OrganizationColumns(setOpen);
   return (
     <>
-      <ShowOrganizaciones columns={organizationColumns} />
+      <ShowOrganizaciones columns={columns} setOpen={setOpen} />
+      <ModalOrganizacion open={open} setOpen={setOpen} />
     </>
   );
 };

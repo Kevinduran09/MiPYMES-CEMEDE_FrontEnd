@@ -5,19 +5,19 @@ const orgRequest = axios.create({
   baseURL: `${API_BASE_URL}/organizacion`,
 });
 
-export const getorganizaciones = async () => {
+export const getOrganizaciones = async () => {
   const res = await orgRequest.get("");
   const data = res.data;
   return data;
 };
 
-export const createorganizacion = (org) => orgRequest.post("/", org);
+export const createOrganizacion = (org) => orgRequest.post("/", org);
 
-export const updateorganizacion = (org) => orgRequest.patch(`/${org.id}`, org);
+export const updateOrganizacion = (org) => orgRequest.patch(`/${org.id}`, org);
 
-export const deleteorganizacion = (id) => orgRequest.delete(`/${id}`);
+export const deleteOrganizacion = (id) => orgRequest.delete(`/${id}`);
 
-export const getorganizacion = async (id) => {
+export const getOrganizacion = async (id) => {
   const res = await orgRequest.get(`/${id}`);
   return res.data;
 };
