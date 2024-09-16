@@ -4,8 +4,7 @@ export const DashboardLayout = ({ title, component }) => {
     <div
       style={{
         width: "100%",
-        height: "max-content",
-        backgroundColor: "#E6E8E6",
+        padding: "0.1rem"
       }}
     >
       {/* Header */}
@@ -17,6 +16,7 @@ export const DashboardLayout = ({ title, component }) => {
           margin: "25px",
           justifyContent: "center",
           borderRadius: "5px",
+          boxShadow: "0px 0px 4px rgba(0, 0, 0, 0.2)", // Sombra más oscura
         }}
       >
         <h2>{title}</h2>
@@ -25,13 +25,14 @@ export const DashboardLayout = ({ title, component }) => {
         style={{
           backgroundColor: "white",
           minWidth: "80%",
-          height: "max-content",
           borderRadius: "15px",
           margin: "25px",
+          boxShadow: "0px 0px 4px rgba(0, 0, 0, 0.2)", // Sombra más oscura
         }}
       >
         {component}
       </div>
+
     </div>
   );
 };

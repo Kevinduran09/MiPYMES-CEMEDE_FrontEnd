@@ -1,17 +1,47 @@
 import { Navigation } from "./Navigation";
-export const Sidebar = ({ onToggle, isActive = true }) => {
+import navigationLinks from "./NavigationLinks";
+import { NavLink } from "react-router-dom";
+import "../../public/css/styles.css"
+export const Sidebar = ({ isActive }) => {
   return (
     <>
-      <section className={`container-sidebar ${isActive ? "" : "active"}`}>
-        <div className="sidebar">
-          <div className="pro_info">
-            <img src="/assets/img/logo.png" />
-          </div>
+       <div className={`navigation ${isActive ? "active" : ""}`}>
+        <ul>
+          <li>
+            <a href="#">
+              <span class="icon">
+                <img src="/assets/img/logo.png" />
+              </span>
+              <span class="title">CEMEDE</span>
+            </a>
+          </li>
 
-          <Navigation onToggle={onToggle} isActive={isActive} />
-          
-        </div>
-      </section>
+          {navigationLinks.map((link, index) => (
+
+            <li id={link.text} key={index}>
+              <NavLink
+                title={link.text}
+                to={link.href}
+                activeClassName="active"
+              >
+                <span className="icon">
+                  {link.iconClass}
+                </span>
+                <span className="title">{link.text}</span>
+              </NavLink>
+            </li>
+          ))}
+
+          <li>
+            <a href="#">
+              <span class="icon">
+                <ion-icon name="log-out-outline"></ion-icon>
+              </span>
+              <span class="title">Sign Out</span>
+            </a>
+          </li>
+        </ul>
+      </div>
     </>
   );
 };

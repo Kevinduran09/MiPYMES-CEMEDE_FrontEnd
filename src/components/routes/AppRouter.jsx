@@ -10,6 +10,7 @@ import { TabMenuCuestionario } from "../cuestionario_tab/TabMenuCuestionario";
 import { DashboardLayout } from "../../layout/DashboardLayout";
 import { FormOrganizacion } from "../organizacion/FormOrganizacion";
 import { FormEmpresario } from "../empresario/FormEmpresario";
+
 export const AppRouter = () => {
   const [isSidebarActive, setSidebarActive] = useState(false);
 
@@ -18,16 +19,21 @@ export const AppRouter = () => {
   };
 
   return (
-    <>
-      <BrowserRouter>
-        {/* {isAuth && !!token ? ( */}
-        <div className="main-app">
-          <div className="column-sidebar">
-            <Sidebar onToggle={true} isActive={true} />
+    <BrowserRouter>
+      <Sidebar isActive={isSidebarActive} />
+
+      <div className={`main ${isSidebarActive ? "active" : ""}`}>
+        <div className="topbar">
+          <div className="toggle" onClick={toggleSidebar}>
+            <ion-icon name="menu-outline"></ion-icon>
           </div>
 
-          <div className={`main-content with-sidebar`}>
-            <Routes>
+          <div className="user">
+            <img src="assets/imgs/customer01.jpg" alt="" />
+          </div>
+        </div>
+        <div>
+          <Routes>
               <Route element={<ProtectedRoute isAuth={true} />}>
                 <Route path="/" element={<Dashboard />} />
                 <Route path="/organizaciones" element={<Organizacion />} />
@@ -57,22 +63,8 @@ export const AppRouter = () => {
                 <Route path="*" element={<Navigate to="/" />} />
               </Route>
             </Routes>
-          </div>
         </div>
-        {/* ) : (
-        <div className="main-app">
-          <div className="main-content-login">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/app" element={<Login />} />
-              <Route path="*" element={<Home />} />
-            </Routes>
-          </div>
-        </div>
-        )} */}
-      </BrowserRouter>
-    </>
+      </div>
+    </BrowserRouter>
   );
 };

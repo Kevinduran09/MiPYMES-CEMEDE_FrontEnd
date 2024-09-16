@@ -311,8 +311,10 @@ section.active .sidebar ul li a {
 }
 
 .navigation .active {
-  color: #ffffff;
-  background: #84a1a4;
+  color: #2a2185;
+  background: #ffffff;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
 }
 
 section.active .sidebar ul li a .icon {

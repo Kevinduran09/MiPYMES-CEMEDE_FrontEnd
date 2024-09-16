@@ -6,23 +6,23 @@ import FormatListNumberedSharpIcon from '@mui/icons-material/FormatListNumberedS
 const navigationLinks = [
   {
     href: "/",
-    iconClass: <DashboardIcon />,
+    iconClass: <ion-icon name="grid-outline"></ion-icon>,
     text: "Dashboard",
     isActive: true,
   },
   {
     href: "/organizaciones",
-    iconClass: <CorporateFareIcon />,
+    iconClass: <ion-icon name="business-outline"></ion-icon>,
     text: "Organizaciones",
   },
   {
     href: "/empresarios",
-    iconClass: <WorkIcon />,
+    iconClass: <ion-icon name="bag-outline"></ion-icon>,
     text: "Empresarios",
   },
   {
     href: "/cuestionarios",
-    iconClass: <FeedIcon />,
+    iconClass: <ion-icon name="document-text-outline"></ion-icon>,
     text: "Cuestionario",
   },
   ,
