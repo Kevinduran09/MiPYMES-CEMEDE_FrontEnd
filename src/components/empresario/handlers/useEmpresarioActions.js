@@ -2,11 +2,13 @@ import React from "react";
 import { useEmpStore } from "../../../hooks/useEmpStore";
 import { EmpresarioMutations } from "../mutations/EmpresarioMutations";
 import { ConfirmarDialogo } from "../../dialogos/Dialogos";
+import { useNavigate } from "react-router-dom";
 export const useEmpresarioActions = () => {
+  const navigate = useNavigate();
   const { setEmpresario } = useEmpStore();
   const { createMutation, updateMutation, deleteMutation } =
     EmpresarioMutations();
-  const createEmplesario = (emp) => {
+  const createEmpresario = (emp) => {
     const empEdit = emp;
     delete empEdit["organizaciones"];
     ConfirmarDialogo(createMutation, empEdit);
@@ -21,9 +23,10 @@ export const useEmpresarioActions = () => {
   };
   const handleEditClick = (emp) => {
     setEmpresario(emp);
+    navigate("/Empresario-Form");
   };
   return {
-    createEmplesario,
+    createEmpresario,
     updateEmpresario,
     deleteEmpresario,
     handleEditClick,

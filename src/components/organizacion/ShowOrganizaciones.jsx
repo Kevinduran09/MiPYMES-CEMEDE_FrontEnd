@@ -1,8 +1,11 @@
 import { useQuery } from "react-query";
 import { getOrganizaciones } from "../../services/OrganizacionService";
 import { TableComponent } from "../TableComponent";
-
+import { useOrganizacionStore } from "../../hooks/useOrganizacionStore";
+import { useNavigate } from "react-router-dom";
 export const ShowOrganizaciones = (props) => {
+  const navegate = useNavigate();
+  const { clear } = useOrganizacionStore();
   const {
     isLoading,
     data: organizaciones,
@@ -11,6 +14,10 @@ export const ShowOrganizaciones = (props) => {
     queryKey: ["organizaciones"],
     queryFn: getOrganizaciones,
   });
+  const navegation = () => {
+    clear();
+    navegate("/Organization-Form");
+  };
   return (
     <>
       <TableComponent
@@ -19,7 +26,7 @@ export const ShowOrganizaciones = (props) => {
         rowsSet={organizaciones}
         isError={isError}
         isLoading={isLoading}
-        setOpen={props.setOpen}
+        route={navegation}
       />
     </>
   );

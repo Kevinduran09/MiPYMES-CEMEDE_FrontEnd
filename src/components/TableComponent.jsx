@@ -8,7 +8,7 @@ export const TableComponent = ({
   title,
   columns,
   rowsSet,
-  setOpen,
+  route,
   isLoading,
   isError,
 }) => {
@@ -28,12 +28,13 @@ export const TableComponent = ({
   const rows = rowsSet ? rowsSet.map((cls) => ({ ...cls, id: cls.id })) : [];
   return (
     <>
-      <div style={{ marginTop: "3rem", marginBottom: "3rem" }}>
-        <h2>{title}</h2>
-      </div>
-      <div style={{ height: 500, width: "96%" }}>
+      <div style={{ height: 500, width: "100%" }}>
         <ThemeProvider theme={theme}>
           <DataGrid
+            sx={{
+              padding: "10px",
+              border: "none",
+            }}
             className="rowsPerPage"
             columns={columns}
             rows={rows}
@@ -48,7 +49,7 @@ export const TableComponent = ({
             slots={{
               noRowsOverlay: NoFiles,
               loadingOverlay: Loading,
-              toolbar: () => CustomToolbar(setOpen),
+              toolbar: () => CustomToolbar(route),
             }}
             slotProps={{
               toolbar: {

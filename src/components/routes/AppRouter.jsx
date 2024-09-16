@@ -2,40 +2,20 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Sidebar } from "../../layout/Sidebar";
 import { useState } from "react";
 import { useAuthStore } from "../../hooks/useAuthState";
-import { currentActive } from "../../services/AuthService";
 import { Dashboard } from "../../views/Dashboard";
-import { CuestionarioForm } from "../../views/CuestionarioForm";
 import { Organizacion } from "../../views/Organizacion";
-import { useQuery } from "react-query";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { Empresario } from "../../views/Empresario";
-import { Rubrica } from "../rubrica/Rubrica";
-import { Item } from "../item/Item";
 import { TabMenuCuestionario } from "../cuestionario_tab/TabMenuCuestionario";
+import { DashboardLayout } from "../../layout/DashboardLayout";
+import { FormOrganizacion } from "../organizacion/FormOrganizacion";
+import { FormEmpresario } from "../empresario/FormEmpresario";
 export const AppRouter = () => {
   const [isSidebarActive, setSidebarActive] = useState(false);
-  const { isAuth, token, currentUser } = useAuthStore();
 
   const toggleSidebar = () => {
     setSidebarActive(!isSidebarActive);
   };
-  const setCurrentUser = useAuthStore((state) => state.setCurrentUser);
-  const clearAuth = useAuthStore((state) => state.clearAuth);
-
-  // const { data: response } = useQuery({
-  //   queryKey: ["response"],
-  //   queryFn: currentActive,
-  //   onSuccess: (response) => {
-  //     if (response.status === 401) {
-  //       clearAuth();
-  //     } else {
-  //       setCurrentUser(response, true);
-  //     }
-  //   },
-  //   onError: () => {
-  //     clearAuth();
-  //   },
-  // });
 
   return (
     <>
@@ -46,15 +26,34 @@ export const AppRouter = () => {
             <Sidebar onToggle={true} isActive={true} />
           </div>
 
-          <div
-            className={`main-content with-sidebar`}
-          >
+          <div className={`main-content with-sidebar`}>
             <Routes>
               <Route element={<ProtectedRoute isAuth={true} />}>
                 <Route path="/" element={<Dashboard />} />
                 <Route path="/organizaciones" element={<Organizacion />} />
+                <Route
+                  path="/Organization-Form"
+                  element={
+                    <DashboardLayout
+                      title={"Registro Organizaciones"}
+                      component={<FormOrganizacion />}
+                    />
+                  }
+                />
                 <Route path="/empresarios" element={<Empresario />} />
-                <Route path="/cuestionarios" element={<TabMenuCuestionario />} />
+                <Route
+                  path="Empresario-form"
+                  element={
+                    <DashboardLayout
+                      title={"Registro Empresario"}
+                      component={<FormEmpresario />}
+                    />
+                  }
+                />
+                <Route
+                  path="/cuestionarios"
+                  element={<TabMenuCuestionario />}
+                />
                 <Route path="*" element={<Navigate to="/" />} />
               </Route>
             </Routes>

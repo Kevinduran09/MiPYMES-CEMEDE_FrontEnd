@@ -2,7 +2,7 @@ import { useOrganizacionActions } from "./handlers/useOrganizacionActions.js";
 import { DeleteButton } from "../DeleteButton.jsx";
 import { UpdateButton } from "../UpdateButton.jsx";
 
-export const OrganizationColumns = (setOpen) => {
+export const OrganizationColumns = () => {
   const { deleteOrganizacion, handleEditClick } = useOrganizacionActions();
   const columns = [
     { field: "nombre", headerName: "Nombre", width: 200 },
@@ -48,11 +48,7 @@ export const OrganizationColumns = (setOpen) => {
       width: 130,
       renderCell: (params) => (
         <>
-          <UpdateButton
-            handleUpdate={handleEditClick}
-            setOpen={setOpen}
-            cls={params.row}
-          />
+          <UpdateButton handleUpdate={handleEditClick} cls={params.row} />
         </>
       ),
     },

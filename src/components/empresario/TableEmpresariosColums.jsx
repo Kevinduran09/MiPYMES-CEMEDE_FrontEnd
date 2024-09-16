@@ -2,7 +2,7 @@ import { useEmpresarioActions } from "./handlers/useEmpresarioActions";
 import { DeleteButton } from "../DeleteButton";
 import { UpdateButton } from "../UpdateButton";
 
-export const TableEmpresariosColums = (setOpen) => {
+export const TableEmpresariosColums = () => {
   const { handleEditClick, deleteEmpresario } = useEmpresarioActions();
 
   const columns = [
@@ -38,11 +38,7 @@ export const TableEmpresariosColums = (setOpen) => {
       width: 130,
       renderCell: (params) => (
         <>
-          <UpdateButton
-            handleUpdate={handleEditClick}
-            setOpen={setOpen}
-            cls={params.row}
-          />
+          <UpdateButton handleUpdate={handleEditClick} cls={params.row} />
         </>
       ),
     },
