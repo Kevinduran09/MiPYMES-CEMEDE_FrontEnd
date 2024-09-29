@@ -29,13 +29,14 @@ export const useOrganizacionActions = () => {
     const OnSucces = () => {
       console.log(org);
       setOrganizacion(org);
+      navigate(-1);
     };
     ConfirmarDialogo(updateMutation, orgEdit, OnSucces);
   };
 
   const handleEditClick = (org) => {
     setOrganizacion(org);
-    navigate("/Organization-Form");
+    navigate(`/organizaciones/editar/${org.id}`);
   };
 
   return {

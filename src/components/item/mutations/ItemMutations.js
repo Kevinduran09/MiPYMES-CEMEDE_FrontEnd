@@ -7,9 +7,8 @@ import {
 import { SuccessDialogo } from "../../dialogos/Dialogos";
 import { useItemStore } from "../../../hooks/useItemStore";
 
-export const useItemMutations = (setShowCreateModal) => {
+export const useItemMutations = () => {
   const queryClient = useQueryClient();
-  const { resetCurrentItem, clearSelectedItem } = useItemStore();
 
   const deleteMutation = useMutation({
     mutationFn: deleteItem,
@@ -26,8 +25,6 @@ export const useItemMutations = (setShowCreateModal) => {
     mutationFn: createItem,
     onSuccess: () => {
       queryClient.invalidateQueries("items");
-      resetCurrentItem();
-      setShowCreateModal(false);
       SuccessDialogo("Creado", "Item", "creado");
     },
     onError: (error) => {
@@ -39,7 +36,6 @@ export const useItemMutations = (setShowCreateModal) => {
     mutationFn: updateItem,
     onSuccess: () => {
       queryClient.invalidateQueries("items");
-      clearSelectedItem();
       SuccessDialogo("Editado", "Item", "editado");
     },
     onError: (error) => {

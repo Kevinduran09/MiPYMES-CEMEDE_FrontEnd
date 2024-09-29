@@ -189,7 +189,9 @@ ul.slick-dots li {
   width: 0.8rem;
   height: 0.8rem;
 }
-
+.swal2-container {
+  z-index: 100 !important;
+}
 ul.slick-dots li button {
   opacity: 0;
 }

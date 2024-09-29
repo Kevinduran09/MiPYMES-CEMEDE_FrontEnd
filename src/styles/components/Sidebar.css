@@ -368,6 +368,10 @@ ul {
   background-color: #e6e8e6;
 }
 
+.swal2-container {
+  z-index: 100 !important;
+}
+
 .main-content-login {
   width: 100%;
   background-color: rgb(255, 255, 255);

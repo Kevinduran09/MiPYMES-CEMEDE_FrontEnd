@@ -22,8 +22,6 @@ export const useIndicadorMutations = (setShowCreateModal) => {
         mutationFn: createIndicador,
         onSuccess: () => {
             queryClient.invalidateQueries("indicadores");
-            resetCurrentIndicador();
-            setShowCreateModal(false);
             SuccessDialogo('Creado', 'Indicador', 'creado');
         },
         onError: (error) => {

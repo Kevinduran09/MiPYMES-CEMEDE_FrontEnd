@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Rubrica } from '../rubrica/Rubrica';
 import { Item } from '../item/Item';
 import { Indicador } from '../indicador/Indicador';
+import { Cuestionario } from '../cuestionario/Cuestionario';
 
 export const TabMenuCuestionario = () => {
     const [key, setKey] = useState('cuestionarios');
@@ -18,16 +19,7 @@ export const TabMenuCuestionario = () => {
                 style={{fontSize: "18px"}}
             >
                 <Tab eventKey="cuestionarios" title="Cuestionario" className=''>
-                    Tab para cuestionarios
-                </Tab>
-                <Tab eventKey="items" title="Items">
-                    <Item />
-                </Tab>
-                <Tab eventKey="rubricas" title="Rubricas">
-                    <Rubrica />
-                </Tab>
-                <Tab eventKey="indicadores" title="Indicadores">
-                    <Indicador/>
+                    <Cuestionario />
                 </Tab>
             </Tabs>
         </div>

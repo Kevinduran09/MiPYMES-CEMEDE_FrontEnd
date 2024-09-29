@@ -10,9 +10,8 @@ export const Sidebar = ({ isActive }) => {
           <li>
             <a href="#">
               <span class="icon">
-                <img src="/assets/img/logo.png" />
+                {/* <img src="/assets/img/logo.png" /> */}
               </span>
-              <span class="title">CEMEDE</span>
             </a>
           </li>
 
@@ -32,14 +31,14 @@ export const Sidebar = ({ isActive }) => {
             </li>
           ))}
 
-          <li>
+          {/* <li>
             <a href="#">
               <span class="icon">
                 <ion-icon name="log-out-outline"></ion-icon>
               </span>
               <span class="title">Sign Out</span>
             </a>
-          </li>
+          </li> */}
         </ul>
       </div>
     </>

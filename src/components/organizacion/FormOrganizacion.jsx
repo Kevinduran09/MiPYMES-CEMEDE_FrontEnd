@@ -14,7 +14,10 @@ import { FormCheckBox } from "../FormCheckBox";
 import { Grid } from "@mui/material";
 import { useOrganizacionStore } from "../../hooks/useOrganizacionStore";
 import { useOrganizacionActions } from "./handlers/useOrganizacionActions";
+import { useNavigate } from "react-router-dom";
 export const FormOrganizacion = () => {
+  const navigate = useNavigate();
+
   const { organizacion } = useOrganizacionStore();
   const { createOrganizacion, updateOrganizacion } = useOrganizacionActions();
   const methods = useForm({
@@ -102,6 +105,7 @@ export const FormOrganizacion = () => {
                   )}
                 />
               </Grid>
+
               <Grid item xs={12} md={6}>
                 <Controller
                   name="sector_empresarial"
@@ -169,7 +173,18 @@ export const FormOrganizacion = () => {
               <FormCheckBox name="meic_inscrita" label="MEIC inscrita" />
             </Box>
           </Box>
-          <Box>
+          <Box textAlign={"end"}>
+            <Button
+              variant="contained"
+              color="error"
+              type="button"
+              sx={{ mt: 3, mr: 1 }}
+              onClick={() => {
+                navigate(-1);
+              }}
+            >
+              Cancelar
+            </Button>
             <Button
               variant="contained"
               color="primary"

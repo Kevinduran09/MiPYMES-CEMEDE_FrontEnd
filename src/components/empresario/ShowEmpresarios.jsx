@@ -16,7 +16,7 @@ export const ShowEmpresarios = (props) => {
   });
   const navegation = () => {
     clear();
-    navegate("/Empresario-Form");
+    navegate("/empresarios/crear");
   };
   return (
     <>

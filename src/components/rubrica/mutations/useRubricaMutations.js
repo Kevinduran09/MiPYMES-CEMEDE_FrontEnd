@@ -3,9 +3,8 @@ import { createRubrica, updateRubrica, deleteRubrica } from '../../../services/R
 import { SuccessDialogo } from '../../dialogos/Dialogos';
 import { useRubricaStore } from '../../../hooks/useRubricaStore';
 
-export const useRubricaMutations = (setShowCreateModal, setShowEditModal) => {
+export const useRubricaMutations = () => {
     const queryClient = useQueryClient();
-    const { resetCurrentRubrica, clearSelectedRubrica } = useRubricaStore();
 
     const deleteMutation = useMutation({
         mutationFn: deleteRubrica,
@@ -22,8 +21,6 @@ export const useRubricaMutations = (setShowCreateModal, setShowEditModal) => {
         mutationFn: createRubrica,
         onSuccess: () => {
             queryClient.invalidateQueries("rubricas");
-            resetCurrentRubrica();
-            setShowCreateModal(false);
             SuccessDialogo('Creado', 'Rúbrica', 'creada');
         },
         onError: (error) => {
@@ -35,8 +32,6 @@ export const useRubricaMutations = (setShowCreateModal, setShowEditModal) => {
         mutationFn: updateRubrica,
         onSuccess: () => {
             queryClient.invalidateQueries("rubricas");
-            clearSelectedRubrica();
-            setShowEditModal(false);
             SuccessDialogo('Editado', 'Rúbrica', 'editada');
         },
         onError: (error) => {

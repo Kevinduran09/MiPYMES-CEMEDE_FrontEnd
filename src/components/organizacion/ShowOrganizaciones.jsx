@@ -16,7 +16,7 @@ export const ShowOrganizaciones = (props) => {
   });
   const navegation = () => {
     clear();
-    navegate("/Organization-Form");
+    navegate("/organizaciones/crear");
   };
   return (
     <>

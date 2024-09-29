@@ -5,8 +5,11 @@ import { FormField } from "../FormField";
 import { Box, Typography, Button, Grid } from "@mui/material";
 import { useEmpStore } from "../../hooks/useEmpStore";
 import { useEmpresarioActions } from "./handlers/useEmpresarioActions";
+import { useNavigate } from "react-router-dom";
 
 export const FormEmpresario = () => {
+  const navigate = useNavigate();
+
   const { empresario } = useEmpStore();
   const { createEmpresario, updateEmpresario } = useEmpresarioActions();
   const methods = useForm({
@@ -63,7 +66,18 @@ export const FormEmpresario = () => {
               <FormField label={"Edad"} name={"edad"} type={"number"} />
             </Box>
           </Box>
-          <Box mt={3}>
+          <Box textAlign={"end"}>
+            <Button
+              variant="contained"
+              color="error"
+              type="button"
+              sx={{ mt: 3, mr: 1 }}
+              onClick={() => {
+                navigate(-1);
+              }}
+            >
+              Cancelar
+            </Button>
             <Button
               variant="contained"
               color="primary"

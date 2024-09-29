@@ -2,6 +2,7 @@ import {
   GridToolbarContainer,
   GridToolbarExport,
   GridToolbarFilterButton,
+  GridToolbarDensitySelector
 } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
 import { Button } from "@mui/material";
@@ -19,6 +20,7 @@ export const CustomToolbar = (route) => {
         Agregar nuevo
       </Button>
       <GridToolbarFilterButton />
+      <GridToolbarDensitySelector />
       <GridToolbarExport />
     </GridToolbarContainer>
   );

@@ -36,6 +36,7 @@ export const ConfirmarDialogo = (mutation, data, onSuccess) => {
     cancelButtonText: "Cancelar",
     customClass: {
       popup: "swal-custom-zindex",
+
     },
   }).then((result) => {
     if (result.isConfirmed) {

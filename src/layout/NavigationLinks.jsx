@@ -17,7 +17,7 @@ const navigationLinks = [
   },
   {
     href: "/empresarios",
-    iconClass: <ion-icon name="bag-outline"></ion-icon>,
+    iconClass: <ion-icon name="people-outline"></ion-icon>,
     text: "Empresarios",
   },
   {
@@ -25,7 +25,21 @@ const navigationLinks = [
     iconClass: <ion-icon name="document-text-outline"></ion-icon>,
     text: "Cuestionario",
   },
-  ,
+  {
+    href: "/indicadores",
+    iconClass: <ion-icon name="bar-chart-outline"></ion-icon>,
+    text: "Indicadores",
+  },
+  {
+    href: "/items",
+    iconClass: <ion-icon name="list-outline"></ion-icon>,
+    text: "Items",
+  },
+  {
+    href: "/rubricas",
+    iconClass: <ion-icon name="checkbox-outline"></ion-icon>,
+    text: "Rubricas",
+  },
 ];
 
 export default navigationLinks;

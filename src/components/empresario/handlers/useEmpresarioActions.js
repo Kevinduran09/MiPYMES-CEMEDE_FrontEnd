@@ -23,7 +23,7 @@ export const useEmpresarioActions = () => {
   };
   const handleEditClick = (emp) => {
     setEmpresario(emp);
-    navigate("/Empresario-Form");
+    navigate(`/empresarios/editar/${emp.id}`);
   };
   return {
     createEmpresario,
