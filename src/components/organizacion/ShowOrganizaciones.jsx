@@ -3,6 +3,7 @@ import { getOrganizaciones } from "../../services/OrganizacionService";
 import { TableComponent } from "../TableComponent";
 import { useOrganizacionStore } from "../../hooks/useOrganizacionStore";
 import { useNavigate } from "react-router-dom";
+import { AddButton } from "../AddButton";
 export const ShowOrganizaciones = (props) => {
   const navegate = useNavigate();
   const { clear } = useOrganizacionStore();
@@ -26,7 +27,7 @@ export const ShowOrganizaciones = (props) => {
         rowsSet={organizaciones}
         isError={isError}
         isLoading={isLoading}
-        route={navegation}
+        customButtons={<AddButton route={navegation} />}
       />
     </>
   );

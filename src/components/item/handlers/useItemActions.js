@@ -1,6 +1,6 @@
 // src/components/ItemActions.js
 import { ConfirmarDialogo, EliminarDialogo } from '../../dialogos/Dialogos';
-import { useItemStore } from '../../../hooks/useItemStore';
+import { useItemStore } from '../store/useItemStore';
 import { useItemMutations } from '../mutations/ItemMutations';
 import { useNavigate } from 'react-router-dom';
 

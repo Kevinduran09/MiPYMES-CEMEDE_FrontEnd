@@ -1,25 +1,20 @@
-import { useState } from 'react';
 import { Container } from 'react-bootstrap';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
-import { TableColumns } from './components/TableColumns';
-import { useCuestionarioStore } from './store/useCuestionarioStore';
-import { getCuestionarios } from './services/CuestionarioService';
-import { TableComponent } from '../TableComponent';
-import { AddIcon } from '@mui/icons-material/Add';
-import { Button } from "@mui/material";
-import { Visibility } from '@mui/icons-material';
-import { AddButton } from '../AddButton';
+import { useCuestionarioStore } from '../store/useCuestionarioStore';
+import { TableComponent } from '../../TableComponent';
+import { getCuestionariosAplicados } from '../services/CuestionarioService';
+import { TableColumnsCuestionariosAplicados } from './TableColumnsCuestionariosAplicados';
 
-export const Cuestionario = () => {
+export const CuestionariosAplicados = () => {
 
     const navigate = useNavigate();
-    const { columns } = TableColumns();
+    const { columns } = TableColumnsCuestionariosAplicados();
     const { resetCurrentCuestionario, clearSelectedCuestionario } = useCuestionarioStore();
 
     const { isLoading, isError, data: dataRows } = useQuery({
         queryKey: ["cuestionarios"],
-        queryFn: getCuestionarios,
+        queryFn: getCuestionariosAplicados,
     });
 
     const navigation = () => {
@@ -28,20 +23,6 @@ export const Cuestionario = () => {
         navigate("/cuestionarios/crear");
     };
 
-    const buttons = (
-        <>
-            <AddButton route={navigation}/>
-            <Button
-                startIcon={<Visibility />}
-                color="primary"
-                variant="text"
-                onClick={()=> navigate("/cuestionarios/aplicados")}
-            >
-                Ver aplicados
-            </Button>
-        </>
-
-    )
 
     return (
         <>
@@ -53,7 +34,7 @@ export const Cuestionario = () => {
                         rowsSet={dataRows}
                         isError={isError}
                         isLoading={isLoading}
-                        customButtons={buttons}
+                        route={navigation}
                     />
                 ) : (
                     <p>No hay cuestionarios disponibles.</p>

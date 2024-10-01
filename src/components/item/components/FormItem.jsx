@@ -9,9 +9,9 @@ import Select from "@mui/material/Select";
 import Button from "@mui/material/Button";
 import { Grid } from "@mui/material";
 import { useQuery } from 'react-query';
-import { getRubricas } from '../../../services/RubricaService';
-import { getIndicadores } from '../../../services/IndicadorService';
-import { useItemStore } from "../../../hooks/useItemStore";
+import { getRubricas } from '../../rubrica/services/RubricaService';
+import { getIndicadores } from '../../indicador/services/IndicadorService';
+import { useItemStore } from "../store/useItemStore";
 import { useItemActions } from "../handlers/useItemActions";
 import { useNavigate } from "react-router-dom";
 
@@ -54,6 +54,8 @@ export const FormItem = () => {
             <Box sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2 }}>
               <FormField label="Nombre" name="nombre" />
               <FormField label="Peso" name="peso" type="number" />
+              <FormField label="Descripcion" name="descripcion" />
+              <FormField label="Evidencia" name="evidencia" />
             </Box>
 
             <Grid container spacing={2} mt={2}>

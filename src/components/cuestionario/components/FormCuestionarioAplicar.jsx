@@ -1,26 +1,25 @@
 import { Box, Divider, FormControl } from '@mui/material';
-import { TextField, Select, InputLabel, MenuItem, Grid, Typography, Button, FormControlLabel, Checkbox } from '@mui/material';
+import { TextField, Select, InputLabel, MenuItem, Grid, Typography, Button} from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { Container } from 'react-bootstrap';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useQuery } from 'react-query';
 import { getIndicadores } from '../../indicador/services/IndicadorService';
 import dayjs from 'dayjs';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getOrganizaciones } from '../../../services/OrganizacionService';
 import { useCuestionarioStore } from '../store/useCuestionarioStore';
 import { useCuestionarioActions } from '../handlers/useActionsCuestionario';
 import { useForm, FormProvider, Controller } from 'react-hook-form';
 import { useEffect } from 'react';
-import { FormField } from '../../FormField';
 
-export const FormCuestionario = () => {
+export const FormCuestionarioAplicar = () => {
 
+    const {id} = useParams();
     const navigate = useNavigate();
 
-    const { createCuestionarioFunc, editCuestionarioFunc } = useCuestionarioActions();
+    const { createCuestionarioOrganizacionFunc } = useCuestionarioActions();
 
-    const { currentCuestionario: cuestionario, selectedCuestionario } = useCuestionarioStore();
+    const { applyCuestionario: cuestionario, selectedCuestionario } = useCuestionarioStore();
 
     const { data: indicadores } = useQuery({
         queryKey: ["indicadores"],
@@ -41,11 +40,9 @@ export const FormCuestionario = () => {
     }, [cuestionario, open]);
 
     const onSubmit = methods.handleSubmit(async (data) => {
-        if (selectedCuestionario === null) {
-            console.log(data)
-            createCuestionarioFunc(data);
-        } else {
-            editCuestionarioFunc(data);
+        if (data !== null) {
+            data["idCuestionario"] = id;
+            createCuestionarioOrganizacionFunc(data);
         }
     });
 
@@ -53,25 +50,42 @@ export const FormCuestionario = () => {
         <>
             <FormProvider {...methods}>
                 <form onSubmit={methods.handleSubmit(onSubmit)}>
-                    <div className="content p-5">
+                    <div className="content p-5" >
                         <Box>
-                            <Typography variant="h6">Información del cuestionario</Typography>
+                            <Typography variant="h6">Cuestionario nombre</Typography>
                             <Grid container spacing={2} mt={2}>
                                 <Grid item xs={12} md={6}>
-                                    <FormField 
-                                        label={"Nombre del cuestionario"}
-                                        name={"nombre"}
+                                    <Controller
+                                        name="idOrganizacion"
+                                        control={methods.control}
+                                        render={({ field }) => (
+                                            <FormControl fullWidth>
+                                                <InputLabel>Seleccione la organizacion</InputLabel>
+                                                <Select
+                                                    id="idOrganizacion"
+                                                    label="Seleccione la organizacion"
+                                                    {...field}
+                                                >
+                                                    {organizaciones?.map((organizacion) => (
+                                                        <MenuItem key={organizacion.id} value={organizacion.id}>
+                                                            {organizacion.nombre}
+                                                        </MenuItem>
+                                                    ))}
+                                                </Select>
+                                            </FormControl>
+                                        )}
                                     />
+
                                 </Grid>
                                 <Grid item xs={12} md={6}>
                                     <Controller
-                                        name="fechaCreacion"
+                                        name="fechaRealizacion"
                                         control={methods.control}
                                         render={({ field }) => (
-                                            <FormControl fullWidth margin='normal'>
+                                            <FormControl fullWidth>
                                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                                     <DatePicker
-                                                        label="Fecha de creación"
+                                                        label="Fecha de realizacion"
                                                         value={field.value ? dayjs(field.value) : null}  // Asegurarse de que sea un objeto Dayjs
                                                         onChange={(date) => field.onChange(date ? dayjs(date) : null)}  // Convertir la fecha seleccionada a Dayjs
                                                         renderInput={(params) => <TextField {...params} />}
@@ -87,36 +101,6 @@ export const FormCuestionario = () => {
                             <br />
                             <Divider />
                             <br />
-                            <Typography variant="h6">Seleccione los indicadores que desea agregar</Typography>
-                            <Grid container spacing={2} mt={2}>
-                                <Grid item xs={12} md={12}>
-                                    {indicadores?.map((indicador) => (
-                                        <Controller
-                                            key={indicador.id}
-                                            name="indicadores" // Un solo campo para todos los indicadores
-                                            control={methods.control}
-                                            defaultValue={[]} // Inicializamos como un array vacío
-                                            render={({ field }) => (
-                                                <FormControlLabel
-                                                    control={
-                                                        <Checkbox
-                                                            checked={field.value.includes(indicador.id)} // Verifica si el id está en la lista
-                                                            onChange={(e) => {
-                                                                if (e.target.checked) {
-                                                                    field.onChange([...field.value, indicador.id]);
-                                                                } else {
-                                                                    field.onChange(field.value.filter(id => id !== indicador.id));
-                                                                }
-                                                            }}
-                                                        />
-                                                    }
-                                                    label={indicador.nombre}
-                                                />
-                                            )}
-                                        />
-                                    ))}
-                                </Grid>
-                            </Grid>
                         </Box>
                         <Box textAlign={"end"}>
                             <Button
@@ -136,7 +120,7 @@ export const FormCuestionario = () => {
                                 type="submit"
                                 sx={{ mt: 3 }}
                             >
-                                Guardar
+                                Continuar
                             </Button>
                         </Box>
                     </div>

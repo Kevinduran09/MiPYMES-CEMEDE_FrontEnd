@@ -6,7 +6,7 @@ import { Box, Typography } from "@mui/material";
 import { Grid } from "@mui/material";
 import { useRubricaActions } from "../handlers/useRubricaActions";
 import { Opcion } from "./Opcion"; // Asumo que ya tienes un componente Opcion
-import { useRubricaStore } from "../../../hooks/useRubricaStore";
+import { useRubricaStore } from "../store/useRubricaStore";
 import { useNavigate } from "react-router-dom";
 
 export const FormRubrica = () => {

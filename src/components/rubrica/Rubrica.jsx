@@ -1,10 +1,11 @@
 import { Container } from 'react-bootstrap';
-import { getRubricas } from '../../services/RubricaService';
+import { getRubricas } from './services/RubricaService';
 import { useQuery } from 'react-query';
-import { useRubricaStore } from '../../hooks/useRubricaStore';
+import { useRubricaStore } from './store/useRubricaStore';
 import { TableComponent } from "../TableComponent";
 import { TableColumns } from './components/TableColumns';
 import { useNavigate } from 'react-router-dom';
+import { AddButton } from '../AddButton';
 
 export const Rubrica = () => {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ export const Rubrica = () => {
           rowsSet={dataRows}
           isError={isError}
           isLoading={isLoading}
-          route={navigation}
+          customButtons={<AddButton route={navigation} />}
         />
       ) : (
         <p>No hay rubricas disponibles.</p>

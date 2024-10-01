@@ -23,7 +23,7 @@ const navigationLinks = [
   {
     href: "/cuestionarios",
     iconClass: <ion-icon name="document-text-outline"></ion-icon>,
-    text: "Cuestionario",
+    text: "Cuestionarios",
   },
   {
     href: "/indicadores",

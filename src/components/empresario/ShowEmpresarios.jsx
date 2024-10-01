@@ -3,6 +3,7 @@ import { getEmpresarios } from "../../services/EmpresarioService";
 import { TableComponent } from "../TableComponent";
 import { useEmpStore } from "../../hooks/useEmpStore";
 import { useNavigate } from "react-router-dom";
+import { AddButton } from "../AddButton";
 export const ShowEmpresarios = (props) => {
   const navegate = useNavigate();
   const { clear } = useEmpStore();
@@ -26,7 +27,7 @@ export const ShowEmpresarios = (props) => {
         rowsSet={empresarios}
         isError={isError}
         isLoading={isLoading}
-        route={navegation}
+        customButtons={<AddButton route={navegation} />}
       />
     </>
   );

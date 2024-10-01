@@ -3,9 +3,8 @@ import {
   createItem,
   deleteItem,
   updateItem,
-} from "../../../services/ItemService";
+} from "../services/ItemService";
 import { SuccessDialogo } from "../../dialogos/Dialogos";
-import { useItemStore } from "../../../hooks/useItemStore";
 
 export const useItemMutations = () => {
   const queryClient = useQueryClient();

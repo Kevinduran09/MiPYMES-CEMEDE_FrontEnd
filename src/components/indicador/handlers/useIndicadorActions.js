@@ -1,5 +1,5 @@
 import { ConfirmarDialogo, EliminarDialogo } from '../../dialogos/Dialogos';
-import { useIndicadorStore } from '../../../hooks/useIndicadorStore';
+import { useIndicadorStore } from '../store/useIndicadorStore';
 import { useIndicadorMutations } from '../mutations/useIndicadorMutations';
 import { useNavigate } from 'react-router-dom';
 

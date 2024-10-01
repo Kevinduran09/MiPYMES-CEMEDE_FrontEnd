@@ -1,6 +1,6 @@
 // src/components/handlers/useRubricaActions.js
 import { ConfirmarDialogo, EliminarDialogo } from '../../dialogos/Dialogos';
-import { useRubricaStore } from '../../../hooks/useRubricaStore';
+import { useRubricaStore } from '../store/useRubricaStore';
 import { useRubricaMutations } from '../mutations/useRubricaMutations';
 import { useNavigate } from 'react-router-dom';
 

@@ -6,7 +6,6 @@ import { Dashboard } from "../../views/Dashboard";
 import { Organizacion } from "../../views/Organizacion";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { Empresario } from "../../views/Empresario";
-import { TabMenuCuestionario } from "../cuestionario_tab/TabMenuCuestionario";
 import { DashboardLayout } from "../../layout/DashboardLayout";
 import { FormOrganizacion } from "../organizacion/FormOrganizacion";
 import { FormEmpresario } from "../empresario/FormEmpresario";
@@ -17,6 +16,12 @@ import { FormIndicador } from "../indicador/components/FormIndicador";
 import { Indicador } from "../indicador/Indicador";
 import { Rubrica } from "../rubrica/Rubrica";
 import { FormRubrica } from "../rubrica/components/FormRubrica";
+import { Cuestionario } from "../cuestionario/Cuestionario";
+import { FormCuestionarioAplicar } from "../cuestionario/components/FormCuestionarioAplicar";
+import { Form } from "react-bootstrap";
+import { FormCuestionarioItemsRespuesta } from "../cuestionario/components/FormCuestionarioItemsRespueta";
+import { CuestionariosAplicados } from "../cuestionario/components/CuestionariosAplicados";
+import { CuestionariosAplicadoItems } from "../cuestionario/components/CuestionariosAplicadoItems";
 
 export const AppRouter = () => {
   const [isSidebarActive, setSidebarActive] = useState(false);
@@ -84,15 +89,51 @@ export const AppRouter = () => {
               <Route
                 path="/cuestionarios"
                 element={<DashboardLayout
+                  title={"Cuestionarios"} 
+                  component={<Cuestionario/>} 
+                />}
+              />
+
+              <Route
+                path="/cuestionarios/crear"
+                element={<DashboardLayout
                   title={"Crear nuevo cuestionario"} 
                   component={<FormCuestionario/>} 
                 />}
               />
               <Route
-                path="/cuestionarios/crear"
+                path="/cuestionarios/editar/:id"
                 element={<DashboardLayout
-                  title={"Crear nuevo Cuestionario"}
-                  component={<FormCuestionario />}
+                  title={"Eidtar cuestionario"} 
+                  component={<FormCuestionario/>} 
+                />}
+              />
+              <Route
+                path="/cuestionarios/aplicar/:id"
+                element={<DashboardLayout
+                  title={"Aplicar Cuestionario a Organizacion"}
+                  component={<FormCuestionarioAplicar />}
+                />}
+              />
+              <Route
+                path="/cuestionarios/aplicar/organizacion/:id"
+                element={<DashboardLayout
+                  title={"Cuestionario a Organizacion"}
+                  component={<FormCuestionarioItemsRespuesta />}
+                />}
+              />
+              <Route
+                path="/cuestionarios/aplicados"
+                element={<DashboardLayout
+                  title={"Cuestionario aplicados"}
+                  component={<CuestionariosAplicados />}
+                />}
+              />
+              <Route
+                path="/cuestionarios/aplicados/:id"
+                element={<DashboardLayout
+                  title={"Cuestionario aplicado"}
+                  component={<CuestionariosAplicadoItems />}
                 />}
               />
               <Route

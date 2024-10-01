@@ -1,10 +1,11 @@
 import { Container } from 'react-bootstrap';
-import { getItems } from '../../services/ItemService';
+import { getItems } from './services/ItemService';
 import { useQuery } from 'react-query';
-import { useItemStore } from '../../hooks/useItemStore';
+import { useItemStore } from './store/useItemStore';
 import { TableComponent } from '../TableComponent';
 import { TableColumns } from './components/TableColumns';
 import { useNavigate } from 'react-router-dom';
+import { AddButton } from '../AddButton';
 
 export const Item = () => {
     const navigate = useNavigate();
@@ -31,7 +32,7 @@ export const Item = () => {
                     rowsSet={dataRows}
                     isError={isError}
                     isLoading={isLoading}
-                    route={navigation}
+                    customButtons={<AddButton route={navigation} />}
                 />
             ) : (
                 <p>No hay items disponibles.</p>

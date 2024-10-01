@@ -13,13 +13,13 @@ export const OrganizationColumns = () => {
       field: "pagina_web",
       headerName: "Página Web",
       width: 150,
-      renderCell: (params) => (params.row.website_url ? "Sí" : "No"),
+      valueGetter: (params) => params.row.website_url ? "Sí" : "No",
     },
     {
       field: "website_url",
       headerName: "URL Sitio Web",
       width: 250,
-      renderCell: (params) => params.row.website_url || "N/A",
+      valueGetter: (params) => params.row.website_url || "N/A",
     },
     {
       field: "sector_empresarial",

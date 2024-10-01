@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from 'react-query';
-import { createRubrica, updateRubrica, deleteRubrica } from '../../../services/RubricaService';
+import { createRubrica, updateRubrica, deleteRubrica } from '../services/RubricaService';
 import { SuccessDialogo } from '../../dialogos/Dialogos';
-import { useRubricaStore } from '../../../hooks/useRubricaStore';
+import { useRubricaStore } from '../store/useRubricaStore';
 
 export const useRubricaMutations = () => {
     const queryClient = useQueryClient();

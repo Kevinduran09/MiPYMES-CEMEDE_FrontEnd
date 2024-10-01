@@ -8,9 +8,9 @@ export const TableComponent = ({
   title,
   columns,
   rowsSet,
-  route,
   isLoading,
   isError,
+  customButtons
 }) => {
   const theme = createTheme(esES);
   if (isLoading)
@@ -34,22 +34,28 @@ export const TableComponent = ({
             sx={{
               padding: "10px",
               border: "none",
+              '&.MuiDataGrid-root--densityCompact .MuiDataGrid-cell': { py: '8px' },
+              '&.MuiDataGrid-root--densityStandard .MuiDataGrid-cell': { py: '15px' },
+              '&.MuiDataGrid-root--densityComfortable .MuiDataGrid-cell': { py: '22px' },
             }}
+            getEstimatedRowHeight={() => 100}
+            getRowHeight={() => 'auto'}
             className="rowsPerPage"
             columns={columns}
             rows={rows}
             initialState={{
               pagination: { paginationModel: { pageSize: 5 } },
             }}
+
+            checkboxSelection={true}
             disableMultipleRowSelection={true}
             disableColumnSelector={true}
-            checkboxSelection={true}
             showCellVerticalBorder={false}
             pageSizeOptions={[5, 10]}
             slots={{
               noRowsOverlay: NoFiles,
               loadingOverlay: Loading,
-              toolbar: () => CustomToolbar(route),
+              toolbar: () => CustomToolbar(customButtons),
             }}
             slotProps={{
               toolbar: {

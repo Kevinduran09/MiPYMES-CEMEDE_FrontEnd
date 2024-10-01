@@ -1,11 +1,10 @@
 import { useMutation, useQueryClient } from 'react-query';
-import { createIndicador, deleteIndicador, updateIndicador } from '../../../services/IndicadorService';
+import { createIndicador, deleteIndicador, updateIndicador } from '../services/IndicadorService';
 import { SuccessDialogo } from '../../dialogos/Dialogos';
-import { useIndicadorStore } from '../../../hooks/useIndicadorStore';
+import { useIndicadorStore } from '../store/useIndicadorStore';
 
-export const useIndicadorMutations = (setShowCreateModal) => {
+export const useIndicadorMutations = () => {
     const queryClient = useQueryClient();
-    const { resetCurrentIndicador, clearSelectedIndicador } = useIndicadorStore();
 
     const deleteMutation = useMutation({
         mutationFn: deleteIndicador,
@@ -33,7 +32,6 @@ export const useIndicadorMutations = (setShowCreateModal) => {
         mutationFn: updateIndicador,
         onSuccess: () => {
             queryClient.invalidateQueries("indicadores");
-            clearSelectedIndicador();
             SuccessDialogo('Editado', 'Indicador', 'editado');
         },
         onError: (error) => {

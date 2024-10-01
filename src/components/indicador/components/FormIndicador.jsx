@@ -4,7 +4,7 @@ import { FormField } from "../../FormField";
 import Button from "@mui/material/Button";
 import { Box, Typography } from "@mui/material";
 import { useIndicadorActions } from "../handlers/useIndicadorActions";
-import { useIndicadorStore } from "../../../hooks/useIndicadorStore";
+import { useIndicadorStore } from "../store/useIndicadorStore";
 import { useNavigate } from "react-router-dom";
 
 export const FormIndicador = () => {
