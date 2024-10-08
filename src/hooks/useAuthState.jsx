@@ -7,8 +7,8 @@ export const useAuthStore = create(
       token: "",
       currentUser: "",
       isAuth: false,
-      setToken: (newToken) => set({ token: newToken }),
       setAuth: (newAuth) => set({ isAuth: newAuth }),
+      setToken: (token) => set({ token: token, isAuth: true }),
       setCurrentUser: (user, auth) => set({ currentUser: user, isAuth: auth }),
       clearAuth: () => set({ token: "", currentUser: "", isAuth: false }),
     }),
@@ -17,4 +17,4 @@ export const useAuthStore = create(
       storage: createJSONStorage(() => localStorage),
     }
   )
-)
+);

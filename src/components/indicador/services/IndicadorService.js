@@ -10,10 +10,16 @@ export const getIndicadores = async () => {
   const data = res.data;
   return data;
 };
+export const getIndicadoresRelationItems = async () => {
+  const res = await indicadorRequest.get("/items");
+  const data = res.data;
+  return data;
+};
+export const createIndicador = (indicador) =>
+  indicadorRequest.post("/", indicador);
 
-export const createIndicador = (indicador) => indicadorRequest.post("/", indicador);
-
-export const updateIndicador = (indicador) => indicadorRequest.patch(`/${indicador.id}`, indicador);
+export const updateIndicador = (indicador) =>
+  indicadorRequest.patch(`/${indicador.id}`, indicador);
 
 export const deleteIndicador = (id) => indicadorRequest.delete(`/${id}`);
 

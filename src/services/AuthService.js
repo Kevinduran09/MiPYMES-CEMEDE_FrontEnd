@@ -2,18 +2,20 @@
 
 import axios from "axios";
 import { API_BASE_URL, TOKEN } from "./Global";
-import { useAuthStore } from "../hooks/useAuthState";
 
 const authAPI = axios.create({
-  baseURL: `${API_BASE_URL}/api/auth`,
+  baseURL: `${API_BASE_URL}/auth`,
 });
 
-export const loginRequest = async (user) => {
+export const login = async (user) => {
   const res = await authAPI.post("/login", user, {
     headers: {
       "Content-Type": "application/json",
     },
   });
+
+  console.log(res.data);
+
   return res.data;
 };
 

@@ -10,7 +10,7 @@ export const TableComponent = ({
   rowsSet,
   isLoading,
   isError,
-  customButtons
+  customButtons,
 }) => {
   const theme = createTheme(esES);
   if (isLoading)
@@ -19,12 +19,7 @@ export const TableComponent = ({
         <Loading />
       </div>
     );
-  else if (isError)
-    return (
-      <div>
-        <NoFiles />
-      </div>
-    );
+
   const rows = rowsSet ? rowsSet.map((cls) => ({ ...cls, id: cls.id })) : [];
   return (
     <>
@@ -34,19 +29,24 @@ export const TableComponent = ({
             sx={{
               padding: "10px",
               border: "none",
-              '&.MuiDataGrid-root--densityCompact .MuiDataGrid-cell': { py: '8px' },
-              '&.MuiDataGrid-root--densityStandard .MuiDataGrid-cell': { py: '15px' },
-              '&.MuiDataGrid-root--densityComfortable .MuiDataGrid-cell': { py: '22px' },
+              "&.MuiDataGrid-root--densityCompact .MuiDataGrid-cell": {
+                py: "8px",
+              },
+              "&.MuiDataGrid-root--densityStandard .MuiDataGrid-cell": {
+                py: "15px",
+              },
+              "&.MuiDataGrid-root--densityComfortable .MuiDataGrid-cell": {
+                py: "22px",
+              },
             }}
             getEstimatedRowHeight={() => 100}
-            getRowHeight={() => 'auto'}
+            getRowHeight={() => "auto"}
             className="rowsPerPage"
             columns={columns}
             rows={rows}
             initialState={{
               pagination: { paginationModel: { pageSize: 5 } },
             }}
-
             checkboxSelection={true}
             disableMultipleRowSelection={true}
             disableColumnSelector={true}

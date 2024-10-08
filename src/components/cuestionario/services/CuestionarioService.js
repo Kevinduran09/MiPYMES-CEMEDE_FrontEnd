@@ -31,11 +31,14 @@ export const getCuestionariosAplicados = async () => {
 
 export const createCuestionario = (cue) => cuestionarioRequest.post("/", cue);
 
-export const createCuestionarioOrganizacion = (cue) => cuestionarioRequest.post("/organizacion", cue);
+export const createCuestionarioOrganizacion = (cue) =>
+  cuestionarioRequest.post("/organizacion", cue);
 
-export const createCuestionarioItem = (cue) => cuestionarioRequest.post("/item", cue);
+export const createCuestionarioItem = (cue) =>
+  cuestionarioRequest.post("/item", cue);
 
-export const updateCuestionario = (cue) => cuestionarioRequest.patch(`/${cue.id}`, cue);
+export const updateCuestionario = (cue) =>
+  cuestionarioRequest.patch(`/${cue.id}`, cue);
 
 export const deleteCuestionario = (id) => cuestionarioRequest.delete(`/${id}`);
 

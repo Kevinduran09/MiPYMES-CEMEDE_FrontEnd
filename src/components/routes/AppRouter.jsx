@@ -18,10 +18,10 @@ import { Rubrica } from "../rubrica/Rubrica";
 import { FormRubrica } from "../rubrica/components/FormRubrica";
 import { Cuestionario } from "../cuestionario/Cuestionario";
 import { FormCuestionarioAplicar } from "../cuestionario/components/FormCuestionarioAplicar";
-import { Form } from "react-bootstrap";
 import { FormCuestionarioItemsRespuesta } from "../cuestionario/components/FormCuestionarioItemsRespueta";
 import { CuestionariosAplicados } from "../cuestionario/components/CuestionariosAplicados";
 import { CuestionariosAplicadoItems } from "../cuestionario/components/CuestionariosAplicadoItems";
+import { Login } from "../auth/Login";
 
 export const AppRouter = () => {
   const [isSidebarActive, setSidebarActive] = useState(false);
@@ -30,18 +30,16 @@ export const AppRouter = () => {
     setSidebarActive(!isSidebarActive);
   };
 
-  return (
-    <BrowserRouter>
+  const AdminComponente = () => (
+    <>
       <Sidebar isActive={isSidebarActive} />
-
       <div className={`main ${isSidebarActive ? "active" : ""}`}>
         <div className="topbar">
           <div className="toggle" onClick={toggleSidebar}>
             <ion-icon name="menu-outline"></ion-icon>
           </div>
-
           <div className="user">
-            <img src="/assets/img/user.jpg" alt="" />
+            <img src="/assets/img/user.jpg" alt="Usuario" />
           </div>
         </div>
         <div>
@@ -88,60 +86,76 @@ export const AppRouter = () => {
               />
               <Route
                 path="/cuestionarios"
-                element={<DashboardLayout
-                  title={"Cuestionarios"} 
-                  component={<Cuestionario/>} 
-                />}
+                element={
+                  <DashboardLayout
+                    title={"Cuestionarios"}
+                    component={<Cuestionario />}
+                  />
+                }
               />
 
               <Route
                 path="/cuestionarios/crear"
-                element={<DashboardLayout
-                  title={"Crear nuevo cuestionario"} 
-                  component={<FormCuestionario/>} 
-                />}
+                element={
+                  <DashboardLayout
+                    title={"Crear nuevo cuestionario"}
+                    component={<FormCuestionario />}
+                  />
+                }
               />
               <Route
                 path="/cuestionarios/editar/:id"
-                element={<DashboardLayout
-                  title={"Eidtar cuestionario"} 
-                  component={<FormCuestionario/>} 
-                />}
+                element={
+                  <DashboardLayout
+                    title={"Editar cuestionario"}
+                    component={<FormCuestionario />}
+                  />
+                }
               />
               <Route
                 path="/cuestionarios/aplicar/:id"
-                element={<DashboardLayout
-                  title={"Aplicar Cuestionario a Organizacion"}
-                  component={<FormCuestionarioAplicar />}
-                />}
+                element={
+                  <DashboardLayout
+                    title={"Aplicar Cuestionario a Organizacion"}
+                    component={<FormCuestionarioAplicar />}
+                  />
+                }
               />
               <Route
                 path="/cuestionarios/aplicar/organizacion/:id"
-                element={<DashboardLayout
-                  title={"Cuestionario a Organizacion"}
-                  component={<FormCuestionarioItemsRespuesta />}
-                />}
+                element={
+                  <DashboardLayout
+                    title={"Cuestionario a Organizacion"}
+                    component={<FormCuestionarioItemsRespuesta />}
+                  />
+                }
               />
               <Route
                 path="/cuestionarios/aplicados"
-                element={<DashboardLayout
-                  title={"Cuestionario aplicados"}
-                  component={<CuestionariosAplicados />}
-                />}
+                element={
+                  <DashboardLayout
+                    title={"Cuestionario aplicados"}
+                    component={<CuestionariosAplicados />}
+                  />
+                }
               />
               <Route
                 path="/cuestionarios/aplicados/:id"
-                element={<DashboardLayout
-                  title={"Cuestionario aplicado"}
-                  component={<CuestionariosAplicadoItems />}
-                />}
+                element={
+                  <DashboardLayout
+                    title={"Cuestionario aplicado"}
+                    component={<CuestionariosAplicadoItems />}
+                  />
+                }
               />
               <Route
                 path="/items"
-                element={<DashboardLayout
-                  title={"Items de indicadores"}
-                  component={<Item />}
-                />}
+                element={
+                  <DashboardLayout
+                    title={"Items de indicadores"}
+                    component={<Item />}
+                  />
+                }
               />
               <Route
                 path="/items/crear"
@@ -164,10 +178,12 @@ export const AppRouter = () => {
 
               <Route
                 path="/indicadores"
-                element={<DashboardLayout
-                  title={"Indicadores"}
-                  component={<Indicador />}
-                />}
+                element={
+                  <DashboardLayout
+                    title={"Indicadores"}
+                    component={<Indicador />}
+                  />
+                }
               />
 
               <Route
@@ -189,13 +205,11 @@ export const AppRouter = () => {
                 }
               />
 
-
               <Route
                 path="/rubricas"
-                element={<DashboardLayout
-                  title={"Rubricas"}
-                  component={<Rubrica />}
-                />}
+                element={
+                  <DashboardLayout title={"Rubricas"} component={<Rubrica />} />
+                }
               />
 
               <Route
@@ -222,6 +236,16 @@ export const AppRouter = () => {
           </Routes>
         </div>
       </div>
+    </>
+  );
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        {/* Cambia "" por "/" */}
+        <Route path="/*" element={<AdminComponente />} />
+      </Routes>
     </BrowserRouter>
   );
 };

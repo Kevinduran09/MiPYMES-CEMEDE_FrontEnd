@@ -2,7 +2,7 @@ import {
   GridToolbarContainer,
   GridToolbarExport,
   GridToolbarFilterButton,
-  GridToolbarDensitySelector
+  GridToolbarDensitySelector,
 } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
 import { Button } from "@mui/material";
