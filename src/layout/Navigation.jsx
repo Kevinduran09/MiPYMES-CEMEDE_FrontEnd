@@ -2,17 +2,7 @@ import { NavLink } from "react-router-dom";
 import navigationLinks from "./NavigationLinks.jsx";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { useAuthStore } from "../hooks/useAuthState";
-import { useState } from "react";
-import List from "@mui/material/List";
-import FeedIcon from "@mui/icons-material/Feed";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Collapse from "@mui/material/Collapse";
-import ExpandLess from "@mui/icons-material/ExpandLess";
-import ExpandMore from "@mui/icons-material/ExpandMore";
-import StarBorder from "@mui/icons-material/StarBorder";
+import { useAuthStore } from "../components/auth/store/useAuthStore.jsx";
 export const Navigation = ({ onToggle, isActive }) => {
   const navigate = useNavigate();
   const clearAuth = useAuthStore((state) => state.clearAuth);

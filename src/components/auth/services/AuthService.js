@@ -1,7 +1,8 @@
 //AuthService.js
 
 import axios from "axios";
-import { API_BASE_URL, TOKEN } from "./Global";
+import { API_BASE_URL } from "../../../services/Global";
+import { useAuthStore } from "../store/useAuthStore";
 
 const authAPI = axios.create({
   baseURL: `${API_BASE_URL}/auth`,
@@ -38,6 +39,6 @@ export const currentActive = async () => {
     });
     return res.data;
   } catch (error) {
-    return error.response;
+    throw error;
   }
 };

@@ -137,6 +137,15 @@ body {
   z-index: 1000;
 }
 
+
+.loginCard {
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 3;
+  border-radius: 10px;
+  padding: 10px;
+}
+
 .toggle {
   position: relative;
   width: 60px;
@@ -178,20 +187,27 @@ body {
 }
 
 .user {
-  position: relative;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  overflow: hidden;
-  cursor: pointer;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
+}
+
+.user p{
+  font-size: 11px;
+  margin-bottom: 0;
+  text-align: left;
 }
 
 .user img {
-  position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 40px;
+  height: 40px;
+  border-radius: 40px;
   object-fit: cover;
 }
 
@@ -230,6 +246,10 @@ body {
     z-index: 1000;
     overflow: hidden;
     /* Evita el scroll horizontal y vertical */
+  }
+
+  .loginCard {
+    max-width: 360px;
   }
 
   .navigation.active {

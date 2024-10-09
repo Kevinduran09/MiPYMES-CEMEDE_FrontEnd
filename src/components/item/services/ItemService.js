@@ -1,9 +1,22 @@
 import axios from "axios";
-import { API_BASE_URL, TOKEN } from "../../../services/Global";
+import { API_BASE_URL, getToken } from "../../../services/Global";
 
 const itemRequest = axios.create({
   baseURL: `${API_BASE_URL}/item`,
 });
+
+itemRequest.interceptors.request.use(
+  async (config) => {
+    const token = await getToken();
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 export const getItems = async () => {
   const res = await itemRequest.get("");

@@ -1,25 +1,27 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Button, CircularProgress, Box, Card, CardContent, Typography, TextField, FormControlLabel, Checkbox, IconButton, InputAdornment, } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { Button, CircularProgress, Box, Card, CardContent, Typography, TextField, IconButton, InputAdornment } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";;
 import { useAuthMutations } from "./mutations/useAuthMutations";
 
-export const Login = () => {
+export const Register = () => {
   const navigate = useNavigate();
 
-  const { loginMutation } = useAuthMutations();
+  const { registerMutation } = useAuthMutations();
 
   const [formData, setformData] = useState({
     nombre: "",
     contrasena: "",
+    correo_electronico: ""
   });
+
   const [loading, setloading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = async (e) => {
     e.preventDefault();
     setloading(true);
-    loginMutation.mutate(formData,
+    registerMutation.mutate(formData,
       {
         onSuccess: () => setloading(false),
         onError: () => setloading(false)
@@ -54,7 +56,7 @@ export const Login = () => {
       >
         <CardContent>
           <Typography mb={3} mt={3} variant="h4" align="center" gutterBottom>
-            Iniciar Sesión
+            Crear cuenta
           </Typography>
           <form onSubmit={onSubmit} style={{ padding: "1rem" }}>
             <Box mb={3}>
@@ -64,6 +66,17 @@ export const Login = () => {
                 fullWidth
                 required
                 name="nombre"
+                onChange={handleChangeForm}
+              />
+            </Box>
+            <Box mb={3}>
+              <TextField
+                label="Correo eletronico"
+                variant="outlined"
+                fullWidth
+                required
+                type="email"
+                name="correo_electronico"
                 onChange={handleChangeForm}
               />
             </Box>
@@ -87,12 +100,6 @@ export const Login = () => {
                 }}
               />
             </Box>
-            <Box mb={2}>
-              <FormControlLabel
-                control={<Checkbox name="rememberMe" />}
-                label="Recordarme"
-              />
-            </Box>
             <Button
               type="submit"
               variant="contained"
@@ -100,15 +107,10 @@ export const Login = () => {
               fullWidth
               disabled={loading}
             >
-              {loading ? <CircularProgress size={24} /> : "Iniciar Sesión"}
+              {loading ? <CircularProgress size={24} /> : "Crear cuenta"}
             </Button>
             <Box mt={2} textAlign="center">
-              <Link to="/">¿Olvidaste tu contraseña?</Link>
-            </Box>
-            <Box mt={2} textAlign="center">
-              <Button variant="text" onClick={() => navigate("/register")}>
-                Crear una cuenta
-              </Button>
+              <Link to="/login">¿Ya posees una cuenta?</Link>
             </Box>
           </form>
         </CardContent>

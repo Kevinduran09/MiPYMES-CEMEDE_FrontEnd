@@ -1,9 +1,22 @@
 import axios from "axios";
-import { API_BASE_URL, TOKEN } from "./Global";
+import { API_BASE_URL, getToken } from "./Global";
 
 const empRequest = axios.create({
   baseURL: `${API_BASE_URL}/empresarios`,
 });
+
+empRequest.interceptors.request.use(
+  async (config) => {
+    const token = await getToken();
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 export const getEmpresarios = async () => {
   const res = await empRequest.get("");

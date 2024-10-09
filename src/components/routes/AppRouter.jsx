@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Sidebar } from "../../layout/Sidebar";
 import { useState } from "react";
-import { useAuthStore } from "../../hooks/useAuthState";
+import { useAuthStore } from "../auth/store/useAuthStore";
 import { Dashboard } from "../../views/Dashboard";
 import { Organizacion } from "../../views/Organizacion";
 import { ProtectedRoute } from "./ProtectedRoute";
@@ -22,15 +22,32 @@ import { FormCuestionarioItemsRespuesta } from "../cuestionario/components/FormC
 import { CuestionariosAplicados } from "../cuestionario/components/CuestionariosAplicados";
 import { CuestionariosAplicadoItems } from "../cuestionario/components/CuestionariosAplicadoItems";
 import { Login } from "../auth/Login";
+import { Register } from "../auth/Register";
+import { useQuery } from "react-query";
+import { currentActive } from "../auth/services/AuthService";
+import ProfileDropdown from "../auth/ProfileDropdown";
 
 export const AppRouter = () => {
   const [isSidebarActive, setSidebarActive] = useState(false);
+  const { setCurrentUser, clearAuth, isAuth, token, currentUser } = useAuthStore();
+
+  const { data: user } = useQuery({
+    retry: false,
+    queryKey: ["current"],
+    queryFn: currentActive,
+    onSuccess: (response) => {
+      setCurrentUser(response, true);
+    },
+    onError: (error) => {
+      clearAuth();
+    }
+  })
 
   const toggleSidebar = () => {
     setSidebarActive(!isSidebarActive);
   };
 
-  const AdminComponente = () => (
+  const AdminComponente = ({currentUser}) => (
     <>
       <Sidebar isActive={isSidebarActive} />
       <div className={`main ${isSidebarActive ? "active" : ""}`}>
@@ -38,13 +55,11 @@ export const AppRouter = () => {
           <div className="toggle" onClick={toggleSidebar}>
             <ion-icon name="menu-outline"></ion-icon>
           </div>
-          <div className="user">
-            <img src="/assets/img/user.jpg" alt="Usuario" />
-          </div>
+          <ProfileDropdown />
         </div>
         <div>
           <Routes>
-            <Route element={<ProtectedRoute isAuth={true} />}>
+            <Route element={<ProtectedRoute isAuth={isAuth} />}>
               <Route path="/" element={<Dashboard />} />
               <Route path="/organizaciones" element={<Organizacion />} />
               <Route
@@ -242,9 +257,17 @@ export const AppRouter = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<Login />} />
-        {/* Cambia "" por "/" */}
-        <Route path="/*" element={<AdminComponente />} />
+
+        {isAuth && !!token ? (
+          <Route path="/*" element={<AdminComponente currentUser={currentUser}/>} />
+        ) : (
+          <>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="*" element={<Navigate to="/login" />} />
+          </>
+        )}
+
       </Routes>
     </BrowserRouter>
   );
