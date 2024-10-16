@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from 'react-query';
 import {login, registerRequest} from "../services/AuthService";
-import { SuccessDialogo } from '../../dialogos/Dialogos';
+import { SuccessDialogo, EliminarDialogo, ErrorDialogo } from '../../dialogos/Dialogos';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/useAuthStore';
 
@@ -17,9 +17,12 @@ export const useAuthMutations = () => {
             setToken(response.access_token)
             navigate("/");
             SuccessDialogo('Usuario', 'Usuario', 'autenticado');
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
         },
         onError: (error) => {
-            console.error("Error deleting Cuestionario:", error);
+            ErrorDialogo("Error", "¡Usuario o contraseña incorrecta!");
         },
     });
 
@@ -31,7 +34,7 @@ export const useAuthMutations = () => {
             navigate("/login");
         },
         onError: (error) => {
-            console.error("Error deleting Cuestionario:", error);
+            
         },
     });
 

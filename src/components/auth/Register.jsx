@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button, CircularProgress, Box, Card, CardContent, Typography, TextField, IconButton, InputAdornment } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";;
 import { useAuthMutations } from "./mutations/useAuthMutations";
-
+import { ErrorDialogo } from "../dialogos/Dialogos";
 export const Register = () => {
   const navigate = useNavigate();
 
@@ -24,7 +24,16 @@ export const Register = () => {
     registerMutation.mutate(formData,
       {
         onSuccess: () => setloading(false),
-        onError: () => setloading(false)
+        onError: (error) => {
+          console.log(error)
+          setloading(false)
+          console.log(error)
+          if (error.response.status == 400) {
+            ErrorDialogo("Error", error.response.data.message);
+          }else{
+            ErrorDialogo("Error", error.response.data.message.join(". "));
+          }
+        }
       }
     );
   };
@@ -66,6 +75,11 @@ export const Register = () => {
                 fullWidth
                 required
                 name="nombre"
+                // inputProps={{
+                //   maxLength: 20,
+                //   minLength: 6,
+                //   title: "La contraseña debe tener como minimo: 2 letras mayusculas, 2 minusculas, 2 numeros y 2 simbolos"
+                // }}
                 onChange={handleChangeForm}
               />
             </Box>
@@ -89,6 +103,11 @@ export const Register = () => {
                 required
                 name="contrasena"
                 onChange={handleChangeForm}
+                inputProps={{
+                  maxLength: 16,
+                  minLength: 8,
+                  title: "La contraseña debe tener como minimo: 2 letras mayusculas, 2 minusculas, 2 numeros y 2 simbolos"
+                }}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">

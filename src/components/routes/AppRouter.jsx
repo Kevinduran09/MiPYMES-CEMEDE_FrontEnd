@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Sidebar } from "../../layout/Sidebar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuthStore } from "../auth/store/useAuthStore";
 import { Dashboard } from "../../views/Dashboard";
 import { Organizacion } from "../../views/Organizacion";
@@ -46,10 +46,11 @@ export const AppRouter = () => {
   const toggleSidebar = () => {
     setSidebarActive(!isSidebarActive);
   };
+  
 
   const AdminComponente = ({currentUser}) => (
     <>
-      <Sidebar isActive={isSidebarActive} />
+      <Sidebar isActive={isSidebarActive} setActive={toggleSidebar}/>
       <div className={`main ${isSidebarActive ? "active" : ""}`}>
         <div className="topbar">
           <div className="toggle" onClick={toggleSidebar}>

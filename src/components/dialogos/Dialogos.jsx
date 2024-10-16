@@ -61,3 +61,14 @@ export const SuccessDialogo = (title, tipo, accion) => {
     },
   });
 };
+
+export const ErrorDialogo = (title, data) => {
+  Swal.fire({
+    title: title,
+    text: data,
+    icon: "error",
+    customClass: {
+      popup: "swal-custom-zindex",
+    },
+  });
+};

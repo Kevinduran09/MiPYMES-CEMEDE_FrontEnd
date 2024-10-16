@@ -64,6 +64,10 @@ export const Login = () => {
                 fullWidth
                 required
                 name="nombre"
+                inputProps={{
+                  maxLength: 20,
+                  minLength: 6,
+                }}
                 onChange={handleChangeForm}
               />
             </Box>
@@ -75,6 +79,10 @@ export const Login = () => {
                 type={showPassword ? "text" : "password"}
                 required
                 name="contrasena"
+                inputProps={{
+                  maxLength: 16,
+                  minLength: 8,
+                }}
                 onChange={handleChangeForm}
                 InputProps={{
                   endAdornment: (

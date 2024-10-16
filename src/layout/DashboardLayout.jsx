@@ -6,7 +6,7 @@ import { useLocation, Link as RouterLink } from "react-router-dom";
 const DynamicBreadcrumbs = () => {
   const location = useLocation();
   const pathnames = location.pathname.split("/").filter((x) => x);
-
+  const disableNavRoutes = ["editar", "aplicar"];
   return (
     <Breadcrumbs aria-label="breadcrumb" sx={{ padding: "2rem" }}>
       <Link
@@ -20,7 +20,15 @@ const DynamicBreadcrumbs = () => {
       {pathnames.map((value, index) => {
         const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`;
 
+
         const isLast = index === pathnames.length - 1;
+        if (disableNavRoutes.includes(value)) {
+          return (
+            <Typography color="inherit" key={value} style={{fontWeight: 'inherit' }}>
+              {value.charAt(0).toUpperCase() + value.slice(1)}
+            </Typography>
+          )
+        }
         return isLast ? (
           <Typography color="textPrimary" key={value} style={{ fontWeight: 'bold' }}>
             {value.charAt(0).toUpperCase() + value.slice(1)}

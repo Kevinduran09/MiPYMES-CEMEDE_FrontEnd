@@ -1,38 +1,27 @@
-import { Box, TextField, Button, Grid } from "@mui/material";
+import { Form, Row, Col } from 'react-bootstrap';
 
-export const Opcion = ({ id, nombre, valor_alfa, onUpdate, onDelete }) => {
-    const handleChange = (field, value) => {
-        onUpdate(id, { [field]: value });
-    };
-
+export const Opcion = ({ id, nombre, valor_alfa, onUpdate, disabled }) => {
     return (
-        <Grid container spacing={2} alignItems="center" marginTop={0.5}>
-            <Grid item xs={5}>
-                <TextField
-                    label="Nombre"
+        <Row className="mb-2">
+            <Col>
+                <Form.Control
+                    disabled={disabled}    
+                    type="text"
+                    placeholder="Nombre de la opción"
                     value={nombre}
-                    onChange={(e) => handleChange("nombre", e.target.value)}
-                    fullWidth
+                    onChange={(e) => onUpdate(id, { nombre: e.target.value })}
                 />
-            </Grid>
-            <Grid item xs={4}>
-                <TextField
-                    label="Valor Alfa"
-                    value={valor_alfa}
-                    onChange={(e) => handleChange("valor_alfa", e.target.value)}
-                    fullWidth
+            </Col>
+            <Col>
+                <Form.Control
+                    disabled={disabled}  
                     type="number"
+                    step="0.1"
+                    placeholder="Valor Alfa"
+                    value={valor_alfa}
+                    onChange={(e) => onUpdate(id, { valor_alfa: parseFloat(e.target.value) })}
                 />
-            </Grid>
-            <Grid item xs={3}>
-                <Button
-                    variant="outlined"
-                    color="error"
-                    onClick={() => onDelete(id)}
-                >
-                    Eliminar
-                </Button>
-            </Grid>
-        </Grid>
+            </Col>
+        </Row>
     );
 };

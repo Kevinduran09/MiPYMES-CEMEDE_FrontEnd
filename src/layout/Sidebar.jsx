@@ -2,7 +2,7 @@ import { Navigation } from "./Navigation";
 import navigationLinks from "./NavigationLinks";
 import { NavLink } from "react-router-dom";
 import "../../public/css/styles.css";
-export const Sidebar = ({ isActive }) => {
+export const Sidebar = ({ isActive, setActive }) => {
   return (
     <>
       <div className={`navigation ${isActive ? "active" : ""}`}>
@@ -26,7 +26,11 @@ export const Sidebar = ({ isActive }) => {
           </li>
 
           {navigationLinks.map((link, index) => (
-            <li id={link.text} key={index}>
+            <li id={link.text} key={index} onClick={()=>{
+              if (isActive) {
+                setActive();
+              }
+            }}>
               <NavLink
                 title={link.text}
                 to={link.href}

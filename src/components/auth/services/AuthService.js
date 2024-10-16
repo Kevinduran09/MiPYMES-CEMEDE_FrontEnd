@@ -21,12 +21,16 @@ export const login = async (user) => {
 };
 
 export const registerRequest = async (user) => {
-  const res = await authAPI.post("/register", user, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  return res.data;
+  try {
+    const res = await authAPI.post("/register", user, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const currentActive = async () => {

@@ -11,13 +11,14 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Swal from "sweetalert2";
 import { useAuthStore } from "./store/useAuthStore";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "react-query";
+import { currentActive } from "./services/AuthService";
 
 const ProfileDropdown = () => {
+    const navigate = useNavigate();
+    const { currentUser, clearAuth, setCurrentUser } = useAuthStore();
 
-    const navigate = useNavigate()
-    const { currentUser, clearAuth } = useAuthStore();
-
-    // State for controlling the popover's open status and id
+    
     const [popoverState, setPopoverState] = useState({
         open: false,
         id: undefined
@@ -40,7 +41,7 @@ const ProfileDropdown = () => {
     };
 
     const logout = (e) => {
-        setPopoverState({...popoverState, open: false})
+        setPopoverState({ ...popoverState, open: false })
         Swal.fire({
             title: "¿Desea cerrar su sesión?",
             icon: "question",
