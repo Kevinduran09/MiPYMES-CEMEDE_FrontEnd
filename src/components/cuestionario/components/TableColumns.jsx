@@ -1,11 +1,11 @@
-import { Button } from "@mui/material";
-import { DeleteButton } from "../../DeleteButton";
-import { UpdateButton } from "../../UpdateButton";
-import { useCuestionarioActions } from '../handlers/useActionsCuestionario';
-import { Check, CheckBox } from "@mui/icons-material";
-
+import { Delete } from "@mui/icons-material";
+import { useCuestionarioActions } from "../handlers/useActionsCuestionario";
+import { Check } from "@mui/icons-material";
+import { CustomButton } from "../../CustomButton";
+import { Edit } from "@mui/icons-material";
 export const TableColumns = () => {
-  const { handleDeleteClick, handleEditClick, handleApplyClick } = useCuestionarioActions();
+  const { handleDeleteClick, handleEditClick, handleApplyClick } =
+    useCuestionarioActions();
   const columns = [
     { field: "nombre", headerName: "Nombre", width: 250 },
     { field: "fechaCreacion", headerName: "Fecha creacion", width: 200 },
@@ -15,7 +15,16 @@ export const TableColumns = () => {
       width: 130,
       renderCell: (params) => (
         <>
-          <DeleteButton handleDelete={handleDeleteClick} id={params.row.id} />
+          <CustomButton
+            denegateRols={["Aplicador"]}
+            action={() => {
+              handleDeleteClick(params.row.id);
+            }}
+            color="error"
+            text={"Eliminar"}
+            variant="contained"
+            icon={<Delete />}
+          />
         </>
       ),
     },
@@ -25,7 +34,14 @@ export const TableColumns = () => {
       width: 130,
       renderCell: (params) => (
         <>
-          <UpdateButton handleUpdate={handleEditClick} cls={params.row} />
+          <CustomButton
+            action={() => {
+              handleEditClick(params.row);
+            }}
+            icon={<Edit />}
+            text={"Editar"}
+            variant="contained"
+          />
         </>
       ),
     },
@@ -35,14 +51,12 @@ export const TableColumns = () => {
       width: 130,
       renderCell: (params) => (
         <>
-          <Button
-            startIcon={<Check />}
+          <CustomButton
+            icon={<Check />}
             variant="outlined"
-            color="primary"
-            onClick={() => handleApplyClick(params.row)}
-          >
-            Aplicar
-          </Button>
+            text={"Aplicar"}
+            action={() => handleApplyClick(params.row)}
+          />
         </>
       ),
     },

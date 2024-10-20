@@ -5,8 +5,8 @@ import { useIndicadorStore } from "./store/useIndicadorStore";
 import { useNavigate } from "react-router-dom";
 import { TableComponent } from "../TableComponent";
 import { TableColumns } from "./components/TableColumns";
-import { AddButton } from "../AddButton";
-
+import { Add } from "@mui/icons-material";
+import { CustomButton } from "../CustomButton";
 export const Indicador = () => {
   const navigate = useNavigate();
   const { columns } = TableColumns();
@@ -35,7 +35,13 @@ export const Indicador = () => {
         rowsSet={dataRows}
         isError={isError}
         isLoading={isLoading}
-        customButtons={<AddButton route={navigation} />}
+        customButtons={
+          <CustomButton
+            action={navigation}
+            icon={<Add />}
+            text={"Agregar nuevo"}
+          />
+        }
       />
     </Container>
   );

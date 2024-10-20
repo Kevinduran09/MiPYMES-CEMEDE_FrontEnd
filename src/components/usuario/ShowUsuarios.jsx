@@ -1,36 +1,36 @@
 import { useQuery } from "react-query";
-import { getOrganizaciones } from "../../services/OrganizacionService";
+import { getUsuarios } from "./services/usuarioServices";
 import { TableComponent } from "../TableComponent";
-import { useOrganizacionStore } from "../../hooks/useOrganizacionStore";
+import { useUsuarioStore } from "./store/useUsuarioStore";
 import { useNavigate } from "react-router-dom";
 import { Add } from "@mui/icons-material";
 import { CustomButton } from "../CustomButton";
-export const ShowOrganizaciones = (props) => {
+export const ShowUsuarios = (props) => {
   const navegate = useNavigate();
-  const { clear } = useOrganizacionStore();
+  const { clear } = useUsuarioStore();
   const {
     isLoading,
-    data: organizaciones,
+    data: usuarios,
     isError,
   } = useQuery({
-    queryKey: ["organizaciones"],
-    queryFn: getOrganizaciones,
+    queryKey: ["usuarios"],
+    queryFn: getUsuarios,
   });
-  const navigation = () => {
+  const navegation = () => {
     clear();
-    navegate("/organizaciones/crear");
+    navegate("/usuarios/crear");
   };
   return (
     <>
       <TableComponent
-        title={"Organizaciones"}
+        title={"Usuarios"}
         columns={props.columns}
-        rowsSet={organizaciones}
+        rowsSet={usuarios}
         isError={isError}
         isLoading={isLoading}
         customButtons={
           <CustomButton
-            action={navigation}
+            action={navegation}
             icon={<Add />}
             text={"Agregar nuevo"}
           />

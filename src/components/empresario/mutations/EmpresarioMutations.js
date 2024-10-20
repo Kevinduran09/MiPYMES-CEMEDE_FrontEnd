@@ -6,6 +6,7 @@ import {
 } from "../../../services/EmpresarioService";
 import { SuccessDialogo } from "../../dialogos/Dialogos";
 import { useEmpStore } from "../../../hooks/useEmpStore";
+
 export const EmpresarioMutations = () => {
   const { clear } = useEmpStore();
   const queryClient = useQueryClient();

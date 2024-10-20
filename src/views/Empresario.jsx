@@ -1,16 +1,12 @@
 import { ShowEmpresarios } from "../components/empresario/ShowEmpresarios";
 import { TableEmpresariosColums } from "../components/empresario/TableEmpresariosColums";
-import { useState } from "react";
-import { ModalEmpresario } from "../components/empresario/ModalEmpresario";
-import { DashboardLayout } from "../layout/DashboardLayout";
+import { Container } from "react-bootstrap";
+
 export const Empresario = () => {
   const { columns } = TableEmpresariosColums();
   return (
-    <>
-      <DashboardLayout
-        title={"Empresarios"}
-        component={<ShowEmpresarios columns={columns} />}
-      />
-    </>
+    <Container>
+      <ShowEmpresarios columns={columns} />
+    </Container>
   );
 };

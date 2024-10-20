@@ -6,7 +6,7 @@ export const FormField = ({
   name,
   isRequerided = true,
   options,
-  ...rest
+  ...props
 }) => {
   const {
     register,
@@ -25,7 +25,7 @@ export const FormField = ({
         {...register(name, optns)}
         error={!!errors[name]}
         helperText={errors[name]?.message}
-        {...rest}
+        {...props}
       />
     </FormControl>
   );

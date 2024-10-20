@@ -1,17 +1,20 @@
-import { useItemActions } from "../handlers/useItemActions.js";
+import { useUsuarioActions } from "./handlers/useUsuarioActions.js";
 import { Delete } from "@mui/icons-material";
-import { CustomButton } from "../../CustomButton";
+import { CustomButton } from "../CustomButton.jsx";
 import { Edit } from "@mui/icons-material";
-export const TableColumns = () => {
-  const { handleDeleteClick, handleEditClick } = useItemActions();
+export const UsuarioColumns = () => {
+  const { deleteUsuario, handleEditClick } = useUsuarioActions();
   const columns = [
-    { field: "nombre", headerName: "Nombre", width: 250 },
-    { field: "peso", headerName: "Peso", width: 140 },
+    { field: "nombre", headerName: "Nombre", width: 200 },
     {
-      field: "indicador",
-      headerName: "Indicador",
-      width: 150,
-      renderCell: (params) => params.row.indicador.nombre,
+      field: "correo_electronico",
+      headerName: "Correo Electrónico",
+      width: 250,
+    },
+    {
+      field: "rol",
+      headerName: "Rol",
+      width: 200,
     },
     {
       field: "Eliminar",
@@ -21,7 +24,7 @@ export const TableColumns = () => {
         <>
           <CustomButton
             action={() => {
-              handleDeleteClick(params.row.id);
+              deleteUsuario(params.row.id);
             }}
             color="error"
             text={"Eliminar"}
@@ -49,5 +52,6 @@ export const TableColumns = () => {
       ),
     },
   ];
+
   return { columns };
 };

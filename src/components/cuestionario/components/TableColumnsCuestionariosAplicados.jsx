@@ -1,17 +1,21 @@
-import { DetailsButton } from "../../DetailsButton";
+import { Visibility } from "@mui/icons-material";
 import { useCuestionarioActions } from "../handlers/useActionsCuestionario";
-
+import { CustomButton } from "../../CustomButton";
 export const TableColumnsCuestionariosAplicados = () => {
   const { handleDetailsClick } = useCuestionarioActions();
   const columns = [
     {
-      field: "nombreCuestionario", headerName: "Nombre cuestionario", width: 250,
-      valueGetter: (params) => params.row.cuestionario?.nombre
+      field: "nombreCuestionario",
+      headerName: "Nombre cuestionario",
+      width: 250,
+      valueGetter: (params) => params.row.cuestionario?.nombre,
     },
     { field: "fechaRealizacion", headerName: "Fecha realizado", width: 200 },
     {
-      field: "nombreOrganizacion", headerName: "Nombre organizacion", width: 250,
-      valueGetter: (params) => params.row.organizacion?.nombre
+      field: "nombreOrganizacion",
+      headerName: "Nombre organizacion",
+      width: 250,
+      valueGetter: (params) => params.row.organizacion?.nombre,
     },
     {
       field: "detalles",
@@ -19,7 +23,14 @@ export const TableColumnsCuestionariosAplicados = () => {
       width: 130,
       renderCell: (params) => (
         <>
-          <DetailsButton handleDetails={handleDetailsClick} id={params.row.id} />
+          <CustomButton
+            action={() => {
+              handleDetailsClick(params.row.id);
+            }}
+            text={"Ver"}
+            icon={<Visibility />}
+            variant="outlined"
+          />
         </>
       ),
     },

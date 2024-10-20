@@ -36,7 +36,6 @@ export const ConfirmarDialogo = (mutation, data, onSuccess) => {
     cancelButtonText: "Cancelar",
     customClass: {
       popup: "swal-custom-zindex",
-
     },
   }).then((result) => {
     if (result.isConfirmed) {
@@ -44,6 +43,14 @@ export const ConfirmarDialogo = (mutation, data, onSuccess) => {
         onSuccess: () => {
           if (onSuccess) {
             onSuccess();
+          }
+        },
+        onError: (error) => {
+          if (error.response.status == 400) {
+            ErrorDialogo("Error", error.response.data.message.join(".\n"));
+          } else {
+            console.log(error);
+            ErrorDialogo("Error", error.response.data.message.join("n."));
           }
         },
       });

@@ -1,6 +1,18 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Button, CircularProgress, Box, Card, CardContent, Typography, TextField, FormControlLabel, Checkbox, IconButton, InputAdornment, } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  Box,
+  Card,
+  CardContent,
+  Typography,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  IconButton,
+  InputAdornment,
+} from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useAuthMutations } from "./mutations/useAuthMutations";
 
@@ -19,12 +31,10 @@ export const Login = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     setloading(true);
-    loginMutation.mutate(formData,
-      {
-        onSuccess: () => setloading(false),
-        onError: () => setloading(false)
-      }
-    );
+    loginMutation.mutate(formData, {
+      onSuccess: () => setloading(false),
+      onError: () => setloading(false),
+    });
   };
 
   const handleChangeForm = (e) => {
@@ -49,9 +59,7 @@ export const Login = () => {
         backgroundColor: "#f4f6f8",
       }}
     >
-      <Card
-        className="loginCard"
-      >
+      <Card className="loginCard">
         <CardContent>
           <Typography mb={3} mt={3} variant="h4" align="center" gutterBottom>
             Iniciar Sesión
@@ -66,7 +74,7 @@ export const Login = () => {
                 name="nombre"
                 inputProps={{
                   maxLength: 20,
-                  minLength: 6,
+                  minLength: 5,
                 }}
                 onChange={handleChangeForm}
               />
@@ -114,9 +122,9 @@ export const Login = () => {
               <Link to="/">¿Olvidaste tu contraseña?</Link>
             </Box>
             <Box mt={2} textAlign="center">
-              <Button variant="text" onClick={() => navigate("/register")}>
+              {/* <Button variant="text" onClick={() => navigate("/register")}>
                 Crear una cuenta
-              </Button>
+              </Button> */}
             </Box>
           </form>
         </CardContent>

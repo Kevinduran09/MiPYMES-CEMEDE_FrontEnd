@@ -1,7 +1,7 @@
 import { useEmpresarioActions } from "./handlers/useEmpresarioActions";
-import { DeleteButton } from "../DeleteButton";
-import { UpdateButton } from "../UpdateButton";
-
+import { Delete } from "@mui/icons-material";
+import { CustomButton } from "../CustomButton";
+import { Edit } from "@mui/icons-material";
 export const TableEmpresariosColums = () => {
   const { handleEditClick, deleteEmpresario } = useEmpresarioActions();
 
@@ -28,7 +28,15 @@ export const TableEmpresariosColums = () => {
       width: 130,
       renderCell: (params) => (
         <>
-          <DeleteButton handleDelete={deleteEmpresario} id={params.row.id} />
+          <CustomButton
+            action={() => {
+              deleteEmpresario(params.row.id);
+            }}
+            color="error"
+            text={"Eliminar"}
+            variant="contained"
+            icon={<Delete />}
+          />
         </>
       ),
     },
@@ -38,7 +46,14 @@ export const TableEmpresariosColums = () => {
       width: 130,
       renderCell: (params) => (
         <>
-          <UpdateButton handleUpdate={handleEditClick} cls={params.row} />
+          <CustomButton
+            action={() => {
+              handleEditClick(params.row);
+            }}
+            icon={<Edit />}
+            text={"Editar"}
+            variant="contained"
+          />
         </>
       ),
     },

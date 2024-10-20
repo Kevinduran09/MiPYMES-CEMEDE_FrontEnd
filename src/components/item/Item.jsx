@@ -5,8 +5,8 @@ import { useItemStore } from "./store/useItemStore";
 import { TableComponent } from "../TableComponent";
 import { TableColumns } from "./components/TableColumns";
 import { useNavigate } from "react-router-dom";
-import { AddButton } from "../AddButton";
-
+import { Add } from "@mui/icons-material";
+import { CustomButton } from "../CustomButton";
 export const Item = () => {
   const navigate = useNavigate();
   const { columns } = TableColumns();
@@ -35,7 +35,13 @@ export const Item = () => {
         rowsSet={dataRows}
         isError={isError}
         isLoading={isLoading}
-        customButtons={<AddButton route={navigation} />}
+        customButtons={
+          <CustomButton
+            action={navigation}
+            icon={<Add />}
+            text={"Agregar nuevo"}
+          />
+        }
       />
     </Container>
   );

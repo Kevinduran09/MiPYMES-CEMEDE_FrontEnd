@@ -1,7 +1,7 @@
 import { useOrganizacionActions } from "./handlers/useOrganizacionActions.js";
-import { DeleteButton } from "../DeleteButton.jsx";
-import { UpdateButton } from "../UpdateButton.jsx";
-
+import { Delete } from "@mui/icons-material";
+import { CustomButton } from "../CustomButton.jsx";
+import { Edit } from "@mui/icons-material";
 export const OrganizationColumns = () => {
   const { deleteOrganizacion, handleEditClick } = useOrganizacionActions();
   const columns = [
@@ -13,7 +13,7 @@ export const OrganizationColumns = () => {
       field: "pagina_web",
       headerName: "Página Web",
       width: 150,
-      valueGetter: (params) => params.row.website_url ? "Sí" : "No",
+      valueGetter: (params) => (params.row.website_url ? "Sí" : "No"),
     },
     {
       field: "website_url",
@@ -38,7 +38,16 @@ export const OrganizationColumns = () => {
       width: 130,
       renderCell: (params) => (
         <>
-          <DeleteButton handleDelete={deleteOrganizacion} id={params.row.id} />
+          <CustomButton
+            denegateRols={["Aplicador"]}
+            action={() => {
+              deleteOrganizacion(params.row.id);
+            }}
+            color="error"
+            text={"Eliminar"}
+            variant="contained"
+            icon={<Delete />}
+          />
         </>
       ),
     },
@@ -48,7 +57,14 @@ export const OrganizationColumns = () => {
       width: 130,
       renderCell: (params) => (
         <>
-          <UpdateButton handleUpdate={handleEditClick} cls={params.row} />
+          <CustomButton
+            action={() => {
+              handleEditClick(params.row);
+            }}
+            icon={<Edit />}
+            text={"Editar"}
+            variant="contained"
+          />
         </>
       ),
     },

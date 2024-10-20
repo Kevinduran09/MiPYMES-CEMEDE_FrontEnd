@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Breadcrumbs, Link, Typography } from "@mui/material";
-import { useLocation, Link as RouterLink } from "react-router-dom";
+import { useLocation, Link as RouterLink, Outlet } from "react-router-dom";
 
 const DynamicBreadcrumbs = () => {
   const location = useLocation();
@@ -9,28 +9,30 @@ const DynamicBreadcrumbs = () => {
   const disableNavRoutes = ["editar", "aplicar"];
   return (
     <Breadcrumbs aria-label="breadcrumb" sx={{ padding: "2rem" }}>
-      <Link
-        underline="hover"
-        color="inherit"
-        component={RouterLink}
-        to="/"
-      >
+      <Link underline="hover" color="inherit" component={RouterLink} to="/">
         Inicio
       </Link>
       {pathnames.map((value, index) => {
         const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`;
 
-
         const isLast = index === pathnames.length - 1;
         if (disableNavRoutes.includes(value)) {
           return (
-            <Typography color="inherit" key={value} style={{fontWeight: 'inherit' }}>
+            <Typography
+              color="inherit"
+              key={value}
+              style={{ fontWeight: "inherit" }}
+            >
               {value.charAt(0).toUpperCase() + value.slice(1)}
             </Typography>
-          )
+          );
         }
         return isLast ? (
-          <Typography color="textPrimary" key={value} style={{ fontWeight: 'bold' }}>
+          <Typography
+            color="textPrimary"
+            key={value}
+            style={{ fontWeight: "bold" }}
+          >
             {value.charAt(0).toUpperCase() + value.slice(1)}
           </Typography>
         ) : (
@@ -49,15 +51,14 @@ const DynamicBreadcrumbs = () => {
   );
 };
 
-export const DashboardLayout = ({ title, component }) => {
+export const DashboardLayout = ({ title }) => {
   return (
     <div
       style={{
         width: "100%",
-        padding: "0.1rem"
+        padding: "0.1rem",
       }}
     >
-
       <DynamicBreadcrumbs />
 
       {/* Header 
@@ -83,9 +84,8 @@ export const DashboardLayout = ({ title, component }) => {
           boxShadow: "0px 0px 4px rgba(0, 0, 0, 0.2)", // Sombra más oscura
         }}
       >
-        {component}
+        <Outlet />
       </div>
-
     </div>
   );
 };

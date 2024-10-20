@@ -3,7 +3,8 @@ import { getEmpresarios } from "../../services/EmpresarioService";
 import { TableComponent } from "../TableComponent";
 import { useEmpStore } from "../../hooks/useEmpStore";
 import { useNavigate } from "react-router-dom";
-import { AddButton } from "../AddButton";
+import { Add } from "@mui/icons-material";
+import { CustomButton } from "../CustomButton";
 export const ShowEmpresarios = (props) => {
   const navegate = useNavigate();
   const { clear } = useEmpStore();
@@ -15,7 +16,7 @@ export const ShowEmpresarios = (props) => {
     queryKey: ["empresarios"],
     queryFn: getEmpresarios,
   });
-  const navegation = () => {
+  const navigation = () => {
     clear();
     navegate("/empresarios/crear");
   };
@@ -27,7 +28,13 @@ export const ShowEmpresarios = (props) => {
         rowsSet={empresarios}
         isError={isError}
         isLoading={isLoading}
-        customButtons={<AddButton route={navegation} />}
+        customButtons={
+          <CustomButton
+            action={navigation}
+            icon={<Add />}
+            text={"Agregar nuevo"}
+          />
+        }
       />
     </>
   );
