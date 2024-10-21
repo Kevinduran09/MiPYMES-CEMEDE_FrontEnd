@@ -6,6 +6,7 @@ import { Edit } from "@mui/icons-material";
 export const TableColumns = () => {
   const { handleDeleteClick, handleEditClick, handleApplyClick } =
     useCuestionarioActions();
+    
   const columns = [
     { field: "nombre", headerName: "Nombre", width: 250 },
     { field: "fechaCreacion", headerName: "Fecha creacion", width: 200 },
@@ -35,6 +36,7 @@ export const TableColumns = () => {
       renderCell: (params) => (
         <>
           <CustomButton
+            denegateRols={["Aplicador"]}
             action={() => {
               handleEditClick(params.row);
             }}

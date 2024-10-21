@@ -2,7 +2,10 @@ import { Navigation } from "./Navigation";
 import navigationLinks from "./NavigationLinks";
 import { NavLink } from "react-router-dom";
 import "../../public/css/styles.css";
+import { useAuthStore } from "../components/auth/store/useAuthStore";
 export const Sidebar = ({ isActive, setActive }) => {
+
+  const { currentUser } = useAuthStore();
   return (
     <>
       <div className={`navigation ${isActive ? "active" : ""}`}>
@@ -25,31 +28,27 @@ export const Sidebar = ({ isActive, setActive }) => {
             </a>
           </li>
 
-          {navigationLinks.map((link, index) => (
-            <li id={link.text} key={index} onClick={()=>{
-              if (isActive) {
-                setActive();
-              }
-            }}>
-              <NavLink
-                title={link.text}
-                to={link.href}
-                activeClassName="active"
-              >
-                <span className="icon">{link.iconClass}</span>
-                <span className="title">{link.text}</span>
-              </NavLink>
-            </li>
-          ))}
+          {navigationLinks.map((link, index) => {
 
-          {/* <li>
-            <a href="#">
-              <span class="icon">
-                <ion-icon name="log-out-outline"></ion-icon>
-              </span>
-              <span class="title">Sign Out</span>
-            </a>
-          </li> */}
+            if (link.allowedRoles.includes(currentUser.rol)) {
+              return (
+                <li id={link.text} key={index} onClick={() => {
+                  if (isActive) {
+                    setActive();
+                  }
+                }}>
+                  <NavLink
+                    title={link.text}
+                    to={link.href}
+                    activeClassName="active"
+                  >
+                    <span className="icon">{link.iconClass}</span>
+                    <span className="title">{link.text}</span>
+                  </NavLink>
+                </li>
+              )
+            }
+          })}
         </ul>
       </div>
     </>
