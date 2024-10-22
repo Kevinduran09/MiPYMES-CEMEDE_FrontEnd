@@ -75,13 +75,17 @@ export const FormCuestionario = () => {
               <Typography variant="h6">Información del cuestionario</Typography>
               <Grid container spacing={2} mt={2}>
                 <Grid item xs={12} md={6}>
-                    <FormField
-                      label={"Nombre del cuestionario*"}
-                      name={"nombre"}
-                      isRequerided
-                      helperText="Este campo es requerido"
-
-                    />
+                  <FormField
+                    label={"Nombre del cuestionario*"}
+                    name={"nombre"}
+                    isRequerided
+                    helperText="Este campo es requerido"
+                    inputProps={{
+                      maxLength: 150,
+                      minLength: 5,
+                      title: "El nombre del cuestionario debe tener entre 5 y 150 caracteres",
+                    }}
+                  />
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <Controller
@@ -96,7 +100,7 @@ export const FormCuestionario = () => {
                             onChange={(date) =>
                               field.onChange(date ? dayjs(date) : null)
                             }
-                            
+
                             disablePast
                             slotProps={{
                               textField: {

@@ -52,10 +52,10 @@ export const FormItem = () => {
           <Box>
             <Typography variant="h6">Información del Ítem</Typography>
             <Box sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2 }}>
-              <FormField label="Nombre" name="nombre" />
-              <FormField label="Peso" name="peso" type="number" />
-              <FormField label="Descripcion" name="descripcion" />
-              <FormField label="Evidencia" name="evidencia" />
+              <FormField label="Nombre" name="nombre" required={true} helperText={"Este campo es requerido"}/>
+              <FormField label="Peso" name="peso" type="number" required={true} helperText={"Este campo es requerido"}/>
+              <FormField label="Descripcion" name="descripcion"  required={true} helperText={"Este campo es requerido"}/>
+              <FormField label="Evidencia" name="evidencia"  required={true} helperText={"Este campo es requerido"}/>
             </Box>
 
             <Grid container spacing={2} mt={2}>
@@ -64,9 +64,9 @@ export const FormItem = () => {
                   name="rubricaId"
                   control={methods.control}
                   render={({ field }) => (
-                    <FormControl fullWidth>
+                    <FormControl fullWidth required={true}>
                       <InputLabel>Rúbrica</InputLabel>
-                      <Select {...field} label="Rúbrica">
+                      <Select {...field} label="Rúbrica" required={true} MenuProps={{autoFocus: false}}>
                         <MenuItem value="">Seleccionar una rúbrica</MenuItem>
                         {rubricasLoading ? (
                           <MenuItem>No hay rúbricas disponibles.</MenuItem>
@@ -88,18 +88,23 @@ export const FormItem = () => {
                   name="indicadorId"
                   control={methods.control}
                   render={({ field }) => (
-                    <FormControl fullWidth>
+                    <FormControl fullWidth required={true}>
                       <InputLabel>Indicador</InputLabel>
-                      <Select {...field} label="Indicador">
+                      <Select {...field} label="Indicador" required={true}>
                         <MenuItem value="">Seleccionar un indicador</MenuItem>
                         {indicadoresLoading ? (
                           <MenuItem>No hay indicadores disponibles.</MenuItem>
                         ) : (
-                          indicadoresData.map(indicador => (
-                            <MenuItem key={indicador.id} value={indicador.id}>
-                              {indicador.nombre}
-                            </MenuItem>
-                          ))
+                          indicadoresData.map(indicador => {
+                            if (indicador.tipo === "Sub-Indicador") {
+                              return (
+                                <MenuItem key={indicador.id} value={indicador.id}>
+                                  {indicador.nombre}
+                                </MenuItem>
+                              )
+                            }
+                            return null;
+                          })
                         )}
                       </Select>
                     </FormControl>

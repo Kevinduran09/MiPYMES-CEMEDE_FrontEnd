@@ -9,6 +9,8 @@ export const useIndicadorStore = create(
                 id: Date.now(),
                 nombre: '',
                 descripcion: '',
+                tipo: '',
+                indicadorPadreId: 0
             },
             setSelectedIndicador: (indicador) => set({ selectedIndicador: indicador }),
             clearSelectedIndicador: () => set({ selectedIndicador: null }),
@@ -21,6 +23,8 @@ export const useIndicadorStore = create(
                         id: Date.now(),
                         nombre: '',
                         descripcion: '',
+                        tipo: '',
+                        indicadorPadreId: 0
                     },
                 }),
         }),
