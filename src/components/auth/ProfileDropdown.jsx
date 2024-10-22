@@ -11,12 +11,11 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Swal from "sweetalert2";
 import { useAuthStore } from "./store/useAuthStore";
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "react-query";
-import { currentActive } from "./services/AuthService";
+import { Avatar } from "@mui/material";
 
 const ProfileDropdown = () => {
     const navigate = useNavigate();
-    const { currentUser, clearAuth, setCurrentUser } = useAuthStore();
+    const { currentUser, clearAuth } = useAuthStore();
 
     
     const [popoverState, setPopoverState] = useState({
@@ -62,13 +61,13 @@ const ProfileDropdown = () => {
         <div>
             <Stack direction="row" spacing={1}>
                 <Button onClick={handleAvatarClick} style={{ color: "black" }}>
-                    <div className="user">
+                    <div className="user" style={{textTransform: "none"}}>
                         <div>
                             <p>{currentUser.username}</p>
                             <p>{currentUser.correo}</p>
                         </div>
                         <div>
-                            <img src="/assets/img/user.svg" alt="Usuario" />
+                        <Avatar/>
                         </div>
                         <KeyboardArrowDownIcon />
                     </div>

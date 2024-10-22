@@ -30,6 +30,7 @@ export const UsuarioColumns = () => {
             text={"Eliminar"}
             variant="contained"
             icon={<Delete />}
+            disabled={params.row.rol == "Administrador"}
           />
         </>
       ),

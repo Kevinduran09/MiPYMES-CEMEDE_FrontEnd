@@ -43,9 +43,9 @@ export const Cuestionario = () => {
       <CustomButton
         icon={<Visibility />} // Cambiado a JSX
         action={() => {
-          navigate("/cuestionarios/aplicados");
+          navigate("/cuestionarios/asignados");
         }}
-        text={"Ver aplicados"}
+        text={"Ver asignados"}
       />
     </>
   );

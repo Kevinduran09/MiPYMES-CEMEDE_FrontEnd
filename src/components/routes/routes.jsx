@@ -9,7 +9,7 @@ import { FormEmpresario } from "../empresario/FormEmpresario";
 import { FormUsuario } from "../usuario/FormUsuario";
 import { Cuestionario } from "../cuestionario/Cuestionario";
 import { FormCuestionario } from "../cuestionario/components/FormCuestionario";
-import { FormCuestionarioAplicar } from "../cuestionario/components/FormCuestionarioAplicar";
+import { FormCuestionarioAsignar } from "../cuestionario/components/FormCuestionarioAsignar";
 import { FormCuestionarioItemsRespuesta } from "../cuestionario/components/FormCuestionarioItemsRespueta";
 import { CuestionariosAplicados } from "../cuestionario/components/CuestionariosAplicados";
 import { CuestionariosAplicadoItems } from "../cuestionario/components/CuestionariosAplicadoItems";
@@ -20,6 +20,8 @@ import { FormIndicador } from "../indicador/components/FormIndicador";
 import { Rubrica } from "../rubrica/Rubrica";
 import { FormRubrica } from "../rubrica/components/FormRubrica";
 import { ProtectedRoute } from "./ProtectedRoute";
+import { element } from "prop-types";
+import { CuestionariosAsignados } from "../cuestionario/components/CuestionariosAsignados";
 
 export const routes = () => [
   {
@@ -142,12 +144,16 @@ export const routes = () => [
         ),
       },
       {
-        path: "aplicar/:id",
-        element: <FormCuestionarioAplicar />,
+        path: "asignar/:id",
+        element: <FormCuestionarioAsignar />,
       },
       {
         path: "aplicar/organizacion/:id",
         element: <FormCuestionarioItemsRespuesta />,
+      },
+      {
+        path:"asignados",
+        element: <CuestionariosAsignados />
       },
       {
         path: "aplicados",

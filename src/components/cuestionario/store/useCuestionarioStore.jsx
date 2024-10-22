@@ -14,6 +14,7 @@ export const useCuestionarioStore = create(
       applyCuestionario: {
         idCuestionario: 0,
         idOrganizacion: 0,
+        idAplicador: 0,
         fechaRealizacion: 0,
       },
       setSelectedCuestionario: (cuestionario) =>

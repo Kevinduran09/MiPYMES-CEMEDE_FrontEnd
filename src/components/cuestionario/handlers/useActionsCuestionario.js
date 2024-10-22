@@ -71,14 +71,18 @@ export const useCuestionarioActions = () => {
         navigate(`/cuestionarios/editar/${cuestionario.id}`);
     };
 
-    const handleApplyClick = (cuestionario) => {
+    const handleAssignClick = (cuestionario) => {
         setSelectedCuestionario(cuestionario);
         updateCurrentCuestionario(cuestionario);
-        navigate(`/cuestionarios/aplicar/${cuestionario.id}`);
+        navigate(`/cuestionarios/asignar/${cuestionario.id}`);
     };
     const handleDetailsClick = (id) => {
         navigate(`/cuestionarios/aplicados/${id}`);
     };
+
+    const handleApplyClick = (id) => {
+        navigate(`/cuestionarios/aplicar/organizacion/${id}`);
+    }
 
     return {
         createCuestionarioFunc,
@@ -87,7 +91,8 @@ export const useCuestionarioActions = () => {
         createCuestionarioItemFunc,
         handleDeleteClick,
         handleEditClick,
-        handleApplyClick,
-        handleDetailsClick
+        handleAssignClick,
+        handleDetailsClick,
+        handleApplyClick
     };
 };

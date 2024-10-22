@@ -6,7 +6,7 @@ import { useLocation, Link as RouterLink, Outlet } from "react-router-dom";
 const DynamicBreadcrumbs = () => {
   const location = useLocation();
   const pathnames = location.pathname.split("/").filter((x) => x);
-  const disableNavRoutes = ["editar", "aplicar"];
+  const disableNavRoutes = ["editar", "asignar", "aplicados"];
   return (
     <Breadcrumbs aria-label="breadcrumb" sx={{ padding: "2rem" }}>
       <Link underline="hover" color="inherit" component={RouterLink} to="/">
@@ -16,7 +16,7 @@ const DynamicBreadcrumbs = () => {
         const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`;
 
         const isLast = index === pathnames.length - 1;
-        if (disableNavRoutes.includes(value)) {
+        if (disableNavRoutes.includes(value) && !isLast) {
           return (
             <Typography
               color="inherit"

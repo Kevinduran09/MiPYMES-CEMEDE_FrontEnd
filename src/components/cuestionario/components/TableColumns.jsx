@@ -4,7 +4,7 @@ import { Check } from "@mui/icons-material";
 import { CustomButton } from "../../CustomButton";
 import { Edit } from "@mui/icons-material";
 export const TableColumns = () => {
-  const { handleDeleteClick, handleEditClick, handleApplyClick } =
+  const { handleDeleteClick, handleEditClick, handleAssignClick } =
     useCuestionarioActions();
     
   const columns = [
@@ -48,16 +48,17 @@ export const TableColumns = () => {
       ),
     },
     {
-      field: "aplicar",
-      headerName: "Aplicar",
+      field: "asignar",
+      headerName: "Asignar",
       width: 130,
       renderCell: (params) => (
         <>
           <CustomButton
+            denegateRols={["Aplicador"]}
             icon={<Check />}
             variant="outlined"
-            text={"Aplicar"}
-            action={() => handleApplyClick(params.row)}
+            text={"Asignar"}
+            action={() => handleAssignClick(params.row)}
           />
         </>
       ),

@@ -16,10 +16,8 @@ export const useAuthMutations = () => {
             queryClient.invalidateQueries("cuestionarios");
             setToken(response.access_token)
             navigate("/");
+            queryClient.refetchQueries({queryKey:"current"})
             SuccessDialogo('Usuario', 'Usuario', 'autenticado');
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
         },
         onError: (error) => {
             ErrorDialogo("Error", "¡Usuario o contraseña incorrecta!");

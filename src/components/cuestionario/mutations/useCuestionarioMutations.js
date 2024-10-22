@@ -35,8 +35,8 @@ export const useCuestionarioMutations = () => {
         onSuccess: (response) => {
             console.log(response.data)
             queryClient.invalidateQueries("cuestionarios");
-            navigate(`/cuestionarios/aplicar/organizacion/${response.data.id}`);
-            SuccessDialogo('Creado', 'Cuestionario', 'creado');
+            navigate("/cuestionarios");
+            SuccessDialogo('Asignado', 'Cuestionario', 'asignado');
         },
         onError: (error) => {
             console.error("Error creating cuestionario:", error);

@@ -1,8 +1,8 @@
 import { Check, Visibility } from "@mui/icons-material";
 import { useCuestionarioActions } from "../handlers/useActionsCuestionario";
 import { CustomButton } from "../../CustomButton";
-export const TableColumnsCuestionariosAplicados = () => {
-  const { handleDetailsClick, handleApplyClick } = useCuestionarioActions();
+export const TableColumnsCuestionariosAsignados = () => {
+  const { handleApplyClick } = useCuestionarioActions();
   const columns = [
     {
       field: "nombreCuestionario",
@@ -24,23 +24,24 @@ export const TableColumnsCuestionariosAplicados = () => {
       valueGetter: (params) => params.row.aplicador?.nombre,
     },
     {
-      field: "detalles",
-      headerName: "Detalles",
+      field: "aplicar",
+      headerName: "Aplicar",
       width: 130,
       renderCell: (params) => (
         <>
+        
           <CustomButton
             action={() => {
-              handleDetailsClick(params.row.id);
+              handleApplyClick(params.row.id);
             }}
-            text={"Ver"}
-            icon={<Visibility />}
+            text={"Aplicar"}
+            icon={<Check />}
             variant="outlined"
-            disabled={params.row.estado? false: true}
+            disabled={params.row.estado}
           />
         </>
       ),
-    },
+    }
   ];
   return { columns };
 };

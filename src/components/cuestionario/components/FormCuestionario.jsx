@@ -21,12 +21,14 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useQuery } from "react-query";
 import { getIndicadoresRelationItems } from "../../indicador/services/IndicadorService";
 import dayjs from "dayjs";
+import "dayjs/locale/es";
 import { useNavigate } from "react-router-dom";
 import { useCuestionarioStore } from "../store/useCuestionarioStore";
 import { useCuestionarioActions } from "../handlers/useActionsCuestionario";
 import { useForm, FormProvider, Controller } from "react-hook-form";
 import { useEffect } from "react";
 import { FormField } from "../../FormField";
+import { ErrorDialogo } from "../../dialogos/Dialogos";
 
 export const FormCuestionario = () => {
   const navigate = useNavigate();
@@ -50,12 +52,17 @@ export const FormCuestionario = () => {
     methods.reset({ ...cuestionario });
   }, [cuestionario, open]);
 
+
   const onSubmit = methods.handleSubmit(async (data) => {
-    if (selectedCuestionario === null) {
-      console.log(data);
-      createCuestionarioFunc(data);
+    if (!data.indicadores.length) {
+      ErrorDialogo("Error", "No puedes crear un cuestionario sin seleccionar indicadores")
     } else {
-      editCuestionarioFunc(data);
+      if (selectedCuestionario === null) {
+        console.log(data);
+        createCuestionarioFunc(data);
+      } else {
+        editCuestionarioFunc(data);
+      }
     }
   });
 
@@ -68,24 +75,35 @@ export const FormCuestionario = () => {
               <Typography variant="h6">Información del cuestionario</Typography>
               <Grid container spacing={2} mt={2}>
                 <Grid item xs={12} md={6}>
-                  <FormField
-                    label={"Nombre del cuestionario"}
-                    name={"nombre"}
-                  />
+                    <FormField
+                      label={"Nombre del cuestionario*"}
+                      name={"nombre"}
+                      isRequerided
+                      helperText="Este campo es requerido"
+
+                    />
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <Controller
                     name="fechaCreacion"
                     control={methods.control}
                     render={({ field }) => (
-                      <FormControl fullWidth margin="normal">
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <FormControl fullWidth margin="normal" required>
+                        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
                           <DatePicker
                             label="Fecha de creación"
                             value={field.value ? dayjs(field.value) : null} // Asegurarse de que sea un objeto Dayjs
                             onChange={(date) =>
                               field.onChange(date ? dayjs(date) : null)
-                            } // Convertir la fecha seleccionada a Dayjs
+                            }
+                            
+                            disablePast
+                            slotProps={{
+                              textField: {
+                                required: true,
+                                helperText: "Este campo es requerido"
+                              },
+                            }}
                             renderInput={(params) => <TextField {...params} />}
                           />
                         </LocalizationProvider>

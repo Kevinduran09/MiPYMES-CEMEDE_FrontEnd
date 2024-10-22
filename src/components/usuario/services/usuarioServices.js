@@ -24,6 +24,11 @@ export const getUsuarios = async () => {
   return data;
 };
 
+export const getAplicadores = async () => {
+  const res = await usuarioRequest.get("/aplicadores");
+  return res.data;
+};
+
 export const getUsuario = async (id) => {
   const res = await usuarioRequest.get(`/${id}`);
   return res.data;

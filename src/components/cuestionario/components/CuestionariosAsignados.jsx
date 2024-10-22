@@ -6,11 +6,14 @@ import { TableComponent } from '../../TableComponent';
 import { getCuestionariosAplicados } from '../services/CuestionarioService';
 import { TableColumnsCuestionariosAplicados } from './TableColumnsCuestionariosAplicados';
 import { useAuthStore } from '../../auth/store/useAuthStore';
+import { TableColumnsCuestionariosAsignados } from './TableColumnsCuestionariosAsignados';
+import { CustomButton } from '../../CustomButton';
+import { Visibility } from '@mui/icons-material';
 
-export const CuestionariosAplicados = () => {
+export const CuestionariosAsignados = () => {
 
     const navigate = useNavigate();
-    const { columns } = TableColumnsCuestionariosAplicados();
+    const { columns } = TableColumnsCuestionariosAsignados();
     const { resetCurrentCuestionario, clearSelectedCuestionario } = useCuestionarioStore();
     const { currentUser } = useAuthStore();
 
@@ -24,12 +27,20 @@ export const CuestionariosAplicados = () => {
         clearSelectedCuestionario();
         navigate("/cuestionarios/crear");
     };
-    const filteredDataRows = dataRows?.filter(row => {
-        
-        if (!row.estado) {
-            return false;
-        }
 
+    const buttons = (
+        <>
+          <CustomButton
+            icon={<Visibility />}
+            action={() => {
+              navigate("/cuestionarios/aplicados");
+            }}
+            text={"Ver aplicados"}
+          />
+        </>
+      );
+
+    const filteredDataRows = dataRows?.filter(row => {
         if (currentUser.rol === "Gestor" || currentUser.rol === "Administrador") {
             return true;
         }
@@ -46,6 +57,7 @@ export const CuestionariosAplicados = () => {
                     isError={isError}
                     isLoading={isLoading}
                     route={navigation}
+                    customButtons={buttons}
                 />
             </Container>
         </>

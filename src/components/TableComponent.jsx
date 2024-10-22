@@ -24,7 +24,6 @@ export const TableComponent = ({
   return (
     <>
       <div style={{ height: 500, width: "100%" }}>
-        <ThemeProvider theme={theme}>
           <DataGrid
             sx={{
               padding: "10px",
@@ -63,7 +62,6 @@ export const TableComponent = ({
               },
             }}
           />
-        </ThemeProvider>
       </div>
     </>
   );
