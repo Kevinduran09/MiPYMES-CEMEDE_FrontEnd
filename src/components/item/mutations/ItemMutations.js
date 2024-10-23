@@ -4,7 +4,7 @@ import {
   deleteItem,
   updateItem,
 } from "../services/ItemService";
-import { SuccessDialogo } from "../../dialogos/Dialogos";
+import { ErrorDialogo, SuccessDialogo } from "../../dialogos/Dialogos";
 
 export const useItemMutations = () => {
   const queryClient = useQueryClient();
@@ -16,7 +16,7 @@ export const useItemMutations = () => {
       SuccessDialogo("Eliminado", "Item", "eliminado");
     },
     onError: (error) => {
-      console.error("Error deleting item:", error);
+      ErrorDialogo("Error", "Ha ocurrido un error al eliminar")
     },
   });
 
@@ -27,7 +27,11 @@ export const useItemMutations = () => {
       SuccessDialogo("Creado", "Item", "creado");
     },
     onError: (error) => {
-      console.error("Error creating item:", error);
+      if (error.response.status == 400) {
+        ErrorDialogo("Error", error.response.data.message);
+      } else {
+        ErrorDialogo("Error", error.response.data.message.join(". "));
+      }
     },
   });
 
@@ -38,7 +42,11 @@ export const useItemMutations = () => {
       SuccessDialogo("Editado", "Item", "editado");
     },
     onError: (error) => {
-      console.error("Error updating item:", error);
+      if (error.response.status == 400) {
+        ErrorDialogo("Error", error.response.data.message);
+      } else {
+        ErrorDialogo("Error", error.response.data.message.join(". "));
+      }
     },
   });
 

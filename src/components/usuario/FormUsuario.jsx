@@ -84,8 +84,8 @@ export const FormUsuario = () => {
     nombre: {
       required: "Este campo es requerido",
       maxLength: {
-        value: 50,
-        message: "El nombre no puede exceder los 50 caracteres",
+        value: 100,
+        message: "El nombre no puede exceder los 100 caracteres",
       },
       minLength: {
         value: 6,
@@ -153,9 +153,11 @@ export const FormUsuario = () => {
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <FormField
-                  label="Nombre de Usuario"
+                  label="Nombre completo"
                   name="nombre"
                   rules={rules["nombre"]}
+                  required={true}
+                  helperText={"Este campo es requerido"}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -163,6 +165,8 @@ export const FormUsuario = () => {
                   label="Correo Electrónico"
                   name="correo_electronico"
                   rules={rules["correo_electronico"]}
+                  required={true}
+                  helperText={"Este campo es requerido"}
                 />
               </Grid>
               {editPassword && (
@@ -173,6 +177,8 @@ export const FormUsuario = () => {
                       name="contrasena"
                       type={showPassword ? "text" : "password"}
                       rules={rules["contrasena"]}
+                      required={true}
+                      helperText={"Este campo es requerido"}
                       InputProps={{
                         endAdornment: (
                           <InputAdornment position="end">
@@ -197,6 +203,8 @@ export const FormUsuario = () => {
                       name="confirmarContrasena"
                       type={showPassword ? "text" : "password"}
                       rules={rules["confirmarContrasena"]}
+                      required={true}
+                      helperText={"Este campo es requerido"}
                       InputProps={{
                         endAdornment: (
                           <InputAdornment position="end">
@@ -224,7 +232,7 @@ export const FormUsuario = () => {
             </Typography>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
-                <FormControl fullWidth error={!!methods.formState.errors.rol}>
+                <FormControl fullWidth error={!!methods.formState.errors.rol} required={true}>
                   <InputLabel id="rol-label">Rol</InputLabel>
                   <Select
                     labelId="rol-label"
@@ -234,6 +242,7 @@ export const FormUsuario = () => {
                       required: "El rol es requerido",
                     })}
                     defaultValue={usuario ? usuario.rol : ""}
+                    required={true}
                   >
                     <MenuItem value="Administrador">Administrador</MenuItem>
                     <MenuItem value="Gestor">Gestor</MenuItem>

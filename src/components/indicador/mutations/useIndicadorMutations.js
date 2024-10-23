@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from 'react-query';
 import { createIndicador, deleteIndicador, updateIndicador } from '../services/IndicadorService';
-import { SuccessDialogo } from '../../dialogos/Dialogos';
+import { SuccessDialogo, ErrorDialogo } from '../../dialogos/Dialogos';
 import { useIndicadorStore } from '../store/useIndicadorStore';
 
 export const useIndicadorMutations = () => {
@@ -13,7 +13,7 @@ export const useIndicadorMutations = () => {
             SuccessDialogo('Eliminado', 'Indicador', 'eliminado');
         },
         onError: (error) => {
-            console.error("Error deleting indicador:", error);
+            ErrorDialogo("Error", "Ha ocurrido un error al eliminar");
         },
     });
 
@@ -24,7 +24,11 @@ export const useIndicadorMutations = () => {
             SuccessDialogo('Creado', 'Indicador', 'creado');
         },
         onError: (error) => {
-            console.error("Error creating indicador:", error);
+            if (error.response.status == 400) {
+                ErrorDialogo("Error", error.response.data.message);
+            } else {
+                ErrorDialogo("Error", error.response.data.message.join(". "));
+            }
         },
     });
 
@@ -35,7 +39,11 @@ export const useIndicadorMutations = () => {
             SuccessDialogo('Editado', 'Indicador', 'editado');
         },
         onError: (error) => {
-            console.error("Error updating indicador:", error);
+            if (error.response.status == 400) {
+                ErrorDialogo("Error", error.response.data.message);
+            } else {
+                ErrorDialogo("Error", error.response.data.message.join(". "));
+            }
         },
     });
 

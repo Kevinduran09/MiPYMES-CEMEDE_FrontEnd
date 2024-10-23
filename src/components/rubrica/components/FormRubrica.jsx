@@ -7,6 +7,7 @@ import { useRubricaActions } from "../handlers/useRubricaActions";
 import { Opcion } from "./Opcion";
 import { useRubricaStore } from "../store/useRubricaStore";
 import { useNavigate } from "react-router-dom";
+import { ErrorDialogo } from "../../dialogos/Dialogos";
 
 export const FormRubrica = () => {
   const navigate = useNavigate();
@@ -26,12 +27,16 @@ export const FormRubrica = () => {
 
   const onSubmit = methods.handleSubmit((data) => {
     const rubricaConOpciones = { ...data, opciones };
-
-    if (selectedRubrica === null) {
-      createRubricaFunc(rubricaConOpciones);
-    } else {
-      editRubricaFunc(rubricaConOpciones);
+    if (opciones.length > 1) {
+      if (selectedRubrica === null) {
+        createRubricaFunc(rubricaConOpciones);
+      } else {
+        editRubricaFunc(rubricaConOpciones);
+      }
+    }else{
+      ErrorDialogo("Error", "No puede crear una rubrica sin opciones o con una unica opcion")
     }
+
   });
 
   // Añadir una nueva opción
@@ -52,6 +57,12 @@ export const FormRubrica = () => {
     setOpciones(updatedOpciones);
   };
 
+  // Eliminar una opción
+  const deleteOpcion = (id) => {
+    const updatedOpciones = opciones.filter((opcion) => opcion.id !== id);
+    setOpciones(updatedOpciones);
+  };
+
   return (
     <FormProvider {...methods}>
       <form onSubmit={onSubmit}>
@@ -59,12 +70,21 @@ export const FormRubrica = () => {
           <Box>
             <Typography variant="h6">Información de la Rúbrica</Typography>
             <Grid container spacing={2}>
-              {/* Campo nombre registrado en React Hook Form */}
               <Grid item xs={8}>
-                <FormField label="Nombre" name="nombre" />
+                <FormField
+                  label="Nombre"
+                  name="nombre"
+                  required={true}
+                  helperText={"Este campo es requerido"}
+                  inputProps={{
+                    maxLength: 255,
+                    minLength: 4,
+                    title: "El nombre de la rubrica debe tener entre 4 y 255 caracteres",
+                  }}
+                />
               </Grid>
               <Grid item xs={4}>
-                <FormField label="Tipo" name="tipo" type="select">
+                <FormField label="Tipo" name="tipo" type="select" disabled={true}>
                   <option value="radio">Radio Button</option>
                   <option value="checkbox">Checkbox</option>
                   <option value="text">Texto</option>
@@ -83,15 +103,14 @@ export const FormRubrica = () => {
                   nombre={opcion.nombre}
                   valor_alfa={opcion.valor_alfa}
                   onUpdate={updateOpcion}
+                  onDelete={deleteOpcion}
                 />
               ))}
             </Box>
 
-            {methods.watch("tipo") !== "text" && (
-              <Button onClick={addOpcion} variant="contained" className="mb-3">
-                Añadir Opción
-              </Button>
-            )}
+            <Button onClick={addOpcion} variant="contained" className="mb-3">
+              Añadir Opción
+            </Button>
           </Box>
 
           <Box textAlign={"end"}>

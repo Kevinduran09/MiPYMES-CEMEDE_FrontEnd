@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useForm, FormProvider, set, Controller } from "react-hook-form";
 import { FormField } from "../../FormField";
 import Button from "@mui/material/Button";
-import { Box, FormControl, InputLabel, MenuItem, Select, Typography } from "@mui/material";
+import { Autocomplete, Box, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import { useIndicadorActions } from "../handlers/useIndicadorActions";
 import { useIndicadorStore } from "../store/useIndicadorStore";
 import { useNavigate } from "react-router-dom";
@@ -52,8 +52,28 @@ export const FormIndicador = () => {
                     <Box>
                         <Typography variant="h6">Información del Indicador</Typography>
                         <Box sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2 }}>
-                            <FormField label="Nombre" name="nombre" required={true} helperText={"Este campo es requerido"} />
-                            <FormField label="Descripción" name="descripcion" required={true} helperText={"Este campo es requerido"} />
+                            <FormField
+                                label="Nombre"
+                                name="nombre"
+                                required={true}
+                                helperText={"Este campo es requerido"}
+                                inputProps={{
+                                    maxLength: 255,
+                                    minLength: 5,
+                                    title: "El nombre del indicador debe tener entre 5 y 255 caracteres",
+                                }}
+                            />
+                            <FormField
+                                label="Descripción"
+                                name="descripcion"
+                                required={true}
+                                helperText={"Este campo es requerido"}
+                                inputProps={{
+                                    maxLength: 255,
+                                    minLength: 5,
+                                    title: "El nombre del indicador debe tener entre 5 y 255 caracteres",
+                                }}
+                            />
                             <Controller
                                 name="tipo"
                                 control={methods.control}
@@ -64,7 +84,7 @@ export const FormIndicador = () => {
                                             name="tipo"
                                             label="Tipo"
                                             required={true}
-                                            value={field.value? field.value : ""}
+                                            value={field.value ? field.value : ""}
                                             onChange={(e) => {
                                                 setIsSub(e.target.value === "Sub-Indicador");
                                                 field.onChange(e);
@@ -79,28 +99,27 @@ export const FormIndicador = () => {
                             <Controller
                                 name="indicadorPadreId"
                                 control={methods.control}
-                                render={({ field }) => (
-                                    <FormControl disabled={!isSub} required={isSub}>
-                                        <InputLabel>Indicador padre</InputLabel>
-                                        <Select
-                                            name="indicadorPadreId"
-                                            label="Indicador padre"
-                                            required={isSub}
-                                            value={field.value? field.value : ""}
-                                            onChange={field.onChange}
-                                        >
-                                            {dataRows?.map((row) => {
-                                                if (row.tipo === "Indicador") {
-                                                    return (
-                                                        <MenuItem value={row.id}>{row.nombre}</MenuItem>
-                                                    )
-                                                }
-                                                return null;
-                                            })}
-                                        </Select>
-                                    </FormControl>
+                                render={({ field, fieldState: { error } }) => (
+                                    <Autocomplete
+                                        options={dataRows?.filter((row) => row.tipo === "Indicador") || []}
+                                        getOptionLabel={(option) => option.nombre || ""}
+                                        isOptionEqualToValue={(option, value) => option.id === value}
+                                        value={dataRows?.find((row) => row.id === field.value) || null}
+                                        onChange={(_, selectedOption) => field.onChange(selectedOption ? selectedOption.id : null)}
+                                        renderInput={(params) => (
+                                            <TextField
+                                                {...params}
+                                                label="Indicador padre"
+                                                error={!!error}
+                                                helperText={error ? error.message : null}
+                                                required={isSub}
+                                            />
+                                        )}
+                                        disabled={!isSub}
+                                    />
                                 )}
                             />
+
                         </Box>
                     </Box>
 

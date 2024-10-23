@@ -113,7 +113,7 @@ export const FormCuestionarioAsignar = () => {
                                         control={methods.control}
                                         render={({ field }) => {
                                             // Obtener la fecha de creación y convertirla a Dayjs
-                                            const fechaCreacion = dayjs(cuesti?.fechaCreacion.split("T")[0]);
+                                            const fechaCreacion = dayjs(cuesti?.fechaCreacion);
                                             const fechaActual = dayjs();
 
                                             // Definir la fecha mínima como la mayor de las dos

@@ -65,40 +65,45 @@ export const FormCuestionarioItemsRespuesta = () => {
                     {cuestionarioIndicador.indicador.items.map((item) => (
                       <Box key={item.id} mt={3}>
                         <Typography variant="body1">{item.nombre}</Typography>
-                        <FormControl component="fieldset">
+                        <FormControl component="fieldset" required={true}>
                           <Controller
                             name={`calificacion_${item.id}`}
                             control={control}
-                            defaultValue="" // O puedes pasar un valor predeterminado, si existe
-                            render={({ field }) => (
-                              <RadioGroup
-                                row
-                                value={field.value} // Asignar el valor actual del campo
-                                onChange={(event) => {
-                                  const valor_opcion_seleccionada =
-                                    event.target.value;
-                                  field.onChange(valor_opcion_seleccionada); // Actualizar el valor seleccionado en el formulario
+                            defaultValue=""
+                            rules={{ required: "Este campo es requerido" }}  // Aquí defines la validación
+                            render={({ field, fieldState: { error } }) => (
+                              <>
+                                <RadioGroup
+                                  row
+                                  value={field.value}
+                                  onChange={(event) => {
+                                    const valor_opcion_seleccionada = event.target.value;
+                                    field.onChange(valor_opcion_seleccionada);
+                                    setRespuesta(
+                                      id,
+                                      item.id,
+                                      valor_opcion_seleccionada,
+                                      methods.getValues(`observaciones_${item.id}`)
+                                    );
+                                  }}
+                                >
+                                  {item.rubrica.opciones.map((opcion) => (
+                                    <FormControlLabel
+                                      key={opcion.id}
+                                      value={opcion.valor_alfa.toString()}
+                                      control={<Radio />}
+                                      label={opcion.nombre}
+                                    />
+                                  ))}
+                                </RadioGroup>
 
-                                  // Actualizar en Zustand el estado con idItem, idCuestionarioOrganizacion y valorAlfa
-                                  setRespuesta(
-                                    id,
-                                    item.id,
-                                    valor_opcion_seleccionada,
-                                    methods.getValues(
-                                      `observaciones_${item.id}`
-                                    )
-                                  );
-                                }}
-                              >
-                                {item.rubrica.opciones.map((opcion) => (
-                                  <FormControlLabel
-                                    key={opcion.id}
-                                    value={opcion.valor_alfa.toString()}
-                                    control={<Radio />}
-                                    label={opcion.nombre}
-                                  />
-                                ))}
-                              </RadioGroup>
+                                {/* Mostrar error si no se selecciona ninguna opción */}
+                                {error && (
+                                  <Typography color="error" variant="body2">
+                                    {error.message}
+                                  </Typography>
+                                )}
+                              </>
                             )}
                           />
                         </FormControl>

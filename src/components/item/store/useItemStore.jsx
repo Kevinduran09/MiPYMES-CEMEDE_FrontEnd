@@ -8,7 +8,7 @@ export const useItemStore = create(
             currentItem: {
                 id: Date.now(),
                 nombre: '',
-                peso: 0,
+                peso: 1,
                 descripcion: '',
                 evidencia: '',
                 rubricaId: '',
@@ -24,7 +24,7 @@ export const useItemStore = create(
                     currentItem: {
                         id: Date.now(),
                         nombre: '',
-                        peso: 0,
+                        peso: 1,
                         descripcion: '',
                         evidencia: '',
                         rubricaId: '',

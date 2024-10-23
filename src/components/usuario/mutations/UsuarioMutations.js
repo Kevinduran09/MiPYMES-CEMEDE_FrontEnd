@@ -4,7 +4,7 @@ import {
   deleteUsuario,
   updateUsuario,
 } from "../services/usuarioServices";
-import { SuccessDialogo } from "../../dialogos/Dialogos";
+import { SuccessDialogo, ErrorDialogo } from "../../dialogos/Dialogos";
 import { useUsuarioStore } from "../store/useUsuarioStore";
 
 export const UsuarioMutations = () => {
@@ -30,7 +30,11 @@ export const UsuarioMutations = () => {
       SuccessDialogo("Creado", "Usuario", "creado");
     },
     onError: (error) => {
-      console.error("Error creating user: ", error);
+      if (error.response.status == 400) {
+        ErrorDialogo("Error", error.response.data.message);
+      }else{
+        ErrorDialogo("Error", error.response.data.message.join(". "));
+      }
     },
   });
 

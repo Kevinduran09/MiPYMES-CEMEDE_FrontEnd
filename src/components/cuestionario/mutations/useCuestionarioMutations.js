@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from 'react-query';
 import { createCuestionario, createCuestionarioItem, createCuestionarioOrganizacion, deleteCuestionario, updateCuestionario } from "../services/CuestionarioService";
-import { SuccessDialogo } from '../../dialogos/Dialogos';
+import { SuccessDialogo, ErrorDialogo } from '../../dialogos/Dialogos';
 import { useNavigate } from 'react-router-dom';
 
 export const useCuestionarioMutations = () => {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
-    
+
 
     const deleteMutation = useMutation({
         mutationFn: deleteCuestionario,
@@ -26,7 +26,11 @@ export const useCuestionarioMutations = () => {
             SuccessDialogo('Creado', 'Cuestionario', 'creado');
         },
         onError: (error) => {
-            console.error("Error creating cuestionario:", error);
+            if (error.response.status == 400) {
+                ErrorDialogo("Error", error.response.data.message);
+            } else {
+                ErrorDialogo("Error", error.response.data.message.join(". "));
+            }
         },
     });
 
@@ -39,7 +43,11 @@ export const useCuestionarioMutations = () => {
             SuccessDialogo('Asignado', 'Cuestionario', 'asignado');
         },
         onError: (error) => {
-            console.error("Error creating cuestionario:", error);
+            if (error.response.status == 400) {
+                ErrorDialogo("Error", error.response.data.message);
+            } else {
+                ErrorDialogo("Error", error.response.data.message.join(". "));
+            }
         },
     });
 
@@ -50,7 +58,11 @@ export const useCuestionarioMutations = () => {
             SuccessDialogo('Finalizada', 'Evaluacion', 'finalizada');
         },
         onError: (error) => {
-            console.error("Error creating cuestionario:", error);
+            if (error.response.status == 400) {
+                ErrorDialogo("Error", error.response.data.message);
+            } else {
+                ErrorDialogo("Error", error.response.data.message.join(". "));
+            }
         },
     });
 
@@ -61,7 +73,11 @@ export const useCuestionarioMutations = () => {
             SuccessDialogo('Editado', 'Cuestionario', 'editado');
         },
         onError: (error) => {
-            console.error("Error updating Cuestionario:", error);
+            if (error.response.status == 400) {
+                ErrorDialogo("Error", error.response.data.message);
+            } else {
+                ErrorDialogo("Error", error.response.data.message.join(". "));
+            }
         },
     });
 

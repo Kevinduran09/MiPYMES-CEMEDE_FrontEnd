@@ -3,7 +3,7 @@ import { useForm, FormProvider, Controller } from "react-hook-form";
 import { FormField } from "../../FormField";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import { Box, Typography } from "@mui/material";
+import { Autocomplete, Box, TextField, Typography } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Button from "@mui/material/Button";
@@ -65,6 +65,11 @@ export const FormItem = () => {
                 name="nombre"
                 required={true}
                 helperText={"Este campo es requerido"}
+                inputProps={{
+                  maxLength: 255,
+                  minLength: 5,
+                  title: "El nombre del item debe tener entre 5 y 255 caracteres",
+                }}
               />
               <FormField
                 label="Peso"
@@ -72,18 +77,31 @@ export const FormItem = () => {
                 type="number"
                 required={true}
                 helperText={"Este campo es requerido"}
+                inputProps={{
+                  min: 1,
+                }}
               />
               <FormField
                 label="Descripcion"
                 name="descripcion"
                 required={true}
                 helperText={"Este campo es requerido"}
+                inputProps={{
+                  maxLength: 1500,
+                  minLength: 5,
+                  title: "La descripcion del item debe tener entre 5 y 1500 caracteres",
+                }}
               />
               <FormField
                 label="Evidencia"
                 name="evidencia"
                 required={true}
                 helperText={"Este campo es requerido"}
+                inputProps={{
+                  maxLength: 255,
+                  minLength: 5,
+                  title: "La evidencia del item debe tener entre 5 y 255 caracteres",
+                }}
               />
             </Box>
 
@@ -92,61 +110,58 @@ export const FormItem = () => {
                 <Controller
                   name="rubricaId"
                   control={methods.control}
-                  render={({ field }) => (
-                    <FormControl fullWidth required={true}>
-                      <InputLabel>Rúbrica</InputLabel>
-                      <Select
-                        {...field}
-                        label="Rúbrica"
-                        required={true}
-                        MenuProps={{ autoFocus: false }}
-                      >
-                        <MenuItem value="">Seleccionar una rúbrica</MenuItem>
-                        {rubricasLoading ? (
-                          <MenuItem>No hay rúbricas disponibles.</MenuItem>
-                        ) : (
-                          rubricasData.map((rubrica) => (
-                            <MenuItem key={rubrica.id} value={rubrica.id}>
-                              {rubrica.nombre}
-                            </MenuItem>
-                          ))
-                        )}
-                      </Select>
-                    </FormControl>
+                  render={({ field, fieldState: { error } }) => (
+                    <Autocomplete
+                      options={rubricasData || []}
+                      getOptionLabel={(option) => option.nombre || ""}
+                      isOptionEqualToValue={(option, value) => option.id === value}
+                      value={rubricasData?.find((rubrica) => rubrica.id === field.value) || null}
+                      onChange={(_, selectedOption) => field.onChange(selectedOption ? selectedOption.id : "")}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Rúbrica"
+                          error={!!error}
+                          helperText={error ? error.message : null}
+                          required={true}
+                        />
+                      )}
+                      disabled={rubricasLoading}
+                      loading={rubricasLoading}
+                      noOptionsText="No hay rúbricas disponibles"
+                    />
                   )}
                 />
+
               </Grid>
 
               <Grid item xs={12} md={6}>
                 <Controller
                   name="indicadorId"
                   control={methods.control}
-                  render={({ field }) => (
-                    <FormControl fullWidth required={true}>
-                      <InputLabel>Indicador</InputLabel>
-                      <Select {...field} label="Indicador" required={true}>
-                        <MenuItem value="">Seleccionar un indicador</MenuItem>
-                        {indicadoresLoading ? (
-                          <MenuItem>No hay indicadores disponibles.</MenuItem>
-                        ) : (
-                          indicadoresData.map((indicador) => {
-                            if (indicador.tipo === "Sub-Indicador") {
-                              return (
-                                <MenuItem
-                                  key={indicador.id}
-                                  value={indicador.id}
-                                >
-                                  {indicador.nombre}
-                                </MenuItem>
-                              );
-                            }
-                            return null;
-                          })
-                        )}
-                      </Select>
-                    </FormControl>
+                  render={({ field, fieldState: { error } }) => (
+                    <Autocomplete
+                      options={indicadoresData?.filter((indicador) => indicador.tipo === "Sub-Indicador") || []}
+                      getOptionLabel={(option) => option.nombre || ""}
+                      isOptionEqualToValue={(option, value) => option.id === value}
+                      value={indicadoresData?.find((indicador) => indicador.id === field.value) || null}
+                      onChange={(_, selectedOption) => field.onChange(selectedOption ? selectedOption.id : "")}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Indicador"
+                          error={!!error}
+                          helperText={error ? error.message : null}
+                          required={true}
+                        />
+                      )}
+                      disabled={indicadoresLoading}
+                      loading={indicadoresLoading}
+                      noOptionsText="No hay indicadores disponibles"
+                    />
                   )}
                 />
+
               </Grid>
             </Grid>
             <Box marginTop={2}>

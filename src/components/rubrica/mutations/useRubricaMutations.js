@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from 'react-query';
 import { createRubrica, updateRubrica, deleteRubrica } from '../services/RubricaService';
-import { SuccessDialogo } from '../../dialogos/Dialogos';
+import { ErrorDialogo, SuccessDialogo } from '../../dialogos/Dialogos';
 import { useRubricaStore } from '../store/useRubricaStore';
 
 export const useRubricaMutations = () => {
@@ -13,7 +13,7 @@ export const useRubricaMutations = () => {
             SuccessDialogo('Eliminado', 'Rúbrica', 'eliminada');
         },
         onError: (error) => {
-            console.error("Error deleting rubrica:", error);
+            ErrorDialogo("Error", "Ha ocurrido un error al eliminar");
         },
     });
 
@@ -24,7 +24,11 @@ export const useRubricaMutations = () => {
             SuccessDialogo('Creado', 'Rúbrica', 'creada');
         },
         onError: (error) => {
-            console.error("Error creating rubrica:", error);
+            if (error.response.status == 400) {
+                ErrorDialogo("Error", error.response.data.message);
+            } else {
+                ErrorDialogo("Error", error.response.data.message.join(". "));
+            }
         },
     });
 
@@ -35,7 +39,11 @@ export const useRubricaMutations = () => {
             SuccessDialogo('Editado', 'Rúbrica', 'editada');
         },
         onError: (error) => {
-            console.error("Error updating rubrica:", error);
+            if (error.response.status == 400) {
+                ErrorDialogo("Error", error.response.data.message);
+            } else {
+                ErrorDialogo("Error", error.response.data.message.join(". "));
+            }
         },
     });
 
