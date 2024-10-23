@@ -1,4 +1,4 @@
-import { Box, Divider, FormControl } from '@mui/material';
+import { Autocomplete, Box, Divider, FormControl } from '@mui/material';
 import { TextField, Select, InputLabel, MenuItem, Grid, Typography, Button } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -65,31 +65,21 @@ export const FormCuestionarioAsignar = () => {
                                         name="idOrganizacion"
                                         control={methods.control}
                                         render={({ field }) => (
-                                            <FormControl fullWidth required>
-                                                <InputLabel>Seleccione la organizacion</InputLabel>
-                                                <Select
-                                                    id="idOrganizacion"
-                                                    label="Seleccione la organizacion"
-                                                    name={field.name}
-                                                    onChange={field.onChange}
-                                                    value={field.value ? field.value : ""}
-                                                    required
-                                                    inputProps={{
-                                                        title: "Este campo es requerido",
-                                                    }}
-                                                >
-                                                    {isLoadingOrg ? (
-                                                        <MenuItem>No hay organizaciones registradas.</MenuItem>
-                                                    ) : (
-                                                        organizaciones?.map((organizacion) => (
-                                                            <MenuItem key={organizacion.id} value={organizacion.id}>
-                                                                {organizacion.nombre}
-                                                            </MenuItem>
-                                                        ))
-                                                    )}
-
-                                                </Select>
-                                            </FormControl>
+                                            <Autocomplete
+                                                id="idOrganizacion"
+                                                options={organizaciones || []}
+                                                getOptionLabel={(option) => option.nombre}
+                                                onChange={(_, value) => field.onChange(value?.id || "")}
+                                                isOptionEqualToValue={(option, value) => option.id === value}
+                                                renderInput={(params) => (
+                                                    <TextField
+                                                        {...params}
+                                                        label="Seleccione la organización"
+                                                        required
+                                                        helperText={"Este campo es obligatorio"}
+                                                    />
+                                                )}
+                                            />
                                         )}
                                     />
 
@@ -99,57 +89,58 @@ export const FormCuestionarioAsignar = () => {
                                         name="idAplicador"
                                         control={methods.control}
                                         render={({ field }) => (
-                                            <FormControl fullWidth required>
-                                                <InputLabel>Seleccione al aplicador</InputLabel>
-                                                <Select
-                                                    id="idAplicador"
-                                                    label="Seleccione al aplicador"
-                                                    name={field.name}
-                                                    onChange={field.onChange}
-                                                    value={field.value ? field.value : ""}
-                                                    required
-                                                >
-                                                    {isLoadingApl ? (
-                                                        <MenuItem>No hay aplicadores registrados.</MenuItem>
-                                                    ) : (
-                                                        aplicadores?.map((aplicador) => (
-                                                            <MenuItem key={aplicador.id} value={aplicador.id}>
-                                                                {aplicador.nombre}
-                                                            </MenuItem>
-                                                        ))
-                                                    )}
-                                                </Select>
-                                            </FormControl>
+                                            <Autocomplete
+                                                id="idAplicador"
+                                                options={aplicadores || []}
+                                                getOptionLabel={(option) => option.nombre}
+                                                onChange={(_, value) => field.onChange(value?.id || "")}
+                                                isOptionEqualToValue={(option, value) => option.id === value}
+                                                renderInput={(params) => (
+                                                    <TextField
+                                                        {...params}
+                                                        label="Seleccione al aplicador"
+                                                        required
+                                                        helperText={"Este campo es obligatorio"}
+                                                    />
+                                                )}
+                                            />
                                         )}
                                     />
-
                                 </Grid>
                                 <Grid item xs={12} md={4}>
                                     <Controller
                                         name="fechaRealizacion"
                                         control={methods.control}
-                                        render={({ field }) => (
-                                            <FormControl fullWidth required>
-                                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                    <DatePicker
-                                                        label="Fecha de realizacion"
-                                                        disablePast
-                                                        slotProps={{
-                                                            textField: {
-                                                                required: true,
-                                                            },
-                                                        }}
-                                                        minDate={dayjs(cuesti?.fechaCreacion.split("T")[0])}
-                                                        value={field.value ? dayjs(field.value) : null}
-                                                        onChange={(date) => field.onChange(date ? dayjs(date) : null)}
-                                                        renderInput={(params) => <TextField {...params} />}
-                                                    />
-                                                </LocalizationProvider>
-                                            </FormControl>
-                                        )}
+                                        render={({ field }) => {
+                                            // Obtener la fecha de creación y convertirla a Dayjs
+                                            const fechaCreacion = dayjs(cuesti?.fechaCreacion.split("T")[0]);
+                                            const fechaActual = dayjs();
+
+                                            // Definir la fecha mínima como la mayor de las dos
+                                            const minDate = fechaCreacion.isBefore(fechaActual) ? fechaCreacion : fechaActual;
+
+                                            return (
+                                                <FormControl fullWidth required>
+                                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                        <DatePicker
+                                                            label="Fecha de realización"
+                                                            disablePast
+                                                            slotProps={{
+                                                                textField: {
+                                                                    required: true,
+                                                                    readOnly: true
+                                                                },
+                                                            }}
+                                                            minDate={minDate} // Usar la fecha mínima calculada
+                                                            value={field.value ? dayjs(field.value) : null}
+                                                            onChange={(date) => field.onChange(date ? dayjs(date) : null)}
+                                                            renderInput={(params) => <TextField {...params} />}
+                                                        />
+                                                    </LocalizationProvider>
+                                                </FormControl>
+                                            );
+                                        }}
                                     />
-
-
                                 </Grid>
                             </Grid>
                             <br />

@@ -8,7 +8,6 @@ export const useCuestionarioStore = create(
       currentCuestionario: {
         id: Date.now(),
         nombre: "",
-        fechaCreacion: 0,
         indicadores: [],
       },
       applyCuestionario: {
@@ -29,7 +28,6 @@ export const useCuestionarioStore = create(
           currentCuestionario: {
             id: Date.now(),
             nombre: "",
-            fechaCreacion: 0,
             indicadores: [],
           },
         }),

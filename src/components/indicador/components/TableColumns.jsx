@@ -8,6 +8,7 @@ export const TableColumns = () => {
   const columns = [
     { field: "nombre", headerName: "Nombre", width: 250 },
     { field: "descripcion", headerName: "Descripción", width: 140 },
+    { field: "tipo", headerName: "Tipo", width: "140"},
     {
       field: "Eliminar",
       headerName: "Eliminar",

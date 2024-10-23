@@ -11,7 +11,7 @@ export const TableColumns = () => {
       field: "indicador",
       headerName: "Indicador",
       width: 150,
-      renderCell: (params) => params.row.indicador.nombre,
+      valueGetter: (params) => params.row.indicador.nombre,
     },
     {
       field: "Eliminar",

@@ -74,7 +74,7 @@ export const FormCuestionario = () => {
             <Box>
               <Typography variant="h6">Información del cuestionario</Typography>
               <Grid container spacing={2} mt={2}>
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12}>
                   <FormField
                     label={"Nombre del cuestionario*"}
                     name={"nombre"}
@@ -87,34 +87,6 @@ export const FormCuestionario = () => {
                     }}
                   />
                 </Grid>
-                <Grid item xs={12} md={6}>
-                  <Controller
-                    name="fechaCreacion"
-                    control={methods.control}
-                    render={({ field }) => (
-                      <FormControl fullWidth margin="normal" required>
-                        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
-                          <DatePicker
-                            label="Fecha de creación"
-                            value={field.value ? dayjs(field.value) : null} // Asegurarse de que sea un objeto Dayjs
-                            onChange={(date) =>
-                              field.onChange(date ? dayjs(date) : null)
-                            }
-
-                            disablePast
-                            slotProps={{
-                              textField: {
-                                required: true,
-                                helperText: "Este campo es requerido"
-                              },
-                            }}
-                            renderInput={(params) => <TextField {...params} />}
-                          />
-                        </LocalizationProvider>
-                      </FormControl>
-                    )}
-                  />
-                </Grid>
               </Grid>
               <br />
               <Divider />
@@ -124,55 +96,60 @@ export const FormCuestionario = () => {
               </Typography>
               <Grid container spacing={2} mt={2}>
                 <Grid item xs={12} md={12}>
-                  {indicadores?.map((indicador) => (
-                    <Accordion key={indicador.id}>
-                      <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls={`panel-${indicador.id}-content`}
-                        id={`panel-${indicador.id}-header`}
-                      >
-                        <Controller
-                          name="indicadores"
-                          control={methods.control}
-                          defaultValue={[]} // Inicializamos como un array vacío
-                          render={({ field }) => (
-                            <FormControlLabel
-                              control={
-                                <Checkbox
-                                  checked={field.value.includes(indicador.id)} // Verifica si el id está en la lista
-                                  onChange={(e) => {
-                                    if (e.target.checked) {
-                                      field.onChange([
-                                        ...field.value,
-                                        indicador.id,
-                                      ]);
-                                    } else {
-                                      field.onChange(
-                                        field.value.filter(
-                                          (id) => id !== indicador.id
-                                        )
-                                      );
-                                    }
-                                  }}
+                  {indicadores?.map((indicador) => {
+                    if (indicador.tipo === "Sub-Indicador") {
+                      return (
+                        <Accordion key={indicador.id}>
+                          <AccordionSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls={`panel-${indicador.id}-content`}
+                            id={`panel-${indicador.id}-header`}
+                          >
+                            <Controller
+                              name="indicadores"
+                              control={methods.control}
+                              defaultValue={[]} // Inicializamos como un array vacío
+                              render={({ field }) => (
+                                <FormControlLabel
+                                  control={
+                                    <Checkbox
+                                      checked={field.value.includes(indicador.id)} // Verifica si el id está en la lista
+                                      onChange={(e) => {
+                                        if (e.target.checked) {
+                                          field.onChange([
+                                            ...field.value,
+                                            indicador.id,
+                                          ]);
+                                        } else {
+                                          field.onChange(
+                                            field.value.filter(
+                                              (id) => id !== indicador.id
+                                            )
+                                          );
+                                        }
+                                      }}
+                                    />
+                                  }
+                                  label={indicador.nombre} // El nombre del indicador en el resumen
                                 />
-                              }
-                              label={indicador.nombre} // El nombre del indicador en el resumen
+                              )}
                             />
-                          )}
-                        />
-                      </AccordionSummary>
-                      <AccordionDetails>
-                        <Typography mb={2} fontWeight={700}>
-                          Detalles del indicador {indicador.nombre}
-                        </Typography>
-                        {indicador.items.map((item, index) => (
-                          <Typography mb={2}>
-                            item {index + 1} - {item.nombre}
-                          </Typography>
-                        ))}
-                      </AccordionDetails>
-                    </Accordion>
-                  ))}
+                          </AccordionSummary>
+                          <AccordionDetails>
+                            <Typography mb={2} fontWeight={700}>
+                              Items del indicador:
+                            </Typography>
+                            {indicador.items?.map((item, index) => (
+                              <Typography mb={2}>
+                                item {index + 1} - {item.nombre}
+                              </Typography>
+                            ))}
+                          </AccordionDetails>
+                        </Accordion>
+                      );
+                    }
+                    return null;
+                  })}
                 </Grid>
               </Grid>
             </Box>
