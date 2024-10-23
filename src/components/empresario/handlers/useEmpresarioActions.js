@@ -13,7 +13,12 @@ export const useEmpresarioActions = () => {
   const createEmpresario = (emp) => {
     const empEdit = emp;
     delete empEdit["organizaciones"];
-    ConfirmarDialogo(createMutation, empEdit);
+    console.log(emp);
+    const OnSucces = () => {
+      setEmpresario(empEdit);
+      navigate(-1);
+    };
+    ConfirmarDialogo(createMutation, empEdit, OnSucces);
   };
 
   const deleteEmpresario = (id) => {
@@ -23,7 +28,11 @@ export const useEmpresarioActions = () => {
   const updateEmpresario = (emp) => {
     const empEdit = emp;
     delete empEdit["organizaciones"];
-    ConfirmarDialogo(updateMutation, empEdit);
+    const OnSucces = () => {
+      setEmpresario(empEdit);
+      navigate(-1);
+    };
+    ConfirmarDialogo(updateMutation, empEdit, OnSucces);
   };
 
   const handleEditClick = (emp) => {

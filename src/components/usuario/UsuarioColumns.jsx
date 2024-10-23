@@ -22,16 +22,18 @@ export const UsuarioColumns = () => {
       width: 130,
       renderCell: (params) => (
         <>
-          <CustomButton
-            action={() => {
-              deleteUsuario(params.row.id);
-            }}
-            color="error"
-            text={"Eliminar"}
-            variant="contained"
-            icon={<Delete />}
-            disabled={params.row.rol == "Administrador"}
-          />
+          {params.row.id == 1 ? null : (
+            <CustomButton
+              action={() => {
+                deleteUsuario(params.row.id);
+              }}
+              color="error"
+              text={"Eliminar"}
+              variant="contained"
+              icon={<Delete />}
+              denegateRols={["Gestor", "Aplicador"]}
+            />
+          )}
         </>
       ),
     },
@@ -41,14 +43,16 @@ export const UsuarioColumns = () => {
       width: 130,
       renderCell: (params) => (
         <>
-          <CustomButton
-            action={() => {
-              handleEditClick(params.row);
-            }}
-            icon={<Edit />}
-            text={"Editar"}
-            variant="contained"
-          />
+          {params.row.id == 1 ? null : (
+            <CustomButton
+              action={() => {
+                handleEditClick(params.row);
+              }}
+              icon={<Edit />}
+              text={"Editar"}
+              variant="contained"
+            />
+          )}
         </>
       ),
     },

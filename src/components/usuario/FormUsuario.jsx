@@ -15,7 +15,7 @@ import {
   Switch,
   Alert,
 } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { RiceBowl, Visibility, VisibilityOff } from "@mui/icons-material";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { useUsuarioStore } from "./store/useUsuarioStore";
@@ -80,6 +80,70 @@ export const FormUsuario = () => {
     setShowPassword((prev) => !prev);
   };
 
+  const rules = {
+    nombre: {
+      required: "Este campo es requerido",
+      maxLength: {
+        value: 50,
+        message: "El nombre no puede exceder los 50 caracteres",
+      },
+      minLength: {
+        value: 6,
+        message: "El nombre no puede tener menos de 6 caracteres",
+      },
+      pattern: {
+        value: /^[A-Za-záéíóúüñÑ][A-Za-záéíóúüñÑ\s]*$/,
+        message:
+          "El nombre solo puede contener letras y espacios, y debe empezar con una letra.",
+      },
+    },
+    correo_electronico: {
+      required: "Este campo es requerido",
+      maxLength: {
+        value: 90,
+        message: "El correo electrónico no puede exceder los 90 caracteres",
+      },
+      pattern: {
+        value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+        message: "El correo electrónico no es válido.",
+      },
+    },
+    contrasena: {
+      required: "Este campo es requerido",
+      minLength: {
+        value: 8,
+        message: "La contraseña debe tener al menos 8 caracteres.",
+      },
+      validate: (value) => {
+        const hasUpperCase = /[A-Z]/.test(value);
+        const hasLowerCase = /[a-z]/.test(value);
+        const hasNumber = /\d/.test(value);
+        const hasSymbol = /[!@#$%^&*(),.?":{}|<>]/.test(value);
+
+        if (!hasUpperCase) {
+          return "La contraseña debe contener al menos 2 letras mayúsculas.";
+        }
+        if (!hasLowerCase) {
+          return "La contraseña debe contener al menos 2 letras minúsculas.";
+        }
+        if (!hasNumber) {
+          return "La contraseña debe contener al menos 2 números.";
+        }
+        if (!hasSymbol) {
+          return "La contraseña debe contener al menos 2 símbolos.";
+        }
+
+        return true;
+      },
+    },
+    confirmarContrasena: {
+      required: "Este campo es requerido",
+      validate: (value) =>
+        value === methods.getValues("contrasena") ||
+        "Las contraseñas no coinciden.",
+    },
+  };
+
   return (
     <FormProvider {...methods}>
       <form onSubmit={onSubmit}>
@@ -88,13 +152,17 @@ export const FormUsuario = () => {
             <Typography variant="h6">Registro de Usuario</Typography>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
-                <FormField label="Nombre de Usuario" name="nombre" />
+                <FormField
+                  label="Nombre de Usuario"
+                  name="nombre"
+                  rules={rules["nombre"]}
+                />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <FormField
                   label="Correo Electrónico"
                   name="correo_electronico"
-                  type="email"
+                  rules={rules["correo_electronico"]}
                 />
               </Grid>
               {editPassword && (
@@ -104,6 +172,7 @@ export const FormUsuario = () => {
                       label="Contraseña"
                       name="contrasena"
                       type={showPassword ? "text" : "password"}
+                      rules={rules["contrasena"]}
                       InputProps={{
                         endAdornment: (
                           <InputAdornment position="end">
@@ -127,6 +196,7 @@ export const FormUsuario = () => {
                       label="Confirmar Contraseña"
                       name="confirmarContrasena"
                       type={showPassword ? "text" : "password"}
+                      rules={rules["confirmarContrasena"]}
                       InputProps={{
                         endAdornment: (
                           <InputAdornment position="end">
@@ -154,19 +224,26 @@ export const FormUsuario = () => {
             </Typography>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
-                <FormControl fullWidth>
+                <FormControl fullWidth error={!!methods.formState.errors.rol}>
                   <InputLabel id="rol-label">Rol</InputLabel>
                   <Select
                     labelId="rol-label"
                     id="rol"
                     label="Rol"
-                    {...methods.register("rol", { required: true })}
+                    {...methods.register("rol", {
+                      required: "El rol es requerido",
+                    })}
                     defaultValue={usuario ? usuario.rol : ""}
                   >
                     <MenuItem value="Administrador">Administrador</MenuItem>
                     <MenuItem value="Gestor">Gestor</MenuItem>
                     <MenuItem value="Aplicador">Aplicador</MenuItem>
                   </Select>
+                  {methods.formState.errors.rol && (
+                    <Typography variant="caption" color="error" marginLeft={2}>
+                      {methods.formState.errors.rol.message}
+                    </Typography>
+                  )}
                 </FormControl>
               </Grid>
             </Grid>

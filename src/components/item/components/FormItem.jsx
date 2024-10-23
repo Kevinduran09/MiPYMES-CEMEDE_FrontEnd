@@ -7,10 +7,10 @@ import { Box, Typography } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Button from "@mui/material/Button";
-import { Grid } from "@mui/material";
-import { useQuery } from 'react-query';
-import { getRubricas } from '../../rubrica/services/RubricaService';
-import { getIndicadores } from '../../indicador/services/IndicadorService';
+import { Grid, Switch } from "@mui/material";
+import { useQuery } from "react-query";
+import { getRubricas } from "../../rubrica/services/RubricaService";
+import { getIndicadores } from "../../indicador/services/IndicadorService";
 import { useItemStore } from "../store/useItemStore";
 import { useItemActions } from "../handlers/useItemActions";
 import { useNavigate } from "react-router-dom";
@@ -27,7 +27,7 @@ export const FormItem = () => {
     queryKey: ["indicadores"],
     queryFn: getIndicadores,
   });
-
+  console.log(indicadoresData);
   const { createItemFunc, editItemFunc } = useItemActions();
   const { currentItem: item, selectedItem } = useItemStore();
   const methods = useForm({
@@ -40,6 +40,8 @@ export const FormItem = () => {
   const onSubmit = methods.handleSubmit(async (data) => {
     if (selectedItem === null) {
       createItemFunc(data);
+
+      console.log(data);
     } else {
       editItemFunc(data);
     }
@@ -51,11 +53,38 @@ export const FormItem = () => {
         <div className="content p-5">
           <Box>
             <Typography variant="h6">Información del Ítem</Typography>
-            <Box sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2 }}>
-              <FormField label="Nombre" name="nombre" required={true} helperText={"Este campo es requerido"}/>
-              <FormField label="Peso" name="peso" type="number" required={true} helperText={"Este campo es requerido"}/>
-              <FormField label="Descripcion" name="descripcion"  required={true} helperText={"Este campo es requerido"}/>
-              <FormField label="Evidencia" name="evidencia"  required={true} helperText={"Este campo es requerido"}/>
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: "repeat(2, 1fr)",
+                gap: 2,
+              }}
+            >
+              <FormField
+                label="Nombre"
+                name="nombre"
+                required={true}
+                helperText={"Este campo es requerido"}
+              />
+              <FormField
+                label="Peso"
+                name="peso"
+                type="number"
+                required={true}
+                helperText={"Este campo es requerido"}
+              />
+              <FormField
+                label="Descripcion"
+                name="descripcion"
+                required={true}
+                helperText={"Este campo es requerido"}
+              />
+              <FormField
+                label="Evidencia"
+                name="evidencia"
+                required={true}
+                helperText={"Este campo es requerido"}
+              />
             </Box>
 
             <Grid container spacing={2} mt={2}>
@@ -66,12 +95,17 @@ export const FormItem = () => {
                   render={({ field }) => (
                     <FormControl fullWidth required={true}>
                       <InputLabel>Rúbrica</InputLabel>
-                      <Select {...field} label="Rúbrica" required={true} MenuProps={{autoFocus: false}}>
+                      <Select
+                        {...field}
+                        label="Rúbrica"
+                        required={true}
+                        MenuProps={{ autoFocus: false }}
+                      >
                         <MenuItem value="">Seleccionar una rúbrica</MenuItem>
                         {rubricasLoading ? (
                           <MenuItem>No hay rúbricas disponibles.</MenuItem>
                         ) : (
-                          rubricasData.map(rubrica => (
+                          rubricasData.map((rubrica) => (
                             <MenuItem key={rubrica.id} value={rubrica.id}>
                               {rubrica.nombre}
                             </MenuItem>
@@ -95,13 +129,16 @@ export const FormItem = () => {
                         {indicadoresLoading ? (
                           <MenuItem>No hay indicadores disponibles.</MenuItem>
                         ) : (
-                          indicadoresData.map(indicador => {
+                          indicadoresData.map((indicador) => {
                             if (indicador.tipo === "Sub-Indicador") {
                               return (
-                                <MenuItem key={indicador.id} value={indicador.id}>
+                                <MenuItem
+                                  key={indicador.id}
+                                  value={indicador.id}
+                                >
                                   {indicador.nombre}
                                 </MenuItem>
-                              )
+                              );
                             }
                             return null;
                           })
@@ -112,6 +149,21 @@ export const FormItem = () => {
                 />
               </Grid>
             </Grid>
+            <Box marginTop={2}>
+              <Typography variant="body1">Habilitar Observacion</Typography>
+              <Controller
+                name="observacion"
+                control={methods.control}
+                defaultValue={false}
+                render={({ field }) => (
+                  <Switch
+                    {...field}
+                    checked={field.value || false}
+                    onChange={(e) => field.onChange(e.target.checked)}
+                  />
+                )}
+              />
+            </Box>
           </Box>
 
           <Box textAlign={"end"}>

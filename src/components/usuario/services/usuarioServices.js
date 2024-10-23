@@ -34,13 +34,7 @@ export const getUsuario = async (id) => {
   return res.data;
 };
 
-export const createUsuario = async (usuario) => {
-  try {
-    await usuarioRequest.post("/", usuario);
-  } catch (error) {
-    throw error;
-  }
-};
+export const createUsuario = (usuario) => usuarioRequest.post("/", usuario);
 
 export const updateUsuario = (usuario) =>
   usuarioRequest.patch(`/${usuario.id}`, usuario);

@@ -29,7 +29,9 @@ export const UsuarioMutations = () => {
       clear();
       SuccessDialogo("Creado", "Usuario", "creado");
     },
-    onError: (error) => {},
+    onError: (error) => {
+      console.error("Error creating user: ", error);
+    },
   });
 
   const updateMutation = useMutation({
