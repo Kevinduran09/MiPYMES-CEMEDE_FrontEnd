@@ -13,9 +13,8 @@ export const useOrganizacionActions = () => {
   const createOrganizacion = (org) => {
     const orgEdit = org;
     const OnSucces = () => {
-      console.log(org);
-
       setOrganizacion(org);
+      navigate(-1);
     };
     ConfirmarDialogo(createMutation, orgEdit, OnSucces);
   };
@@ -27,7 +26,6 @@ export const useOrganizacionActions = () => {
   const updateOrganizacion = (org) => {
     const orgEdit = org;
     const OnSucces = () => {
-      console.log(org);
       setOrganizacion(org);
       navigate(-1);
     };

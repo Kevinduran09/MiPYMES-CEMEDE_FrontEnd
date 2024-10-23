@@ -5,24 +5,24 @@ export const FormField = ({
   label,
   name,
   isRequerided = true,
-  options,
+  rules,
   ...props
 }) => {
   const {
     register,
     formState: { errors },
   } = useFormContext();
-  const optns = isRequerided
+  const rulesArray = isRequerided
     ? {
         required: `${label} es requerido`,
-        ...options,
+        ...rules,
       }
-    : {};
+    : rules;
   return (
     <FormControl fullWidth margin="normal">
       <TextField
         label={label}
-        {...register(name, optns)}
+        {...register(name, rulesArray)}
         error={!!errors[name]}
         helperText={errors[name]?.message}
         {...props}

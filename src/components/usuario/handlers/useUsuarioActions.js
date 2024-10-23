@@ -11,8 +11,11 @@ export const useUsuarioActions = () => {
 
   const createUsuario = (user) => {
     const usuario = user;
-
-    ConfirmarDialogo(createMutation, usuario);
+    const OnSucces = () => {
+      setUsuario(usuario);
+      navigate(-1);
+    };
+    ConfirmarDialogo(createMutation, usuario, OnSucces);
   };
 
   const deleteUsuario = (id) => {
@@ -20,7 +23,11 @@ export const useUsuarioActions = () => {
   };
 
   const updateUsuario = (user) => {
-    ConfirmarDialogo(updateMutation, user);
+    const OnSucces = () => {
+      setOrganizacion(org);
+      navigate(-1);
+    };
+    ConfirmarDialogo(updateMutation, user, OnSucces);
   };
 
   const handleEditClick = (user) => {
