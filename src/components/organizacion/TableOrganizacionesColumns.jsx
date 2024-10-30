@@ -2,8 +2,9 @@ import { useOrganizacionActions } from "./handlers/useOrganizacionActions.js";
 import { Delete } from "@mui/icons-material";
 import { CustomButton } from "../CustomButton.jsx";
 import { Edit } from "@mui/icons-material";
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 export const OrganizationColumns = () => {
-  const { deleteOrganizacion, handleEditClick } = useOrganizacionActions();
+  const { deleteOrganizacion, handleEditClick, AsignarEmpresario } = useOrganizacionActions();
   const columns = [
     { field: "nombre", headerName: "Nombre", width: 200 },
     { field: "telefono_movil", headerName: "Teléfono Móvil", width: 200 },
@@ -31,6 +32,25 @@ export const OrganizationColumns = () => {
       field: "tiempo_operacion_anios",
       headerName: "Años de Operación",
       width: 200,
+    },
+    {
+      field: "Asignar Empresario",
+      headerName: "Asignar",
+      width: 130,
+      renderCell: (params) => (
+        <>
+          <CustomButton
+            denegateRols={["Aplicador"]}
+            action={() => {
+              AsignarEmpresario(params.row);
+            }}
+            
+            text={"Asignar"}
+            variant="asignar"
+            icon={<AssignmentIndIcon />}
+          />
+        </>
+      ),
     },
     {
       field: "Eliminar",

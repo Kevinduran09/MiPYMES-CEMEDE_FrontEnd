@@ -34,3 +34,11 @@ export const getOrganizacion = async (id) => {
   const res = await orgRequest.get(`/${id}`);
   return res.data;
 };
+
+export const asociarEmpresarios =  ({ idOrganizacion, empresariosIds }) => {
+  orgRequest.post(`/${idOrganizacion}/empresarios`, {
+    empresariosIds,
+  });
+};
+
+export const deleteOrganizacionEmpresario = ({ idOrga, idEmp }) => orgRequest.delete(`/${idOrga}/empresarios/${idEmp}`)

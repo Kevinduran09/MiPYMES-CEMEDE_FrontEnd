@@ -2,18 +2,17 @@ import React from "react";
 import { useEffect } from "react";
 import { useForm, FormProvider, Controller } from "react-hook-form";
 import { FormField } from "../FormField";
-import { Box, Typography, Button, Grid, Select, MenuItem } from "@mui/material";
+import InputMask from 'react-input-mask';
+import { Box, Typography, Button, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import { useEmpStore } from "../../hooks/useEmpStore";
-import InputLabel from "@mui/material/InputLabel";
-import FormControl from "@mui/material/FormControl";
 import { useEmpresarioActions } from "./handlers/useEmpresarioActions";
 import { useNavigate } from "react-router-dom";
 
 export const FormEmpresario = () => {
   const navigate = useNavigate();
-
   const { empresario } = useEmpStore();
   const { createEmpresario, updateEmpresario } = useEmpresarioActions();
+
   const methods = useForm({
     defaultValues: empresario,
   });
@@ -42,18 +41,25 @@ export const FormEmpresario = () => {
         message: "El nombre solo puede contener letras y espacios.",
       },
     },
+    cedula: {
+      required: "Este campo es requerido",
+      pattern: {
+        value: /^[1-9]-\d{4}-\d{4}$/,
+        message: "La cédula debe tener el formato costarricense X-XXXX-XXXX.",
+      },
+    },
     telefono: {
       required: "Este campo es requerido",
       pattern: {
         value: /^\d{8}$/,
-        message: "El numero de teléfono debe tener 8 dígitos.",
+        message: "El número de teléfono debe tener 8 dígitos.",
       },
     },
     email: {
       required: "Este campo es requerido",
       maxLength: {
         value: 90,
-        message: "El correo electronico no puede exeder los 90 caracteres",
+        message: "El correo electrónico no puede exceder los 90 caracteres",
       },
       pattern: {
         value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
@@ -68,19 +74,18 @@ export const FormEmpresario = () => {
       },
       pattern: {
         value: /^[A-Za-záéíóúüñÑ][A-Za-záéíóúüñÑ\s]*$/,
-        message:
-          "La nacionalidad no puede contener numeros o caracteres especiales, tampoco numeros",
+        message: "La nacionalidad solo puede contener letras y espacios.",
       },
     },
     edad: {
       required: "Este campo es requerido",
       min: {
         value: 20,
-        message: "La edad minima es de 20 años",
+        message: "La edad mínima es de 20 años",
       },
       max: {
         value: 60,
-        message: "La edad maxima es de 60 años",
+        message: "La edad máxima es de 60 años",
       },
       pattern: {
         value: /^[0-9]+$/,
@@ -88,6 +93,9 @@ export const FormEmpresario = () => {
       },
     },
     escolaridad: {
+      required: "Este campo es requerido",
+    },
+    sexo: {
       required: "Este campo es requerido",
     },
   };
@@ -108,47 +116,61 @@ export const FormEmpresario = () => {
                 gap: 2,
               }}
             >
-              <FormField
-                label={"Nombre"}
-                name={"nombre"}
-                rules={rules["nombre"]}
+              <FormField label={"Nombre"} name={"nombre"} rules={rules["nombre"]} />
+              <Controller
+                name="cedula"
+                control={methods.control}
+                rules={rules["cedula"]}
+                render={({ field }) => (
+                  <InputMask
+                    {...field}
+                    mask="9-9999-9999"
+                    maskChar=""
+                  >
+                    {(inputProps) => (
+                      <FormField
+                        {...inputProps}
+                        label="Cédula"
+                        error={!!methods.formState.errors.cedula}
+                        helperText={methods.formState.errors.cedula?.message}
+                      />
+                    )}
+                  </InputMask>
+                )}
               />
-              <FormField
-                label={"Teléfono"}
-                name={"telefono"}
-                type={"tel"}
-                rules={rules["telefono"]}
+              <FormField label={"Teléfono"} name={"telefono"} type={"tel"} rules={rules["telefono"]} />
+              <FormField label={"Correo de Contacto"} name={"correo_contacto"} rules={rules["email"]} />
+             
+              <FormField label={"Nacionalidad"} name={"nacionalidad"} rules={rules["nacionalidad"]} />
+
+              <Controller
+                name="sexo"
+                control={methods.control}
+                rules={rules["sexo"]}
+                render={({ field }) => (
+                  <FormControl fullWidth sx={{ marginTop: "16px" }} error={!!methods.formState.errors.sexo}>
+                    <InputLabel>Sexo</InputLabel>
+                    <Select {...field} label="Sexo">
+                      <MenuItem value="">Seleccione una opción</MenuItem>
+                      <MenuItem value="Hombre">Hombre</MenuItem>
+                      <MenuItem value="Mujer">Mujer</MenuItem>
+                      <MenuItem value="Indefinido">Indefinido</MenuItem>
+                    </Select>
+                    {methods.formState.errors.sexo && (
+                      <Typography marginLeft={2} variant="caption" color="error">
+                        {methods.formState.errors.sexo.message}
+                      </Typography>
+                    )}
+                  </FormControl>
+                )}
               />
-              <FormField
-                label={"Correo de Contacto"}
-                name={"correo_contacto"}
-                rules={rules["email"]}
-              />
-              <FormField
-                label={"Núm. Personas Fundadoras"}
-                name={"numero_personas_fundadoras"}
-                type={"number"}
-              />
-              <FormField
-                label={"Núm. Personas"}
-                name={"numero_personas"}
-                type={"number"}
-              />
-              <FormField
-                label={"Nacionalidad"}
-                name={"nacionalidad"}
-                rules={rules["nacionalidad"]}
-              />
+
               <Controller
                 name="escolaridad"
                 control={methods.control}
                 rules={rules["escolaridad"]}
                 render={({ field }) => (
-                  <FormControl
-                    fullWidth
-                    sx={{ marginTop: "16px" }}
-                    error={!!methods.formState.errors.escolaridad}
-                  >
+                  <FormControl fullWidth sx={{ marginTop: "16px" }} error={!!methods.formState.errors.escolaridad}>
                     <InputLabel>Escolaridad</InputLabel>
                     <Select {...field} label="Escolaridad">
                       <MenuItem value="">Seleccione una opción</MenuItem>
@@ -182,17 +204,14 @@ export const FormEmpresario = () => {
                       <MenuItem value="Doctorado">Doctorado</MenuItem>
                     </Select>
                     {methods.formState.errors.escolaridad && (
-                      <Typography
-                        marginLeft={2}
-                        variant="caption"
-                        color="error"
-                      >
+                      <Typography marginLeft={2} variant="caption" color="error">
                         {methods.formState.errors.escolaridad.message}
                       </Typography>
                     )}
                   </FormControl>
                 )}
               />
+
               <FormField label={"Edad"} name={"edad"} rules={rules["edad"]} />
             </Box>
           </Box>
@@ -208,12 +227,7 @@ export const FormEmpresario = () => {
             >
               Cancelar
             </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              sx={{ mt: 3 }}
-            >
+            <Button variant="contained" color="primary" type="submit" sx={{ mt: 3 }}>
               Guardar
             </Button>
           </Box>

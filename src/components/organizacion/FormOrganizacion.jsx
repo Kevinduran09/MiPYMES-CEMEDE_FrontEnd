@@ -177,6 +177,21 @@ export const FormOrganizacion = () => {
           "El nombre de la red social solo puede contener letras y espacios.",
       },
     },
+    cantidad_personas_fundadoras: {
+      required: "Este campo es requerido",
+      min: {
+        value: 1,
+        message: "Debe haber al menos 1 fundador",
+      },
+      max: {
+        value: 100,
+        message: "La cantidad no puede exceder de 100 fundadores",
+      },
+      pattern: {
+        value: /^[0-9]+$/,
+        message: "Solo se permiten números enteros",
+      },
+    },
   };
 
   return (
@@ -253,6 +268,11 @@ export const FormOrganizacion = () => {
                 label={"Tiempo de operación (años)"}
                 name={"tiempo_operacion_anios"}
                 rules={rules["tiempo_operacion_anios"]}
+              />
+              <FormField
+                label={"Cantidad de Personas Fundadoras"}
+                name={"cantidad_personas_fundadoras"}
+                rules={rules["cantidad_personas_fundadoras"]}
               />
             </Box>
             <Grid container fullWidth alignItems={"center"}>

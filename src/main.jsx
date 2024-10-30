@@ -13,6 +13,29 @@ const theme = createTheme(
   esES, // x-date-pickers translations
   dataGrid, // x-data-grid translations
   coreEsES, // core translations
+  {
+    components: {
+      MuiButton: {
+        variants: [
+          {
+            props: { variant: 'asignar' },
+            style: {
+              backgroundColor: '#F18F01', 
+              color: '#ffffff', 
+              fontWeight: 'bold', 
+              textTransform: 'uppercase',
+              boxShadow: '0px 2px 5px rgba(0,0,0,0.3)',
+              transition: 'background-color 0.3s ease',
+              '&:hover': {
+                backgroundColor: '#D78A17', 
+                boxShadow: '0 3px 5px rgba(0, 0, 0, 0.3)'
+              },
+            },
+          },
+        ],
+      },
+    }
+}
 );
 
 function App() {

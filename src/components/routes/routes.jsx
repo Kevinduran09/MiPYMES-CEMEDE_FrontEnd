@@ -22,6 +22,7 @@ import { FormRubrica } from "../rubrica/components/FormRubrica";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { element } from "prop-types";
 import { CuestionariosAsignados } from "../cuestionario/components/CuestionariosAsignados";
+import { FormOrganizacionEmpresario } from "../organizacion/FormOrganizacionEmpresario";
 
 export const routes = () => [
   {
@@ -58,6 +59,15 @@ export const routes = () => [
           <ProtectedRoute
             allowedRoles={["Administrador", "Gestor", "Aplicador"]}
             element={<FormOrganizacion />}
+          />
+        ),
+      },
+      {
+        path: ":id/asignar-empresarios",
+        element: (
+          <ProtectedRoute
+            allowedRoles={["Administrador"]}
+            element={<FormOrganizacionEmpresario />}
           />
         ),
       },
