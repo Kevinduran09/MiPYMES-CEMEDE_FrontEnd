@@ -46,7 +46,7 @@ export const useCuestionarioStore = create(
             (respuesta) =>
               respuesta.idItem === idItem &&
               respuesta.idCuestionarioOrganizacion ===
-                idCuestionarioOrganizacion
+              idCuestionarioOrganizacion
           );
 
           // Si existe, la actualizamos; si no, agregamos una nueva
@@ -54,7 +54,7 @@ export const useCuestionarioStore = create(
             return {
               respuestas: state.respuestas.map((respuesta) =>
                 respuesta.idItem === idItem &&
-                respuesta.idCuestionarioOrganizacion ===
+                  respuesta.idCuestionarioOrganizacion ===
                   idCuestionarioOrganizacion
                   ? { ...respuesta, valor_opcion_seleccionada, observaciones }
                   : respuesta
@@ -77,6 +77,8 @@ export const useCuestionarioStore = create(
 
       // Resetear todas las respuestas (opcional, si lo necesitas)
       resetRespuestas: () => set({ respuestas: [] }),
+      applyingCuestionario: false,
+      setApplyingCuestionario: (isApplying) => set({ applyingCuestionario: isApplying }),
     }),
     {
       name: "cuestionarioState",

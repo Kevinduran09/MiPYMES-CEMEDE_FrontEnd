@@ -10,9 +10,9 @@ import { esES as coreEsES } from '@mui/material/locale';
 import { esES } from '@mui/x-date-pickers/locales';
 
 const theme = createTheme(
-  esES, // x-date-pickers translations
-  dataGrid, // x-data-grid translations
-  coreEsES, // core translations
+  esES,
+  dataGrid,
+  coreEsES,
 );
 
 function App() {

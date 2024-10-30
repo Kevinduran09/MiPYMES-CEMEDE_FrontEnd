@@ -3,9 +3,11 @@ import navigationLinks from "./NavigationLinks";
 import { NavLink } from "react-router-dom";
 import "../../public/css/styles.css";
 import { useAuthStore } from "../components/auth/store/useAuthStore";
+import { checkIsApplying } from "./CheckCuestionarioApplying";
 export const Sidebar = ({ isActive, setActive }) => {
 
   const { currentUser } = useAuthStore();
+  const { check } = checkIsApplying();
   return (
     <>
       <div className={`navigation ${isActive ? "active" : ""}`}>
@@ -39,6 +41,7 @@ export const Sidebar = ({ isActive, setActive }) => {
                 }}>
                   <NavLink
                     title={link.text}
+                    onClick={check}
                     to={link.href}
                     activeClassName="active"
                   >

@@ -2,14 +2,16 @@ import React from "react";
 
 import { Breadcrumbs, Link, Typography } from "@mui/material";
 import { useLocation, Link as RouterLink, Outlet } from "react-router-dom";
+import { checkIsApplying } from "./CheckCuestionarioApplying";
 
 const DynamicBreadcrumbs = () => {
   const location = useLocation();
+  const { check } = checkIsApplying();
   const pathnames = location.pathname.split("/").filter((x) => x);
-  const disableNavRoutes = ["editar", "asignar", "aplicados"];
+  const disableNavRoutes = ["editar", "asignar", "aplicados", "organizacion", "aplicar"];
   return (
     <Breadcrumbs aria-label="breadcrumb" sx={{ padding: "2rem" }}>
-      <Link underline="hover" color="inherit" component={RouterLink} to="/">
+      <Link underline="hover" color="inherit" component={RouterLink} onClick={check} to="/">
         Inicio
       </Link>
       {pathnames.map((value, index) => {
@@ -40,6 +42,7 @@ const DynamicBreadcrumbs = () => {
             underline="hover"
             color="inherit"
             component={RouterLink}
+            onClick={check}
             to={routeTo}
             key={value}
           >
@@ -61,27 +64,13 @@ export const DashboardLayout = ({ title }) => {
     >
       <DynamicBreadcrumbs />
 
-      {/* Header 
-      <div
-        style={{
-          backgroundColor: "white",
-          padding: "1rem",
-          display: "flex",
-          margin: "25px",
-          justifyContent: "center",
-          borderRadius: "5px",
-          boxShadow: "0px 0px 4px rgba(0, 0, 0, 0.2)", // Sombra más oscura
-        }}
-      >
-        <h2>{title}</h2>
-      </div>*/}
       <div
         style={{
           backgroundColor: "white",
           minWidth: "80%",
           borderRadius: "15px",
           margin: "25px",
-          boxShadow: "0px 0px 4px rgba(0, 0, 0, 0.2)", // Sombra más oscura
+          boxShadow: "0px 0px 4px rgba(0, 0, 0, 0.2)",
         }}
       >
         <Outlet />
