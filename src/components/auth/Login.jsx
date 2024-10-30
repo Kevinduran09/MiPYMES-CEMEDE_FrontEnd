@@ -67,7 +67,7 @@ export const Login = () => {
           <form onSubmit={onSubmit} style={{ padding: "1rem" }}>
             <Box mb={3}>
               <TextField
-                label="Correo electrónico"
+                label="Correo Electronico"
                 variant="outlined"
                 fullWidth
                 required

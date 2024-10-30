@@ -22,7 +22,7 @@ export const Sidebar = ({ isActive, setActive }) => {
                   alignItems: "center",
                 }}
               >
-                <span class="icon">
+                <span className="icon">
                   <img src="/assets/img/logo.png" />
                 </span>
                 <span className="h2 ms-5 m-0 text-center">CEMEDE</span>
