@@ -34,6 +34,17 @@ export const OrganizationColumns = () => {
       width: 200,
     },
     {
+      field: "empresarios",
+      headerName: "Empresarios",
+      width: 230,
+      renderCell: (params) => {
+        const empresarios = params.row.empresariosRelacionados || [];
+        return empresarios.length > 0
+          ? empresarios.map((empresario) => `Nombre: ${empresario.empresario.nombre}`).join('\n')
+          : "No asignados";
+      },
+    },
+    {
       field: "Asignar Empresario",
       headerName: "Asignar",
       width: 130,
