@@ -1,70 +1,60 @@
 // src/components/ItemActions.js
 import { ConfirmarDialogo, EliminarDialogo } from '../../dialogos/Dialogos';
-import { useItemStore } from '../../../hooks/useItemStore';
+import { useItemStore } from '../store/useItemStore';
 import { useItemMutations } from '../mutations/ItemMutations';
+import { useNavigate } from 'react-router-dom';
 
-export const useItemActions = (setShowCreateModal, setShowEditModal, setShowModal) => {
+export const useItemActions = () => {
+    
+    const navigate = useNavigate();
+    
     const {
-        selectedItem,
-        currentItem,
         setSelectedItem,
         clearSelectedItem,
-        updateCurrentItem
+        updateCurrentItem,
+        resetCurrentItem
     } = useItemStore();
 
-    const { deleteMutation, createMutation, editMutation } = useItemMutations(setShowCreateModal);
+    const { deleteMutation, createMutation, editMutation } = useItemMutations();
 
-    const createItemFunc = () => {
-        const itemSinId = { ...currentItem };
+    const createItemFunc = (data) => {
+        const itemSinId = data;
+        const OnSucces = () => {
+            clearSelectedItem();
+            resetCurrentItem();
+            navigate(-1);
+        };
+
         delete itemSinId["id"];
 
-        ConfirmarDialogo(createMutation, itemSinId);
+        ConfirmarDialogo(createMutation, itemSinId, OnSucces);
     };
 
-    const editItemFunc = () => {
-        ConfirmarDialogo(editMutation, selectedItem);
+    const editItemFunc = (data) => {
+        const current = data;
+        const success = () => {
+            clearSelectedItem();
+            resetCurrentItem();
+            navigate(-1);
+        }
+
+        ConfirmarDialogo(editMutation, current, success);
     };
 
-    const handleDeleteClick = (item) => {
-        EliminarDialogo(deleteMutation, item.id);
-    };
-
-    const handleChangeCurrent = (e) => {
-        const { name, value } = e.target;
-        updateCurrentItem({ [name]: value });
-    };
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setSelectedItem({
-            ...selectedItem,
-            [name]: value,
-        });
-    };
-
-    const handleRowClick = (item) => {
-        setSelectedItem(item);
-        setShowModal(true);
-    };
-
-    const handleCloseModal = () => {
-        clearSelectedItem();
-        setShowModal(false);
+    const handleDeleteClick = (id) => {
+        EliminarDialogo(deleteMutation, id);
     };
 
     const handleEditClick = (item) => {
+        updateCurrentItem(item);
         setSelectedItem(item);
-        setShowEditModal(true);
+        navigate(`/items/editar/${item.id}`);
     };
 
     return {
         createItemFunc,
         editItemFunc,
         handleDeleteClick,
-        handleChangeCurrent,
-        handleChange,
-        handleRowClick,
-        handleCloseModal,
         handleEditClick
     };
 };

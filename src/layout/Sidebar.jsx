@@ -1,17 +1,59 @@
 import { Navigation } from "./Navigation";
-export const Sidebar = ({ onToggle, isActive = true }) => {
+import navigationLinks from "./NavigationLinks";
+import { NavLink } from "react-router-dom";
+import "../../public/css/styles.css";
+import { useAuthStore } from "../components/auth/store/useAuthStore";
+import { checkIsApplying } from "./CheckCuestionarioApplying";
+export const Sidebar = ({ isActive, setActive }) => {
+
+  const { currentUser } = useAuthStore();
+  const { check } = checkIsApplying();
   return (
     <>
-      <section className={`container-sidebar ${isActive ? "" : "active"}`}>
-        <div className="sidebar">
-          <div className="pro_info">
-            <img src="/assets/img/logo.png" />
-          </div>
+      <div className={`navigation ${isActive ? "active" : ""}`}>
+        <ul>
+          <li>
+            <a href="#">
+              <div
+                style={{
+                  display: "flex",
+                  marginTop: "10px",
+                  width: "100%",
+                  alignItems: "center",
+                }}
+              >
+                <span className="icon">
+                  <img src="/assets/img/logo.png" />
+                </span>
+                <span className="h2 ms-5 m-0 text-center">CEMEDE</span>
+              </div>
+            </a>
+          </li>
 
-          <Navigation onToggle={onToggle} isActive={isActive} />
-          
-        </div>
-      </section>
+          {navigationLinks.map((link, index) => {
+
+            if (link.allowedRoles.includes(currentUser.rol)) {
+              return (
+                <li id={link.text} key={index} onClick={() => {
+                  if (isActive) {
+                    setActive();
+                  }
+                }}>
+                  <NavLink
+                    title={link.text}
+                    onClick={check}
+                    to={link.href}
+                    activeClassName="active"
+                  >
+                    <span className="icon">{link.iconClass}</span>
+                    <span className="title">{link.text}</span>
+                  </NavLink>
+                </li>
+              )
+            }
+          })}
+        </ul>
+      </div>
     </>
   );
 };

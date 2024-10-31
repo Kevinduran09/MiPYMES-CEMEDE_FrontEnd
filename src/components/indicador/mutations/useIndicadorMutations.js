@@ -1,11 +1,10 @@
 import { useMutation, useQueryClient } from 'react-query';
-import { createIndicador, deleteIndicador, updateIndicador } from '../../../services/IndicadorService';
-import { SuccessDialogo } from '../../dialogos/Dialogos';
-import { useIndicadorStore } from '../../../hooks/useIndicadorStore';
+import { createIndicador, deleteIndicador, updateIndicador } from '../services/IndicadorService';
+import { SuccessDialogo, ErrorDialogo } from '../../dialogos/Dialogos';
+import { useIndicadorStore } from '../store/useIndicadorStore';
 
-export const useIndicadorMutations = (setShowCreateModal) => {
+export const useIndicadorMutations = () => {
     const queryClient = useQueryClient();
-    const { resetCurrentIndicador, clearSelectedIndicador } = useIndicadorStore();
 
     const deleteMutation = useMutation({
         mutationFn: deleteIndicador,
@@ -14,7 +13,7 @@ export const useIndicadorMutations = (setShowCreateModal) => {
             SuccessDialogo('Eliminado', 'Indicador', 'eliminado');
         },
         onError: (error) => {
-            console.error("Error deleting indicador:", error);
+            ErrorDialogo("Error", "Ha ocurrido un error al eliminar");
         },
     });
 
@@ -22,12 +21,14 @@ export const useIndicadorMutations = (setShowCreateModal) => {
         mutationFn: createIndicador,
         onSuccess: () => {
             queryClient.invalidateQueries("indicadores");
-            resetCurrentIndicador();
-            setShowCreateModal(false);
             SuccessDialogo('Creado', 'Indicador', 'creado');
         },
         onError: (error) => {
-            console.error("Error creating indicador:", error);
+            if (error.response.status == 400) {
+                ErrorDialogo("Error", error.response.data.message);
+            } else {
+                ErrorDialogo("Error", error.response.data.message.join(". "));
+            }
         },
     });
 
@@ -35,11 +36,14 @@ export const useIndicadorMutations = (setShowCreateModal) => {
         mutationFn: updateIndicador,
         onSuccess: () => {
             queryClient.invalidateQueries("indicadores");
-            clearSelectedIndicador();
             SuccessDialogo('Editado', 'Indicador', 'editado');
         },
         onError: (error) => {
-            console.error("Error updating indicador:", error);
+            if (error.response.status == 400) {
+                ErrorDialogo("Error", error.response.data.message);
+            } else {
+                ErrorDialogo("Error", error.response.data.message.join(". "));
+            }
         },
     });
 

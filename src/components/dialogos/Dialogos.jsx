@@ -45,6 +45,16 @@ export const ConfirmarDialogo = (mutation, data, onSuccess) => {
             onSuccess();
           }
         },
+        onError: (error) => {
+          if (error.response.status == 400) {
+            console.log(error.response.data.message);
+
+            ErrorDialogo("Error", error.response.data.message.join("."));
+          } else {
+            console.log(error);
+            ErrorDialogo("Error", error.response.data.message);
+          }
+        },
       });
     }
   });
@@ -55,6 +65,17 @@ export const SuccessDialogo = (title, tipo, accion) => {
     title: title,
     text: `${tipo} ${accion} correctamente`,
     icon: "success",
+    customClass: {
+      popup: "swal-custom-zindex",
+    },
+  });
+};
+
+export const ErrorDialogo = (title, data) => {
+  Swal.fire({
+    title: title,
+    text: data,
+    icon: "error",
     customClass: {
       popup: "swal-custom-zindex",
     },

@@ -3,13 +3,11 @@ import {
   createItem,
   deleteItem,
   updateItem,
-} from "../../../services/ItemService";
-import { SuccessDialogo } from "../../dialogos/Dialogos";
-import { useItemStore } from "../../../hooks/useItemStore";
+} from "../services/ItemService";
+import { ErrorDialogo, SuccessDialogo } from "../../dialogos/Dialogos";
 
-export const useItemMutations = (setShowCreateModal) => {
+export const useItemMutations = () => {
   const queryClient = useQueryClient();
-  const { resetCurrentItem, clearSelectedItem } = useItemStore();
 
   const deleteMutation = useMutation({
     mutationFn: deleteItem,
@@ -18,7 +16,7 @@ export const useItemMutations = (setShowCreateModal) => {
       SuccessDialogo("Eliminado", "Item", "eliminado");
     },
     onError: (error) => {
-      console.error("Error deleting item:", error);
+      ErrorDialogo("Error", "Ha ocurrido un error al eliminar")
     },
   });
 
@@ -26,12 +24,14 @@ export const useItemMutations = (setShowCreateModal) => {
     mutationFn: createItem,
     onSuccess: () => {
       queryClient.invalidateQueries("items");
-      resetCurrentItem();
-      setShowCreateModal(false);
       SuccessDialogo("Creado", "Item", "creado");
     },
     onError: (error) => {
-      console.error("Error creating item:", error);
+      if (error.response.status == 400) {
+        ErrorDialogo("Error", error.response.data.message);
+      } else {
+        ErrorDialogo("Error", error.response.data.message.join(". "));
+      }
     },
   });
 
@@ -39,11 +39,14 @@ export const useItemMutations = (setShowCreateModal) => {
     mutationFn: updateItem,
     onSuccess: () => {
       queryClient.invalidateQueries("items");
-      clearSelectedItem();
       SuccessDialogo("Editado", "Item", "editado");
     },
     onError: (error) => {
-      console.error("Error updating item:", error);
+      if (error.response.status == 400) {
+        ErrorDialogo("Error", error.response.data.message);
+      } else {
+        ErrorDialogo("Error", error.response.data.message.join(". "));
+      }
     },
   });
 

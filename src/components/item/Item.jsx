@@ -1,79 +1,48 @@
-import React, { useState } from 'react';
-import { Container, Button } from 'react-bootstrap';
-import { ItemsTable } from './components/ItemsTable';
-import { ItemModal, CreateItemModal, EditItemModal } from './components/Modals';
-import { getItems } from '../../services/ItemService';
-import { useQuery } from 'react-query';
-import { useItemActions } from './handlers/useItemActions'; // Importa el hook de acciones
-import { useItemStore } from '../../hooks/useItemStore';
+import { Container } from "react-bootstrap";
+import { getItems } from "./services/ItemService";
+import { useQuery } from "react-query";
+import { useItemStore } from "./store/useItemStore";
+import { TableComponent } from "../TableComponent";
+import { TableColumns } from "./components/TableColumns";
+import { useNavigate } from "react-router-dom";
+import { Add } from "@mui/icons-material";
+import { CustomButton } from "../CustomButton";
 export const Item = () => {
+  const navigate = useNavigate();
+  const { columns } = TableColumns();
 
+  const { resetCurrentItem, clearSelectedItem } = useItemStore();
+  const {
+    isLoading,
+    isError,
+    data: dataRows,
+  } = useQuery({
+    queryKey: ["items"],
+    queryFn: getItems,
+  });
 
-    const [showModal, setShowModal] = useState(false);
-    const [showCreateModal, setShowCreateModal] = useState(false);
-    const [showEditModal, setShowEditModal] = useState(false);
+  const navigation = () => {
+    resetCurrentItem();
+    clearSelectedItem();
+    navigate("/items/crear");
+  };
 
-
-    const { selectedItem, currentItem } = useItemStore();
-    const {
-        createItemFunc,
-        editItemFunc,
-        handleDeleteClick,
-        handleChangeCurrent,
-        handleChange,
-        handleRowClick,
-        handleCloseModal,
-        handleEditClick
-    } = useItemActions(setShowCreateModal, setShowEditModal, setShowModal);
-
-    const { data: dataRows } = useQuery({
-        queryKey: ["items"],
-        queryFn: getItems,
-    });
-
-    return (
-        <Container>
-            <h2 className="mb-5 mt-5">Items</h2>
-            <div className='d-flex justify-content-end gap-1'>
-                <Button onClick={() => setShowCreateModal(true)} variant="primary" className="mb-3">
-                    Crear Nuevo Item
-                </Button>
-            </div>
-
-            {dataRows && dataRows.length > 0 ? (
-                <ItemsTable
-                    items={dataRows}
-                    onRowClick={handleRowClick}
-                    onEditClick={handleEditClick}
-                    onDeleteClick={handleDeleteClick}
-                />
-            ) : (
-                <p>No hay items disponibles.</p>
-            )}
-
-            <ItemModal
-                show={showModal}
-                onHide={handleCloseModal}
-                item={selectedItem}
-            />
-
-            <CreateItemModal
-                show={showCreateModal}
-                onHide={() => setShowCreateModal(false)}
-                item={currentItem}
-                onSave={createItemFunc}
-                handleChange={handleChangeCurrent}
-            />
-
-            {(selectedItem && showEditModal) && (
-                <EditItemModal
-                    show={showEditModal}
-                    onHide={() => setShowEditModal(false)}
-                    item={selectedItem}
-                    onSave={editItemFunc}
-                    handleChange={handleChange}
-                />
-            )}
-        </Container>
-    );
+  return (
+    <Container>
+      <TableComponent
+        title={"Items"}
+        columns={columns}
+        rowsSet={dataRows}
+        isError={isError}
+        isLoading={isLoading}
+        customButtons={
+          <CustomButton
+            action={navigation}
+            icon={<Add />}
+            text={"Agregar nuevo"}
+          />
+        }
+      />
+    </Container>
+  );
 };

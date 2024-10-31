@@ -1,7 +1,7 @@
 html,
 body {
   color: #fff;
-  background-color: #ffffff;
+  background-color: #e6e8e6;
   padding: 0 !important;
   margin: 0 !important;
   font-size: 1vw;
@@ -189,7 +189,9 @@ ul.slick-dots li {
   width: 0.8rem;
   height: 0.8rem;
 }
-
+.swal2-container {
+  z-index: 100 !important;
+}
 ul.slick-dots li button {
   opacity: 0;
 }

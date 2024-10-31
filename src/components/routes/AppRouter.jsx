@@ -1,79 +1,75 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useRoutes,
+} from "react-router-dom";
 import { Sidebar } from "../../layout/Sidebar";
 import { useState } from "react";
-import { useAuthStore } from "../../hooks/useAuthState";
-import { currentActive } from "../../services/AuthService";
-import { Dashboard } from "../../views/Dashboard";
-import { CuestionarioForm } from "../../views/CuestionarioForm";
-import { Organizacion } from "../../views/Organizacion";
+import { useAuthStore } from "../auth/store/useAuthStore";
+import { Login } from "../auth/Login";
+import { Register } from "../auth/Register";
 import { useQuery } from "react-query";
-import { ProtectedRoute } from "./ProtectedRoute";
-import { Empresario } from "../../views/Empresario";
-import { Rubrica } from "../rubrica/Rubrica";
-import { Item } from "../item/Item";
-import { TabMenuCuestionario } from "../cuestionario_tab/TabMenuCuestionario";
+import { currentActive } from "../auth/services/AuthService";
+import ProfileDropdown from "../auth/ProfileDropdown";
+import { routes } from "./routes";
+
 export const AppRouter = () => {
   const [isSidebarActive, setSidebarActive] = useState(false);
-  const { isAuth, token, currentUser } = useAuthStore();
+  const { setCurrentUser, clearAuth, isAuth, token } = useAuthStore();
+
+  const { data: user } = useQuery({
+    retry: false,
+    queryKey: ["current"],
+    queryFn: currentActive,
+    onSuccess: (response) => {
+      setCurrentUser(response, true);
+    },
+    onError: (error) => {
+      clearAuth();
+    },
+  });
 
   const toggleSidebar = () => {
     setSidebarActive(!isSidebarActive);
   };
-  const setCurrentUser = useAuthStore((state) => state.setCurrentUser);
-  const clearAuth = useAuthStore((state) => state.clearAuth);
 
-  // const { data: response } = useQuery({
-  //   queryKey: ["response"],
-  //   queryFn: currentActive,
-  //   onSuccess: (response) => {
-  //     if (response.status === 401) {
-  //       clearAuth();
-  //     } else {
-  //       setCurrentUser(response, true);
-  //     }
-  //   },
-  //   onError: () => {
-  //     clearAuth();
-  //   },
-  // });
+  const AdminRoutes = () => (
+    <>
+      <Sidebar isActive={isSidebarActive} setActive={toggleSidebar} />
+      <div className={`main ${isSidebarActive ? "active" : ""}`}>
+        <div className="topbar">
+          <div className="toggle" onClick={toggleSidebar}>
+            <ion-icon name="menu-outline"></ion-icon>
+          </div>
+          <ProfileDropdown />
+        </div>
+        <div>
+          {/* Uso del hook useRoutes para la estructuracion de las rutas
+              Recibe como parametro el arreglo de rutas y genera todas las rutas a partir de eso.
+          */}
+          {useRoutes(routes())}
+        </div>
+      </div>
+    </>
+  );
 
   return (
-    <>
-      <BrowserRouter>
-        {/* {isAuth && !!token ? ( */}
-        <div className="main-app">
-          <div className="column-sidebar">
-            <Sidebar onToggle={true} isActive={true} />
-          </div>
-
-          <div
-            className={`main-content with-sidebar`}
-          >
-            <Routes>
-              <Route element={<ProtectedRoute isAuth={true} />}>
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/organizaciones" element={<Organizacion />} />
-                <Route path="/empresarios" element={<Empresario />} />
-                <Route path="/cuestionarios" element={<TabMenuCuestionario />} />
-                <Route path="*" element={<Navigate to="/" />} />
-              </Route>
-            </Routes>
-          </div>
-        </div>
-        {/* ) : (
-        <div className="main-app">
-          <div className="main-content-login">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/app" element={<Login />} />
-              <Route path="*" element={<Home />} />
-            </Routes>
-          </div>
-        </div>
-        )} */}
-      </BrowserRouter>
-    </>
+    <BrowserRouter>
+      {isAuth && !!token ? (
+        <Routes>
+          <Route path="/*" element={<AdminRoutes />} />
+        </Routes>
+      ) : (
+        <>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            {/* <Route path="/register" element={<Register />} /> */}
+            <Route path="*" element={<Navigate to="/login" />} />
+          </Routes>
+        </>
+      )}
+    </BrowserRouter>
   );
 };

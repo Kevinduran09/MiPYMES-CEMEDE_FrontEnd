@@ -1,69 +1,57 @@
 import { ConfirmarDialogo, EliminarDialogo } from '../../dialogos/Dialogos';
-import { useIndicadorStore } from '../../../hooks/useIndicadorStore';
+import { useIndicadorStore } from '../store/useIndicadorStore';
 import { useIndicadorMutations } from '../mutations/useIndicadorMutations';
+import { useNavigate } from 'react-router-dom';
 
 export const useIndicadorActions = (setShowCreateModal, setShowEditModal, setShowModal) => {
+    const navigate = useNavigate();
+
     const {
-        selectedIndicador,
-        currentIndicador,
         setSelectedIndicador,
         clearSelectedIndicador,
-        updateCurrentIndicador
+        updateCurrentIndicador,
+        resetCurrentIndicador
     } = useIndicadorStore();
 
     const { deleteMutation, createMutation, editMutation } = useIndicadorMutations(setShowCreateModal);
 
-    const createIndicadorFunc = () => {
-        const indicadorSinId = { ...currentIndicador };
+    const createIndicadorFunc = (data) => {
+        const indicadorSinId = data;
+        const success = () => {
+            clearSelectedIndicador();
+            resetCurrentIndicador();
+            navigate(-1);
+        };
+
         delete indicadorSinId["id"];
 
-        ConfirmarDialogo(createMutation, indicadorSinId);
+        ConfirmarDialogo(createMutation, indicadorSinId, success);
     };
 
-    const editIndicadorFunc = () => {
-        ConfirmarDialogo(editMutation, selectedIndicador);
+    const editIndicadorFunc = (data) => {
+        const current = data;
+        const success = () => {
+            clearSelectedIndicador();
+            resetCurrentIndicador();
+            navigate(-1);
+        }
+        ConfirmarDialogo(editMutation, current, success);
     };
 
-    const handleDeleteClick = (indicador) => {
-        EliminarDialogo(deleteMutation, indicador.id);
-    };
-
-    const handleChangeCurrent = (e) => {
-        const { name, value } = e.target;
-        updateCurrentIndicador({ [name]: value });
-    };
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setSelectedIndicador({
-            ...selectedIndicador,
-            [name]: value,
-        });
-    };
-
-    const handleRowClick = (indicador) => {
-        setSelectedIndicador(indicador);
-        setShowModal(true);
-    };
-
-    const handleCloseModal = () => {
-        clearSelectedIndicador();
-        setShowModal(false);
+    const handleDeleteClick = (id) => {
+        EliminarDialogo(deleteMutation, id);
     };
 
     const handleEditClick = (indicador) => {
         setSelectedIndicador(indicador);
-        setShowEditModal(true);
+        updateCurrentIndicador(indicador);
+        navigate(`/indicadores/editar/${indicador.id}`);
     };
 
     return {
         createIndicadorFunc,
         editIndicadorFunc,
         handleDeleteClick,
-        handleChangeCurrent,
-        handleChange,
-        handleRowClick,
-        handleCloseModal,
         handleEditClick
     };
 };

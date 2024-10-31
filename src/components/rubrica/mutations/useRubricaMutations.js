@@ -1,11 +1,10 @@
 import { useMutation, useQueryClient } from 'react-query';
-import { createRubrica, updateRubrica, deleteRubrica } from '../../../services/RubricaService';
-import { SuccessDialogo } from '../../dialogos/Dialogos';
-import { useRubricaStore } from '../../../hooks/useRubricaStore';
+import { createRubrica, updateRubrica, deleteRubrica } from '../services/RubricaService';
+import { ErrorDialogo, SuccessDialogo } from '../../dialogos/Dialogos';
+import { useRubricaStore } from '../store/useRubricaStore';
 
-export const useRubricaMutations = (setShowCreateModal, setShowEditModal) => {
+export const useRubricaMutations = () => {
     const queryClient = useQueryClient();
-    const { resetCurrentRubrica, clearSelectedRubrica } = useRubricaStore();
 
     const deleteMutation = useMutation({
         mutationFn: deleteRubrica,
@@ -14,7 +13,7 @@ export const useRubricaMutations = (setShowCreateModal, setShowEditModal) => {
             SuccessDialogo('Eliminado', 'Rúbrica', 'eliminada');
         },
         onError: (error) => {
-            console.error("Error deleting rubrica:", error);
+            ErrorDialogo("Error", "Ha ocurrido un error al eliminar");
         },
     });
 
@@ -22,12 +21,14 @@ export const useRubricaMutations = (setShowCreateModal, setShowEditModal) => {
         mutationFn: createRubrica,
         onSuccess: () => {
             queryClient.invalidateQueries("rubricas");
-            resetCurrentRubrica();
-            setShowCreateModal(false);
             SuccessDialogo('Creado', 'Rúbrica', 'creada');
         },
         onError: (error) => {
-            console.error("Error creating rubrica:", error);
+            if (error.response.status == 400) {
+                ErrorDialogo("Error", error.response.data.message);
+            } else {
+                ErrorDialogo("Error", error.response.data.message.join(". "));
+            }
         },
     });
 
@@ -35,12 +36,14 @@ export const useRubricaMutations = (setShowCreateModal, setShowEditModal) => {
         mutationFn: updateRubrica,
         onSuccess: () => {
             queryClient.invalidateQueries("rubricas");
-            clearSelectedRubrica();
-            setShowEditModal(false);
             SuccessDialogo('Editado', 'Rúbrica', 'editada');
         },
         onError: (error) => {
-            console.error("Error updating rubrica:", error);
+            if (error.response.status == 400) {
+                ErrorDialogo("Error", error.response.data.message);
+            } else {
+                ErrorDialogo("Error", error.response.data.message.join(". "));
+            }
         },
     });
 

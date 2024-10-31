@@ -1,9 +1,10 @@
 import { useOrganizacionActions } from "./handlers/useOrganizacionActions.js";
-import { DeleteButton } from "../DeleteButton.jsx";
-import { UpdateButton } from "../UpdateButton.jsx";
-
-export const OrganizationColumns = (setOpen) => {
-  const { deleteOrganizacion, handleEditClick } = useOrganizacionActions();
+import { Delete } from "@mui/icons-material";
+import { CustomButton } from "../CustomButton.jsx";
+import { Edit } from "@mui/icons-material";
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+export const OrganizationColumns = () => {
+  const { deleteOrganizacion, handleEditClick, AsignarEmpresario } = useOrganizacionActions();
   const columns = [
     { field: "nombre", headerName: "Nombre", width: 200 },
     { field: "telefono_movil", headerName: "Teléfono Móvil", width: 200 },
@@ -13,13 +14,13 @@ export const OrganizationColumns = (setOpen) => {
       field: "pagina_web",
       headerName: "Página Web",
       width: 150,
-      renderCell: (params) => (params.row.website_url ? "Sí" : "No"),
+      valueGetter: (params) => (params.row.website_url ? "Sí" : "No"),
     },
     {
       field: "website_url",
       headerName: "URL Sitio Web",
       width: 250,
-      renderCell: (params) => params.row.website_url || "N/A",
+      valueGetter: (params) => params.row.website_url || "N/A",
     },
     {
       field: "sector_empresarial",
@@ -33,12 +34,51 @@ export const OrganizationColumns = (setOpen) => {
       width: 200,
     },
     {
+      field: "empresarios",
+      headerName: "Empresarios",
+      width: 230,
+      valueGetter: (params) => {
+        const empresarios = params.row.empresariosRelacionados || [];
+        return empresarios.length > 0
+          ? empresarios.map((empresario) => `Nombre: ${empresario.empresario.nombre}`).join('\n')
+          : "No asignados";
+      },
+    },
+    {
+      field: "Asignar Empresario",
+      headerName: "Asignar",
+      width: 130,
+      renderCell: (params) => (
+        <>
+          <CustomButton
+            denegateRols={["Aplicador"]}
+            action={() => {
+              AsignarEmpresario(params.row);
+            }}
+            
+            text={"Asignar"}
+            variant="asignar"
+            icon={<AssignmentIndIcon />}
+          />
+        </>
+      ),
+    },
+    {
       field: "Eliminar",
       headerName: "Eliminar",
       width: 130,
       renderCell: (params) => (
         <>
-          <DeleteButton handleDelete={deleteOrganizacion} id={params.row.id} />
+          <CustomButton
+            denegateRols={["Aplicador"]}
+            action={() => {
+              deleteOrganizacion(params.row.id);
+            }}
+            color="error"
+            text={"Eliminar"}
+            variant="contained"
+            icon={<Delete />}
+          />
         </>
       ),
     },
@@ -48,10 +88,13 @@ export const OrganizationColumns = (setOpen) => {
       width: 130,
       renderCell: (params) => (
         <>
-          <UpdateButton
-            handleUpdate={handleEditClick}
-            setOpen={setOpen}
-            cls={params.row}
+          <CustomButton
+            action={() => {
+              handleEditClick(params.row);
+            }}
+            icon={<Edit />}
+            text={"Editar"}
+            variant="contained"
           />
         </>
       ),

@@ -7,10 +7,10 @@ import { CustomToolbar } from "../util/CustomToolbar";
 export const TableComponent = ({
   title,
   columns,
-  data,
-  setOpen,
+  rowsSet,
   isLoading,
   isError,
+  customButtons,
 }) => {
   const theme = createTheme(esES);
   if (isLoading)
@@ -19,44 +19,57 @@ export const TableComponent = ({
         <Loading />
       </div>
     );
-  else if (isError)
-    return (
-      <div>
-        <NoFiles />
-      </div>
-    );
-  const rows = data ? data.map((cls) => ({ ...cls, id: cls.id })) : [];
+
+  const rows = rowsSet ? rowsSet.map((cls) => ({ ...cls, id: cls.id })) : [];
   return (
     <>
-      <div style={{ marginTop: "3rem", marginBottom: "3rem" }}>
-        <h2>{title}</h2>
-      </div>
-      <div style={{ height: 500, width: "96%" }}>
-        <ThemeProvider theme={theme}>
-          <DataGrid
-            className="rowsPerPage"
-            columns={columns}
-            rows={rows}
-            initialState={{
-              pagination: { paginationModel: { pageSize: 5 } },
-            }}
-            disableMultipleRowSelection={true}
-            disableColumnSelector={true}
-            checkboxSelection={true}
-            showCellVerticalBorder={false}
-            pageSizeOptions={[5, 10]}
-            slots={{
-              noRowsOverlay: NoFiles,
-              loadingOverlay: Loading,
-              toolbar: () => CustomToolbar(setOpen),
-            }}
-            slotProps={{
-              toolbar: {
-                showQuickFilter: true,
-              },
-            }}
-          />
-        </ThemeProvider>
+      <div style={{ height: 500, width: "100%" }}>
+        <DataGrid
+          sx={{
+            padding: "10px",
+            border: "none",
+            "&.MuiDataGrid-root--densityCompact .MuiDataGrid-cell": {
+              py: "8px",
+            },
+            "&.MuiDataGrid-root--densityStandard .MuiDataGrid-cell": {
+              py: "15px",
+            },
+            "&.MuiDataGrid-root--densityComfortable .MuiDataGrid-cell": {
+              py: "22px",
+            },
+            '.MuiTablePagination-displayedRows': {
+              'margin-top': '1em',
+              'margin-bottom': '1em'
+            },
+            '.MuiTablePagination-displayedRows, .MuiTablePagination-selectLabel': {
+              'margin-top': '1em',
+              'margin-bottom': '1em'
+            }
+          }}
+          getEstimatedRowHeight={() => 100}
+          getRowHeight={() => "auto"}
+          className="rowsPerPage"
+          columns={columns}
+          rows={rows}
+          initialState={{
+            pagination: { paginationModel: { pageSize: 5 } },
+          }}
+          checkboxSelection={true}
+          disableMultipleRowSelection={true}
+          disableColumnSelector={true}
+          showCellVerticalBorder={false}
+          pageSizeOptions={[5, 10]}
+          slots={{
+            noRowsOverlay: NoFiles,
+            loadingOverlay: Loading,
+            toolbar: () => CustomToolbar(customButtons),
+          }}
+          slotProps={{
+            toolbar: {
+              showQuickFilter: true,
+            },
+          }}
+        />
       </div>
     </>
   );

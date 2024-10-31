@@ -2,21 +2,18 @@ import {
   GridToolbarContainer,
   GridToolbarExport,
   GridToolbarFilterButton,
+  GridToolbarDensitySelector,
 } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
 import { Button } from "@mui/material";
-export const CustomToolbar = (setOpen) => {
+import { useNavigate } from "react-router-dom";
+export const CustomToolbar = (customButtons) => {
+  const navegate = useNavigate();
   return (
     <GridToolbarContainer>
-      <Button
-        startIcon={<AddIcon />}
-        color="primary"
-        variant="text"
-        onClick={() => setOpen(true)}
-      >
-        Agregar nuevo
-      </Button>
+      {customButtons}
       <GridToolbarFilterButton />
+      <GridToolbarDensitySelector />
       <GridToolbarExport />
     </GridToolbarContainer>
   );
