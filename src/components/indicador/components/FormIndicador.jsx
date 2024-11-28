@@ -1,8 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useForm, FormProvider, set, Controller } from "react-hook-form";
+import { useForm, FormProvider, Controller } from "react-hook-form";
 import { FormField } from "../../FormField";
 import Button from "@mui/material/Button";
-import { Autocomplete, Box, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
+import {
+    Autocomplete,
+    Box,
+    FormControl,
+    InputLabel,
+    MenuItem,
+    Select,
+    TextField,
+    Typography,
+} from "@mui/material";
 import { useIndicadorActions } from "../handlers/useIndicadorActions";
 import { useIndicadorStore } from "../store/useIndicadorStore";
 import { useNavigate } from "react-router-dom";
@@ -13,9 +22,9 @@ export const FormIndicador = () => {
     const navigate = useNavigate();
 
     const { createIndicadorFunc, editIndicadorFunc } = useIndicadorActions();
-    const { currentIndicador: indicador, selectedIndicador } = useIndicadorStore();
+    const { currentIndicador, selectedIndicador, updateCurrentIndicador } = useIndicadorStore();
     const methods = useForm({
-        defaultValues: indicador,
+        defaultValues: currentIndicador,
     });
 
     const {
@@ -30,8 +39,14 @@ export const FormIndicador = () => {
     const [isSub, setIsSub] = useState(false);
 
     useEffect(() => {
-        methods.reset({ ...indicador });
-    }, [indicador, open]);
+        if (currentIndicador === null) {
+            methods.reset({ ...currentIndicador });
+        }
+    }, [currentIndicador]);
+
+    const handleChange = (field, value) => {
+        updateCurrentIndicador({ [field]: value });
+    };
 
     const onSubmit = methods.handleSubmit(async (data) => {
         if (selectedIndicador === null) {
@@ -51,7 +66,9 @@ export const FormIndicador = () => {
                 <div className="content p-5">
                     <Box>
                         <Typography variant="h6">Información del Indicador</Typography>
-                        <Box sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2 }}>
+                        <Box
+                            sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2 }}
+                        >
                             <FormField
                                 label="Nombre"
                                 name="nombre"
@@ -62,6 +79,10 @@ export const FormIndicador = () => {
                                     minLength: 5,
                                     title: "El nombre del indicador debe tener entre 5 y 255 caracteres",
                                 }}
+                                onChange={(e) => { 
+                                    handleChange("nombre", e.target.value)
+                                    field.onChange(e);
+                                }}
                             />
                             <FormField
                                 label="Descripción"
@@ -71,7 +92,11 @@ export const FormIndicador = () => {
                                 inputProps={{
                                     maxLength: 255,
                                     minLength: 5,
-                                    title: "El nombre del indicador debe tener entre 5 y 255 caracteres",
+                                    title: "La descripción debe tener entre 5 y 255 caracteres",
+                                }}
+                                onChange={(e) => {
+                                    handleChange("descripcion", e.target.value)
+                                    field.onChange(e);
                                 }}
                             />
                             <Controller
@@ -87,6 +112,7 @@ export const FormIndicador = () => {
                                             value={field.value ? field.value : ""}
                                             onChange={(e) => {
                                                 setIsSub(e.target.value === "Sub-Indicador");
+                                                handleChange("tipo", e.target.value);
                                                 field.onChange(e);
                                             }}
                                         >
@@ -105,7 +131,10 @@ export const FormIndicador = () => {
                                         getOptionLabel={(option) => option.nombre || ""}
                                         isOptionEqualToValue={(option, value) => option.id === value}
                                         value={dataRows?.find((row) => row.id === field.value) || null}
-                                        onChange={(_, selectedOption) => field.onChange(selectedOption ? selectedOption.id : null)}
+                                        onChange={(_, selectedOption) => {
+                                            handleChange("indicadorPadreId", selectedOption ? selectedOption.id : null);
+                                            field.onChange(selectedOption ? selectedOption.id : null);
+                                        }}
                                         renderInput={(params) => (
                                             <TextField
                                                 {...params}
@@ -119,7 +148,6 @@ export const FormIndicador = () => {
                                     />
                                 )}
                             />
-
                         </Box>
                     </Box>
 

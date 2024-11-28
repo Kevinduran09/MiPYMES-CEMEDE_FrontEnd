@@ -26,7 +26,7 @@ export const TableComponent = ({
       <div style={{ height: 500, width: "100%" }}>
         <DataGrid
           sx={{
-            padding: "10px",
+            padding: "20px",
             border: "none",
             "&.MuiDataGrid-root--densityCompact .MuiDataGrid-cell": {
               py: "8px",

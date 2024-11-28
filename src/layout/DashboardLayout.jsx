@@ -29,6 +29,17 @@ const DynamicBreadcrumbs = () => {
             </Typography>
           );
         }
+        if (value == "empresarios" && index > 1) {
+          return (
+            <Typography
+              color="inherit"
+              key={value}
+              style={{ fontWeight: "inherit" }}
+            >
+              {value.charAt(0).toUpperCase() + value.slice(1)}
+            </Typography>
+          );
+        }
         return isLast ? (
           <Typography
             color="textPrimary"

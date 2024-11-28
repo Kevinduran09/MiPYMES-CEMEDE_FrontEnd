@@ -1,6 +1,6 @@
-import { useEmpresarioActions } from "./handlers/useEmpresarioActions";
+import { useEmpresarioActions } from "../handlers/useEmpresarioActions";
 import { Delete } from "@mui/icons-material";
-import { CustomButton } from "../CustomButton";
+import { CustomButton } from "../../CustomButton";
 import { Edit } from "@mui/icons-material";
 export const TableEmpresariosColums = () => {
   const { handleEditClick, deleteEmpresario } = useEmpresarioActions();

@@ -27,7 +27,7 @@ export const Rubrica = () => {
   };
 
   return (
-    <Container>
+    <div>
       <TableComponent
         title={"Rubricas"}
         columns={columns}
@@ -42,6 +42,6 @@ export const Rubrica = () => {
           />
         }
       />
-    </Container>
+    </div>
   );
 };

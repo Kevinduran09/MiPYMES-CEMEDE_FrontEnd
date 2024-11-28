@@ -3,9 +3,9 @@ import {
   createEmpresario,
   deleteEmpresario,
   updateEmpresario,
-} from "../../../services/EmpresarioService";
+} from "../services/EmpresarioService";
 import { SuccessDialogo } from "../../dialogos/Dialogos";
-import { useEmpStore } from "../../../hooks/useEmpStore";
+import { useEmpStore } from "../store/useEmpStore";
 
 export const EmpresarioMutations = () => {
   const { clear } = useEmpStore();

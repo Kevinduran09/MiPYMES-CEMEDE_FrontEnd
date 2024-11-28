@@ -5,9 +5,11 @@ import { useUsuarioStore } from "./store/useUsuarioStore";
 import { useNavigate } from "react-router-dom";
 import { Add } from "@mui/icons-material";
 import { CustomButton } from "../CustomButton";
-export const ShowUsuarios = (props) => {
+import { UsuarioColumns } from "./components/UsuarioColumns";
+export const Usuario = () => {
   const navegate = useNavigate();
   const { clear } = useUsuarioStore();
+  const { columns } = UsuarioColumns();
   const {
     isLoading,
     data: usuarios,
@@ -22,20 +24,22 @@ export const ShowUsuarios = (props) => {
   };
   return (
     <>
-      <TableComponent
-        title={"Usuarios"}
-        columns={props.columns}
-        rowsSet={usuarios}
-        isError={isError}
-        isLoading={isLoading}
-        customButtons={
-          <CustomButton
-            action={navegation}
-            icon={<Add />}
-            text={"Agregar nuevo"}
-          />
-        }
-      />
+      <div>
+        <TableComponent
+          title={"Usuarios"}
+          columns={columns}
+          rowsSet={usuarios}
+          isError={isError}
+          isLoading={isLoading}
+          customButtons={
+            <CustomButton
+              action={navegation}
+              icon={<Add />}
+              text={"Agregar nuevo"}
+            />
+          }
+        />
+      </div>
     </>
   );
 };

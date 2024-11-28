@@ -1,5 +1,5 @@
 import React from "react";
-import { useEmpStore } from "../../../hooks/useEmpStore";
+import { useEmpStore } from "../store/useEmpStore";
 import { EmpresarioMutations } from "../mutations/EmpresarioMutations";
 import { ConfirmarDialogo } from "../../dialogos/Dialogos";
 import { useNavigate } from "react-router-dom";
@@ -13,7 +13,6 @@ export const useEmpresarioActions = () => {
   const createEmpresario = (emp) => {
     const empEdit = emp;
     delete empEdit["organizaciones"];
-    console.log(emp);
     const OnSucces = () => {
       setEmpresario(empEdit);
       navigate(-1);

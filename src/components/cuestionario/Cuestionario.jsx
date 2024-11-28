@@ -50,7 +50,7 @@ export const Cuestionario = () => {
   );
 
   return (
-    <Container>
+    <div>
       <TableComponent
         title={"Cuestionarios"}
         columns={columns}
@@ -59,6 +59,6 @@ export const Cuestionario = () => {
         isLoading={isLoading}
         customButtons={buttons}
       />
-    </Container>
+    </div>
   );
 };

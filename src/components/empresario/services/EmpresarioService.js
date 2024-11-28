@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_BASE_URL, getToken } from "./Global";
+import { API_BASE_URL, getToken } from "../../../services/Global";
 
 const empRequest = axios.create({
   baseURL: `${API_BASE_URL}/empresarios`,

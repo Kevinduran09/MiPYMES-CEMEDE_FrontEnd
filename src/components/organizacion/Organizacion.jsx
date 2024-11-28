@@ -1,14 +1,16 @@
 import { useQuery } from "react-query";
-import { getOrganizaciones } from "../../services/OrganizacionService";
+import { getOrganizaciones } from "./services/OrganizacionService";
 import { TableComponent } from "../TableComponent";
-import { useOrganizacionStore } from "../../hooks/useOrganizacionStore";
+import { useOrganizacionStore } from "./store/useOrganizacionStore";
 import { useNavigate } from "react-router-dom";
 import { Add } from "@mui/icons-material";
 import { CustomButton } from "../CustomButton";
 import { useAuthStore } from "../auth/store/useAuthStore";
-export const ShowOrganizaciones = (props) => {
+import { OrganizationColumns } from "./components/TableOrganizacionesColumns";
+export const Organizacion = () => {
   const navegate = useNavigate();
   const { clear } = useOrganizacionStore();
+  const { columns } = OrganizationColumns();
   const { currentUser } = useAuthStore();
   const {
     isLoading,
@@ -26,7 +28,7 @@ export const ShowOrganizaciones = (props) => {
     <>
       <TableComponent
         title={"Organizaciones"}
-        columns={props.columns}
+        columns={columns}
         rowsSet={organizaciones}
         isError={isError}
         isLoading={isLoading}

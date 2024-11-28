@@ -28,7 +28,7 @@ export const Item = () => {
   };
 
   return (
-    <Container>
+    <div>
       <TableComponent
         title={"Items"}
         columns={columns}
@@ -43,6 +43,6 @@ export const Item = () => {
           />
         }
       />
-    </Container>
+    </div>
   );
 };

@@ -1,6 +1,6 @@
-import { useOrganizacionActions } from "./handlers/useOrganizacionActions.js";
+import { useOrganizacionActions } from "../handlers/useOrganizacionActions.js";
 import { Delete } from "@mui/icons-material";
-import { CustomButton } from "../CustomButton.jsx";
+import { CustomButton } from "../../CustomButton.jsx";
 import { Edit } from "@mui/icons-material";
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 export const OrganizationColumns = () => {
@@ -10,12 +10,6 @@ export const OrganizationColumns = () => {
     { field: "telefono_movil", headerName: "Teléfono Móvil", width: 200 },
     { field: "telefono_fijo", headerName: "Teléfono Fijo", width: 200 },
     { field: "email", headerName: "Email", width: 250 },
-    {
-      field: "pagina_web",
-      headerName: "Página Web",
-      width: 150,
-      valueGetter: (params) => (params.row.website_url ? "Sí" : "No"),
-    },
     {
       field: "website_url",
       headerName: "URL Sitio Web",
@@ -42,6 +36,14 @@ export const OrganizationColumns = () => {
         return empresarios.length > 0
           ? empresarios.map((empresario) => `Nombre: ${empresario.empresario.nombre}`).join('\n')
           : "No asignados";
+      },
+    },
+    {
+      field: "activa",
+      headerName: "Estado",
+      width: 150,
+      valueGetter: (params) => {
+        return params.row.activa ? "Activa" : "Inactiva";
       },
     },
     {

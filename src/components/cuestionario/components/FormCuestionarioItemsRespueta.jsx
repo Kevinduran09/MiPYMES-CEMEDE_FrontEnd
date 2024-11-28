@@ -100,7 +100,7 @@ export const FormCuestionarioItemsRespuesta = () => {
 
 
             {cuestionarioOrganizacion &&
-              cuestionarioOrganizacion.cuestionario.cuestionarioIndicadores.map(
+              cuestionarioOrganizacion.cuestionario?.cuestionarioIndicadores?.map(
                 (cuestionarioIndicador, index) =>
                   activeStep === index && (
                     <Grid container spacing={2} mt={2} key={cuestionarioIndicador.id}>

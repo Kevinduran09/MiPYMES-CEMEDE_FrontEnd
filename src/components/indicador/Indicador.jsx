@@ -28,7 +28,7 @@ export const Indicador = () => {
   };
 
   return (
-    <Container>
+    <div>
       <TableComponent
         title={"Indicadores"}
         columns={columns}
@@ -43,6 +43,6 @@ export const Indicador = () => {
           />
         }
       />
-    </Container>
+    </div>
   );
 };

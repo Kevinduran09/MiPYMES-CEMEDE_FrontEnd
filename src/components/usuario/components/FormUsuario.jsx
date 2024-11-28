@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
-import { FormField } from "../FormField";
+import { FormField } from "../../FormField";
 import {
   Box,
   Typography,
@@ -18,8 +18,8 @@ import {
 import { RiceBowl, Visibility, VisibilityOff } from "@mui/icons-material";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import { useUsuarioStore } from "./store/useUsuarioStore";
-import { useUsuarioActions } from "./handlers/useUsuarioActions";
+import { useUsuarioStore } from "../store/useUsuarioStore";
+import { useUsuarioActions } from "../handlers/useUsuarioActions";
 
 export const FormUsuario = () => {
   const navigate = useNavigate();

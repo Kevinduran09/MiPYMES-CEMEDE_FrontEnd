@@ -1,6 +1,6 @@
-import { useUsuarioActions } from "./handlers/useUsuarioActions.js";
+import { useUsuarioActions } from "../handlers/useUsuarioActions.js";
 import { Delete } from "@mui/icons-material";
-import { CustomButton } from "../CustomButton.jsx";
+import { CustomButton } from "../../CustomButton.jsx";
 import { Edit } from "@mui/icons-material";
 export const UsuarioColumns = () => {
   const { deleteUsuario, handleEditClick } = useUsuarioActions();

@@ -47,11 +47,8 @@ export const ConfirmarDialogo = (mutation, data, onSuccess) => {
         },
         onError: (error) => {
           if (error.response.status == 400) {
-            console.log(error.response.data.message);
-
             ErrorDialogo("Error", error.response.data.message.join("."));
           } else {
-            console.log(error);
             ErrorDialogo("Error", error.response.data.message);
           }
         },

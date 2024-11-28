@@ -1,12 +1,12 @@
 import { Navigate } from "react-router-dom";
-import { Dashboard } from "../../views/Dashboard";
-import { Organizacion } from "../../views/Organizacion";
-import { Empresario } from "../../views/Empresario";
-import { Usuario } from "../../views/Usuario";
+import { Dashboard } from "../dashboard/Dashboard";
+import { Organizacion } from "../organizacion/Organizacion";
+import { Empresario } from "../empresario/Empresario";
+import { Usuario } from "../usuario/Usuario";
 import { DashboardLayout } from "../../layout/DashboardLayout";
-import { FormOrganizacion } from "../organizacion/FormOrganizacion";
-import { FormEmpresario } from "../empresario/FormEmpresario";
-import { FormUsuario } from "../usuario/FormUsuario";
+import { FormOrganizacion } from "../organizacion/components/FormOrganizacion";
+import { FormEmpresario } from "../empresario/components/FormEmpresario";
+import { FormUsuario } from "../usuario/components/FormUsuario";
 import { Cuestionario } from "../cuestionario/Cuestionario";
 import { FormCuestionario } from "../cuestionario/components/FormCuestionario";
 import { FormCuestionarioAsignar } from "../cuestionario/components/FormCuestionarioAsignar";
@@ -20,9 +20,8 @@ import { FormIndicador } from "../indicador/components/FormIndicador";
 import { Rubrica } from "../rubrica/Rubrica";
 import { FormRubrica } from "../rubrica/components/FormRubrica";
 import { ProtectedRoute } from "./ProtectedRoute";
-import { element } from "prop-types";
 import { CuestionariosAsignados } from "../cuestionario/components/CuestionariosAsignados";
-import { FormOrganizacionEmpresario } from "../organizacion/FormOrganizacionEmpresario";
+import { FormOrganizacionEmpresario } from "../organizacion/components/FormOrganizacionEmpresario";
 
 export const routes = () => [
   {
@@ -63,7 +62,7 @@ export const routes = () => [
         ),
       },
       {
-        path: ":id/asignar-empresarios",
+        path: "asignar/empresarios/:id",
         element: (
           <ProtectedRoute
             allowedRoles={["Administrador"]}

@@ -2,18 +2,18 @@ import React from "react";
 
 import { useEffect } from "react";
 import { useForm, FormProvider, Controller } from "react-hook-form";
-import { FormField } from "../FormField";
+import { FormField } from "../../FormField";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import { Box, Typography } from "@mui/material";
+import { Box, FormControlLabel, Switch, Typography } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Button from "@mui/material/Button";
-import { figurasLegales, sectoEmpresarial } from "../../util/Mucks";
-import { FormCheckBox } from "../FormCheckBox";
+import { figurasLegales, sectoEmpresarial } from "../../../util/Mucks";
+import { FormCheckBox } from "../../FormCheckBox";
 import { Grid } from "@mui/material";
-import { useOrganizacionStore } from "../../hooks/useOrganizacionStore";
-import { useOrganizacionActions } from "./handlers/useOrganizacionActions";
+import { useOrganizacionStore } from "../store/useOrganizacionStore";
+import { useOrganizacionActions } from "../handlers/useOrganizacionActions";
 import { useNavigate } from "react-router-dom";
 
 export const FormOrganizacion = () => {
@@ -33,12 +33,23 @@ export const FormOrganizacion = () => {
   const otherSocialEnable = watch("otra_red_social_activo");
 
   const onSubmit = methods.handleSubmit(async (data) => {
-    if (organizacion == null) {
-      createOrganizacion(data);
+    const pathnames = location.pathname.split("/");
+    const payload = data;
+    if (payload["telefono_fijo"] === "") {
+
+      delete payload["telefono_fijo"];
+    }
+    if (pathnames.includes("crear")) {
+
+      createOrganizacion(payload);
     } else {
-      updateOrganizacion(data);
+      updateOrganizacion(payload);
     }
   });
+
+  const handleChange = (field, value) => {
+    useOrganizacionStore.getState().updateCurrentOrganizacion({ [field]: value });
+  };
 
   const rules = {
     nombre: {
@@ -87,7 +98,6 @@ export const FormOrganizacion = () => {
       },
     },
     coordenadas: {
-      required: "Este campo es requerido",
       pattern: {
         value: /^-?\d+(\.\d+)?,-?\d+(\.\d+)?$/,
         message:
@@ -199,7 +209,7 @@ export const FormOrganizacion = () => {
       <form onSubmit={methods.handleSubmit(onSubmit)}>
         <div className="content p-5">
           <Box>
-            <Typography variant="h6">Informacion General</Typography>
+            <Typography variant="h6">Información General</Typography>
             <Box
               sx={{
                 display: "grid",
@@ -211,101 +221,192 @@ export const FormOrganizacion = () => {
               }}
             >
               <FormField
-                label={"Nombre"}
-                name={"nombre"}
+                label="Nombre"
+                name="nombre"
                 rules={rules["nombre"]}
+                helperText={"Este campo es requerido"}
+                required
+                onChange={(e) => handleChange("nombre", e.target.value)}
               />
               <FormField
-                label={"Teléfono móvil"}
-                name={"telefono_movil"}
-                type={"tel"}
+                label="Teléfono móvil"
+                name="telefono_movil"
+                type="tel"
                 rules={rules["telefono_movil"]}
+                helperText={"Este campo es requerido"}
+                required
+                onChange={(e) => handleChange("telefono_movil", e.target.value)}
               />
               <FormField
-                label={"Teléfono fijo"}
-                name={"telefono_fijo"}
-                type={"tel"}
+                label="Teléfono fijo"
+                name="telefono_fijo"
+                type="tel"
                 rules={rules["telefono_fijo"]}
+                isRequerided={false}
+                required={false}
+                onChange={(e) => handleChange("telefono_fijo", e.target.value)}
               />
               <FormField
-                label={"Email"}
-                name={"email"}
+                label="Email"
+                name="email"
                 rules={rules["email"]}
+                helperText={"Este campo es requerido"}
+                required
+                onChange={(e) => handleChange("email", e.target.value)}
               />
-
               <FormField
-                label={"Coordenadas"}
-                name={"coordenadas"}
+                label="Coordenadas"
+                name="coordenadas"
                 rules={rules["coordenadas"]}
+                isRequerided={false}
+                required={false}
+                onChange={(e) => handleChange("coordenadas", e.target.value)}
               />
               <FormField
-                label={"Cantón"}
-                name={"canton"}
+                label="Cantón"
+                name="canton"
                 rules={rules["canton"]}
+                helperText={"Este campo es requerido"}
+                required
+                onChange={(e) => handleChange("canton", e.target.value)}
               />
               <FormField
-                label={"Distrito"}
-                name={"distrito"}
+                label="Distrito"
+                name="distrito"
                 rules={rules["distrito"]}
+                helperText={"Este campo es requerido"}
+                required
+                onChange={(e) => handleChange("distrito", e.target.value)}
               />
-
               <FormField
-                label={"Comunidad"}
-                name={"comunidad"}
+                label="Comunidad"
+                name="comunidad"
                 rules={rules["comunidad"]}
+                helperText={"Este campo es requerido"}
+                onChange={(e) => handleChange("comunidad", e.target.value)}
               />
               <FormField
-                label={"Dirección exacta"}
-                name={"direccion_exacta"}
+                label="Dirección exacta"
+                name="direccion_exacta"
                 rules={rules["direccion_exacta"]}
+                helperText={"Este campo es requerido"}
+                required
+                onChange={(e) => handleChange("direccion_exacta", e.target.value)}
               />
               <FormField
-                label={"Descripción"}
-                name={"descripcion"}
+                label="Descripción"
+                name="descripcion"
                 rules={rules["descripcion"]}
+                helperText={"Este campo es requerido"}
+                required
+                onChange={(e) => handleChange("descripcion", e.target.value)}
               />
               <FormField
-                label={"Tiempo de operación (años)"}
-                name={"tiempo_operacion_anios"}
+                label="Tiempo de operación (años)"
+                name="tiempo_operacion_anios"
                 rules={rules["tiempo_operacion_anios"]}
+                helperText={"Este campo es requerido"}
+                type={"number"}
+                required
+                onChange={(e) => handleChange("tiempo_operacion_anios", e.target.value)}
               />
               <FormField
-                label={"Cantidad de Personas Fundadoras"}
-                name={"cantidad_personas_fundadoras"}
+                label="Cantidad de Personas Fundadoras"
+                name="cantidad_personas_fundadoras"
                 rules={rules["cantidad_personas_fundadoras"]}
+                helperText={"Este campo es requerido"}
+                type={"number"}
+                required
+                onChange={(e) => handleChange("cantidad_personas_fundadoras", e.target.value)}
+              />
+              <FormField
+                label="Cantidad de Personas Fundadoras Masculino"
+                name="cantidad_personas_fundadoras_masculino"
+                isRequerided={true}
+                helperText={"Este campo es requerido"}
+                type={"number"}
+                required
+                onChange={(e) => handleChange("cantidad_personas_fundadoras_masculino", e.target.value)}
+              />
+              <FormField
+                label="Cantidad de Personas Fundadoras Femenino"
+                name="cantidad_personas_fundadoras_femenino"
+                isRequerided={true}
+                type={"number"}
+                helperText={"Este campo es requerido"}
+                required
+                onChange={(e) => handleChange("cantidad_personas_fundadoras_femenino", e.target.value)}
+              />
+              <FormField
+                label="Cantidad de Personas Dueñas Actuales"
+                name="cantidad_personas_duenas_actuales"
+                rules={rules["cantidad_personas_fundadoras"]}
+                type={"number"}
+                helperText={"Este campo es requerido"}
+                required
+                onChange={(e) => handleChange("cantidad_personas_duenas_actuales", e.target.value)}
+              />
+              <FormField
+                label="Cantidad de Personas Dueñas Actuales Masculino"
+                name="cantidad_personas_duenas_actuales_masculino"
+                isRequerided={true}
+                type={"number"}
+                helperText={"Este campo es requerido"}
+                required
+                onChange={(e) => handleChange("cantidad_personas_duenas_actuales_masculino", e.target.value)}
+              />
+              <FormField
+                label="Cantidad de Personas Dueñas Actuales Femenino"
+                name="cantidad_personas_duenas_actuales_femenino"
+                isRequerided={true}
+                type={"number"}
+                helperText={"Este campo es requerido"}
+                required
+                onChange={(e) => handleChange("cantidad_personas_duenas_actuales_femenino", e.target.value)}
               />
             </Box>
-            <Grid container fullWidth alignItems={"center"}>
+            <Grid container fullWidth alignItems="center">
               <Grid item md={2} xs={12}>
                 <FormCheckBox
-                  name={"pagina_web"}
-                  label={"¿Tiene página web?"}
+                  name="pagina_web"
+                  label="¿Tiene página web?"
+                  onChange={(value) => handleChange("pagina_web", value)}
                 />
               </Grid>
-
               <Grid item md={10} xs={12}>
                 <FormField
                   isRequerided={false}
                   disabled={!sitioWeb}
-                  label={"Direccion del sitio web"}
-                  name={"website_url"}
+                  label="Dirección del sitio web"
+                  name="website_url"
                   rules={rules["website_url"]}
+                  onChange={(e) => handleChange("website_url", e.target.value)}
                 />
               </Grid>
             </Grid>
+
             <Grid container spacing={2} mt={2}>
               <Grid item xs={12} md={6}>
                 <Controller
                   name="figura_legal"
                   control={methods.control}
                   rules={rules["figura_legal"]}
+                  required
                   render={({ field }) => (
                     <FormControl
                       fullWidth
                       error={!!methods.formState.errors.figura_legal}
                     >
                       <InputLabel>Figura Legal</InputLabel>
-                      <Select {...field} label="Figura Legal">
+                      <Select
+                        {...field}
+                        label="Figura Legal"
+                        required
+                        onChange={(e) => {
+                          handleChange("figura_legal", e.target.value);
+                          field.onChange(e);
+                        }}
+                      >
                         {figurasLegales.map((option) => (
                           <MenuItem key={option.value} value={option.value}>
                             {option.label}
@@ -325,26 +426,33 @@ export const FormOrganizacion = () => {
                   )}
                 />
               </Grid>
-
               <Grid item xs={12} md={6}>
                 <Controller
                   name="sector_empresarial"
                   control={methods.control}
                   rules={rules["sector_empresarial"]}
+                  required
                   render={({ field }) => (
                     <FormControl
                       fullWidth
                       error={!!methods.formState.errors.sector_empresarial}
                     >
                       <InputLabel>Sector Empresarial</InputLabel>
-                      <Select {...field} label="Sector Empresarial">
+                      <Select
+                        {...field}
+                        label="Sector Empresarial"
+                        onChange={(e) => {
+                          handleChange("sector_empresarial", e.target.value);
+                          field.onChange(e);
+                        }}
+                      >
                         {sectoEmpresarial.map((option) => (
                           <MenuItem key={option.value} value={option.value}>
                             {option.label}
                           </MenuItem>
                         ))}
                       </Select>
-                      {methods.formState.errors.figura_legal && (
+                      {methods.formState.errors.sector_empresarial && (
                         <Typography
                           marginLeft={2}
                           variant="caption"
@@ -363,47 +471,73 @@ export const FormOrganizacion = () => {
           <Box mt={3}>
             <Typography variant="h6">Redes Sociales</Typography>
             <Box mt={1}>
-              <FormCheckBox name={"facebook"} label={"Facebook activo"} />
-              <FormCheckBox name="instagram_activo" label="Instagram activo" />
-              <FormCheckBox name="youtube_activo" label="YouTube activo" />
-              <FormCheckBox name="tiktok_activo" label="TikTok activo" />
-              <FormCheckBox name="linkedin_activo" label="LinkedIn activo" />
-              <FormCheckBox name="pinterest_activo" label="Pinterest activo" />
-              <FormCheckBox name="whatsapp_activo" label="WhatsApp activo" />
+              <FormCheckBox name={"facebook"} label={"Facebook activo"} onChange={(value) => handleChange("facebook", value)} />
+              <FormCheckBox name="instagram_activo" label="Instagram activo" onChange={(value) => handleChange("instagram_activo", value)} />
+              <FormCheckBox name="youtube_activo" label="YouTube activo" onChange={(value) => handleChange("youtube_activo", value)} />
+              <FormCheckBox name="tiktok_activo" label="TikTok activo" onChange={(value) => handleChange("tiktok_activo", value)} />
+              <FormCheckBox name="linkedin_activo" label="LinkedIn activo" onChange={(value) => handleChange("linkedin_activo", value)} />
+              <FormCheckBox name="pinterest_activo" label="Pinterest activo" onChange={(value) => handleChange("pinterest_activo", value)} />
+              <FormCheckBox name="whatsapp_activo" label="WhatsApp activo" onChange={(value) => handleChange("whatsapp_activo", value)} />
               <FormCheckBox
                 name="otra_red_social_activo"
                 label="Otra red social activa"
+                onChange={(value) => handleChange("otra_red_social_activo", value)}
               />
               {!!otherSocialEnable && (
                 <FormField
                   sx={{ width: "30%" }}
                   label={"Nombre de otra red social"}
                   name={"otra_red_social_nombre"}
+                  onChange={(e) => handleChange("otra_red_social_nombre", e.target.value)}
                 />
               )}
             </Box>
           </Box>
           <Box mt={3}>
-            <Typography variant="h6">Sector Empresarial</Typography>
+            <Typography variant="h6">Actividades productivas o servicios de la empresa</Typography>
             <Box mt={1} gap={"5px"}>
-              <FormCheckBox name={"pesca"} label={"Pesca"} />
-              <FormCheckBox name={"agricultura"} label="Agricultura" />
-              <FormCheckBox name={"agroindustria"} label={"Agroindustria"} />
-              <FormCheckBox name={"pecuario"} label={"Pecuario"} />
+              <FormCheckBox name={"pesca"} label={"Pesca"} onChange={(value) => handleChange("pesca", value)} />
+              <FormCheckBox name={"agricultura"} label="Agricultura" onChange={(value) => handleChange("agricultura", value)} />
+              <FormCheckBox name={"agroindustria"} label={"Agroindustria"} onChange={(value) => handleChange("agroindustria", value)} />
+              <FormCheckBox name={"pecuario"} label={"Pecuario"} onChange={(value) => handleChange("pecuario", value)} />
             </Box>
           </Box>
 
           <Box mt={3}>
             <Typography variant="h6">Inscripciones</Typography>
             <Box mt={1}>
-              <FormCheckBox name="ccss_inscrita" label="CCSS inscrita" />
-              <FormCheckBox name="ins_inscrita" label="INS inscrita" />
+              <FormCheckBox name="ccss_inscrita" label="CCSS inscrita" onChange={(value) => handleChange("ccss_inscrita", value)} />
+              <FormCheckBox name="ins_inscrita" label="INS inscrita" onChange={(value) => handleChange("ins_inscrita", value)} />
               <FormCheckBox
                 name="hacienda_inscrita"
                 label="Hacienda inscrita"
+                onChange={(value) => handleChange("hacienda_inscrita", value)}
               />
-              <FormCheckBox name="meic_inscrita" label="MEIC inscrita" />
+              <FormCheckBox name="meic_inscrita" label="MEIC inscrita" onChange={(value) => handleChange("meic_inscrita", value)} />
             </Box>
+          </Box>
+          <Box mt={3}>
+            <Typography variant="body1">Estado de la Organización</Typography>
+            <Controller
+              name="activa"
+              control={methods.control}
+              defaultValue={true}
+              render={({ field }) => (
+                <FormControlLabel
+                  control={
+                    <Switch
+                      {...field}
+                      checked={field.value || false}
+                      onChange={(e) => {
+                        field.onChange(e.target.checked)
+                        handleChange("activa", e.target.checked ? true : false)
+                      }}
+                    />}
+                  label={"Activa"}
+                />
+
+              )}
+            />
           </Box>
           <Box textAlign={"end"}>
             <Button

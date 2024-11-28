@@ -4,10 +4,9 @@ import { Box, Button, Card, CardContent, Typography, TextField, Alert } from "@m
 import Autocomplete from "@mui/material/Autocomplete";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
-import { asociarEmpresarios } from "../../services/OrganizacionService";
-import { useOrganizacionStore } from "../../hooks/useOrganizacionStore";
-import { getEmpresarios } from "../../services/EmpresarioService";
-import { useOrganizacionActions } from "./handlers/useOrganizacionActions";
+import { useOrganizacionStore } from "../store/useOrganizacionStore";
+import { getEmpresarios } from "../../empresario/services/EmpresarioService";
+import { useOrganizacionActions } from "../handlers/useOrganizacionActions";
 
 export const FormOrganizacionEmpresario = () => {
     const navigate = useNavigate();

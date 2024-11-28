@@ -58,7 +58,6 @@ export const FormCuestionario = () => {
       ErrorDialogo("Error", "No puedes crear un cuestionario sin seleccionar indicadores")
     } else {
       if (selectedCuestionario === null) {
-        console.log(data);
         createCuestionarioFunc(data);
       } else {
         editCuestionarioFunc(data);

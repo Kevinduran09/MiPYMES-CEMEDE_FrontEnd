@@ -6,9 +6,9 @@ import {
   asociarEmpresarios,
   deleteOrganizacionEmpresario,
   getOrganizacion
-} from "../../../services/OrganizacionService";
+} from "../services/OrganizacionService";
 import { SuccessDialogo } from "../../dialogos/Dialogos";
-import { useOrganizacionStore } from "../../../hooks/useOrganizacionStore";
+import { useOrganizacionStore } from "../store/useOrganizacionStore";
 import { useNavigate } from "react-router-dom";
 export const OrganizacionMutations = () => {
   const { clear } = useOrganizacionStore();

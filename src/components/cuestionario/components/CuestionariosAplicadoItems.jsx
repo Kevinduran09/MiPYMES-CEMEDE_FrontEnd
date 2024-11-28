@@ -23,7 +23,6 @@ export const CuestionariosAplicadoItems = () => {
         clearSelectedCuestionario();
     };
 
-    console.log(cuestionarioItem?.cuestionarioItems)
     return (
         <>
             <Container>

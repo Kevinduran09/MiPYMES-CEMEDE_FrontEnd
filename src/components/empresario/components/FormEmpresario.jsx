@@ -1,11 +1,11 @@
 import React from "react";
 import { useEffect } from "react";
 import { useForm, FormProvider, Controller } from "react-hook-form";
-import { FormField } from "../FormField";
+import { FormField } from "../../FormField";
 import InputMask from 'react-input-mask';
 import { Box, Typography, Button, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
-import { useEmpStore } from "../../hooks/useEmpStore";
-import { useEmpresarioActions } from "./handlers/useEmpresarioActions";
+import { useEmpStore } from "../store/useEmpStore";
+import { useEmpresarioActions } from "../handlers/useEmpresarioActions";
 import { useNavigate } from "react-router-dom";
 
 export const FormEmpresario = () => {
@@ -22,12 +22,18 @@ export const FormEmpresario = () => {
   }, [empresario]);
 
   const onSubmit = methods.handleSubmit(async (data) => {
-    if (empresario == null) {
+    const pathnames = location.pathname.split("/");
+    if (pathnames.includes("crear")) {
       createEmpresario(data);
     } else {
       updateEmpresario(data);
     }
   });
+
+  const handleChange = (field, value) => {
+    useEmpStore.getState().updateCurrentEmpresario({ [field]: value });
+  };
+
 
   const rules = {
     nombre: {
@@ -116,7 +122,12 @@ export const FormEmpresario = () => {
                 gap: 2,
               }}
             >
-              <FormField label={"Nombre"} name={"nombre"} rules={rules["nombre"]} />
+              <FormField label={"Nombre"} name={"nombre"} rules={rules["nombre"]}
+                onChange={(e) => {
+                  handleChange("nombre", e.target.value)
+                  field.onChange(e);
+                }}
+              />
               <Controller
                 name="cedula"
                 control={methods.control}
@@ -126,6 +137,11 @@ export const FormEmpresario = () => {
                     {...field}
                     mask="9-9999-9999"
                     maskChar=""
+                    onChange={(e) => {
+                      // Actualiza Zustand y el campo del formulario
+                      handleChange("cedula", e.target.value);
+                      field.onChange(e); // Llama al manejador original de react-hook-form
+                    }}
                   >
                     {(inputProps) => (
                       <FormField
@@ -138,10 +154,26 @@ export const FormEmpresario = () => {
                   </InputMask>
                 )}
               />
-              <FormField label={"Teléfono"} name={"telefono"} type={"tel"} rules={rules["telefono"]} />
-              <FormField label={"Correo de Contacto"} name={"correo_contacto"} rules={rules["email"]} />
-             
-              <FormField label={"Nacionalidad"} name={"nacionalidad"} rules={rules["nacionalidad"]} />
+
+              <FormField label={"Teléfono"} name={"telefono"} type={"tel"} rules={rules["telefono"]}
+                onChange={(e) => {
+                  handleChange("telefono", e.target.value)
+                  field.onChange(e);
+                }}
+              />
+              <FormField label={"Correo de Contacto"} name={"correo_contacto"} rules={rules["email"]}
+                onChange={(e) => {
+                  handleChange("correo_contacto", e.target.value)
+                  field.onChange(e);
+                }}
+              />
+
+              <FormField label={"Nacionalidad"} name={"nacionalidad"} rules={rules["nacionalidad"]}
+                onChange={(e) => {
+                  handleChange("nacionalidad", e.target.value)
+                  field.onChange(e);
+                }}
+              />
 
               <Controller
                 name="sexo"
@@ -150,7 +182,12 @@ export const FormEmpresario = () => {
                 render={({ field }) => (
                   <FormControl fullWidth sx={{ marginTop: "16px" }} error={!!methods.formState.errors.sexo}>
                     <InputLabel>Sexo</InputLabel>
-                    <Select {...field} label="Sexo">
+                    <Select {...field} label="Sexo"
+                      onChange={(e) => {
+                        handleChange("sexo", e.target.value)
+                        field.onChange(e);
+                      }}
+                    >
                       <MenuItem value="">Seleccione una opción</MenuItem>
                       <MenuItem value="Hombre">Hombre</MenuItem>
                       <MenuItem value="Mujer">Mujer</MenuItem>
@@ -172,7 +209,12 @@ export const FormEmpresario = () => {
                 render={({ field }) => (
                   <FormControl fullWidth sx={{ marginTop: "16px" }} error={!!methods.formState.errors.escolaridad}>
                     <InputLabel>Escolaridad</InputLabel>
-                    <Select {...field} label="Escolaridad">
+                    <Select {...field} label="Escolaridad"
+                      onChange={(e) => {
+                        handleChange("escolaridad", e.target.value)
+                        field.onChange(e);
+                      }}
+                    >
                       <MenuItem value="">Seleccione una opción</MenuItem>
                       <MenuItem value="Sin ninguna escolaridad">
                         Sin ninguna escolaridad
@@ -212,7 +254,12 @@ export const FormEmpresario = () => {
                 )}
               />
 
-              <FormField label={"Edad"} name={"edad"} rules={rules["edad"]} />
+              <FormField label={"Edad"} name={"edad"} rules={rules["edad"]}
+                onChange={(e) => {
+                  handleChange("edad", e.target.value)
+                  field.onChange(e);
+                }}
+              />
             </Box>
           </Box>
           <Box textAlign={"end"}>

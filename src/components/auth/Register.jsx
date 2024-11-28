@@ -25,9 +25,7 @@ export const Register = () => {
       {
         onSuccess: () => setloading(false),
         onError: (error) => {
-          console.log(error)
           setloading(false)
-          console.log(error)
           if (error.response.status == 400) {
             ErrorDialogo("Error", error.response.data.message);
           }else{

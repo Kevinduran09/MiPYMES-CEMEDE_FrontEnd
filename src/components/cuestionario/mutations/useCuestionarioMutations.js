@@ -37,7 +37,6 @@ export const useCuestionarioMutations = () => {
     const createCuestionarioOrganizacionMutation = useMutation({
         mutationFn: createCuestionarioOrganizacion,
         onSuccess: (response) => {
-            console.log(response.data)
             queryClient.invalidateQueries("cuestionarios");
             navigate("/cuestionarios");
             SuccessDialogo('Asignado', 'Cuestionario', 'asignado');

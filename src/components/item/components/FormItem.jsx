@@ -27,9 +27,9 @@ export const FormItem = () => {
     queryKey: ["indicadores"],
     queryFn: getIndicadores,
   });
-  console.log(indicadoresData);
+
   const { createItemFunc, editItemFunc } = useItemActions();
-  const { currentItem: item, selectedItem } = useItemStore();
+  const { currentItem: item, selectedItem, updateCurrentItem } = useItemStore();
   const methods = useForm({
     defaultValues: item,
   });
@@ -37,11 +37,13 @@ export const FormItem = () => {
     methods.reset({ ...item });
   }, [item, open]);
 
+  const handleChange = (field, value) => {
+    updateCurrentItem({ [field]: value });
+  };
+
   const onSubmit = methods.handleSubmit(async (data) => {
     if (selectedItem === null) {
       createItemFunc(data);
-
-      console.log(data);
     } else {
       editItemFunc(data);
     }
@@ -70,6 +72,7 @@ export const FormItem = () => {
                   minLength: 5,
                   title: "El nombre del item debe tener entre 5 y 255 caracteres",
                 }}
+                onChange={(e) => handleChange("nombre", e.target.value)}
               />
               <FormField
                 label="Peso"
@@ -80,6 +83,7 @@ export const FormItem = () => {
                 inputProps={{
                   min: 1,
                 }}
+                onChange={(e) => handleChange("peso", e.target.value)}
               />
               <FormField
                 label="Descripcion"
@@ -91,6 +95,7 @@ export const FormItem = () => {
                   minLength: 5,
                   title: "La descripcion del item debe tener entre 5 y 1500 caracteres",
                 }}
+                onChange={(e) => handleChange("descripcion", e.target.value)}
               />
               <FormField
                 label="Evidencia"
@@ -102,6 +107,7 @@ export const FormItem = () => {
                   minLength: 5,
                   title: "La evidencia del item debe tener entre 5 y 255 caracteres",
                 }}
+                onChange={(e) => handleChange("evidencia", e.target.value)}
               />
             </Box>
 
@@ -116,7 +122,10 @@ export const FormItem = () => {
                       getOptionLabel={(option) => option.nombre || ""}
                       isOptionEqualToValue={(option, value) => option.id === value}
                       value={rubricasData?.find((rubrica) => rubrica.id === field.value) || null}
-                      onChange={(_, selectedOption) => field.onChange(selectedOption ? selectedOption.id : "")}
+                      onChange={(_, selectedOption) => {
+                        field.onChange(selectedOption ? selectedOption.id : "")
+                        handleChange("rubricaId", selectedOption ? selectedOption.id : "")
+                      }}
                       renderInput={(params) => (
                         <TextField
                           {...params}
@@ -145,7 +154,10 @@ export const FormItem = () => {
                       getOptionLabel={(option) => option.nombre || ""}
                       isOptionEqualToValue={(option, value) => option.id === value}
                       value={indicadoresData?.find((indicador) => indicador.id === field.value) || null}
-                      onChange={(_, selectedOption) => field.onChange(selectedOption ? selectedOption.id : "")}
+                      onChange={(_, selectedOption) => {
+                        field.onChange(selectedOption ? selectedOption.id : "")
+                        handleChange("indicadorId", selectedOption ? selectedOption.id : "")
+                      }}
                       renderInput={(params) => (
                         <TextField
                           {...params}
@@ -174,7 +186,10 @@ export const FormItem = () => {
                   <Switch
                     {...field}
                     checked={field.value || false}
-                    onChange={(e) => field.onChange(e.target.checked)}
+                    onChange={(e) => {
+                      field.onChange(e.target.checked)
+                      handleChange("observacion", e.target.checked? true : false)
+                    }}
                   />
                 )}
               />

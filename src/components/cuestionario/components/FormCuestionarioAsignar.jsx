@@ -1,12 +1,11 @@
 import { Autocomplete, Box, Divider, FormControl } from '@mui/material';
-import { TextField, Select, InputLabel, MenuItem, Grid, Typography, Button } from '@mui/material';
+import { TextField, Grid, Typography, Button } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useQuery } from 'react-query';
-import { getIndicadores } from '../../indicador/services/IndicadorService';
 import dayjs from 'dayjs';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getOrganizaciones } from '../../../services/OrganizacionService';
+import { getOrganizaciones } from '../../organizacion/services/OrganizacionService';
 import { useCuestionarioStore } from '../store/useCuestionarioStore';
 import { useCuestionarioActions } from '../handlers/useActionsCuestionario';
 import { useForm, FormProvider, Controller } from 'react-hook-form';
@@ -51,7 +50,6 @@ export const FormCuestionarioAsignar = () => {
             createCuestionarioOrganizacionFunc(data);
         }
     });
-    console.log(cuesti)
     return (
         <>
             <FormProvider {...methods}>
@@ -67,7 +65,7 @@ export const FormCuestionarioAsignar = () => {
                                         render={({ field }) => (
                                             <Autocomplete
                                                 id="idOrganizacion"
-                                                options={organizaciones || []}
+                                                options={organizaciones?.filter(org => org.activa === true) || []}
                                                 getOptionLabel={(option) => option.nombre}
                                                 onChange={(_, value) => field.onChange(value?.id || "")}
                                                 isOptionEqualToValue={(option, value) => option.id === value}

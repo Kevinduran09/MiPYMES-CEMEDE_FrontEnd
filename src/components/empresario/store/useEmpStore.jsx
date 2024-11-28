@@ -6,11 +6,14 @@ export const useEmpStore = create(
     (set) => ({
       empresario: null,
       setEmpresario: (emp) => set({ empresario: emp }),
+      updateCurrentEmpresario: (data) => set((state) => ({
+        empresario: { ...state.empresario, ...data },
+      })),
       clear: () => set({ empresario: null }),
     }),
     {
       name: "empState",
-      storage: createJSONStorage(() => sessionStorage),
+      storage: createJSONStorage(() => localStorage),
     }
   )
 );
